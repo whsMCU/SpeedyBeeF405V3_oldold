@@ -1,0 +1,4 @@
+../src/hw/driver/adc.c:118:6:adcInit	32	static
+../src/hw/driver/adc.c:254:10:adcGetChannel	16	static
+../src/hw/driver/adc.c:322:6:HAL_ADC_MspInit	48	static
+../src/hw/driver/adc.c:372:6:HAL_ADC_MspDeInit	16	static

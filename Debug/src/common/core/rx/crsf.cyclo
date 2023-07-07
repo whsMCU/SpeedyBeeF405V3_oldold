@@ -1,0 +1,11 @@
+crsf.c:42:23:cmpTimeUs	1
+crsf.c:320:16:crsfFrameCRC	2
+crsf.c:330:16:crsfFrameCmdCRC	2
+crsf.c:341:6:crsfDataReceive	9
+crsf.c:472:16:crsfFrameStatus	9
+crsf.c:569:14:crsfReadRawRC	2
+crsf.c:591:6:crsfRxWriteTelemetryData	1
+crsf.c:598:6:crsfRxSendTelemetryData	2
+crsf.c:607:6:crsfRxIsTelemetryBufEmpty	1
+crsf.c:612:6:crsfRxInit	3
+crsf.c:671:6:crsfRxIsActive	1

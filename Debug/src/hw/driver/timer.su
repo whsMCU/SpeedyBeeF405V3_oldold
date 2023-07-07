@@ -1,0 +1,6 @@
+../src/hw/driver/timer.c:17:6:timerInit	80	static
+../src/hw/driver/timer.c:178:6:HAL_TIM_IC_MspInit	56	static
+../src/hw/driver/timer.c:244:6:HAL_TIM_Base_MspInit	24	static
+../src/hw/driver/timer.c:264:6:HAL_TIM_MspPostInit	40	static
+../src/hw/driver/timer.c:293:6:HAL_TIM_IC_MspDeInit	16	static
+../src/hw/driver/timer.c:342:6:HAL_TIM_Base_MspDeInit	16	static

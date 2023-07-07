@@ -1,0 +1,14 @@
+tasks.c:49:13:taskMain	1
+tasks.c:58:13:ledUpdate	2
+tasks.c:69:13:debugPrint	1
+tasks.c:87:13:taskHandleSerial	1
+tasks.c:115:13:taskUpdateAccelerometer	1
+tasks.c:121:6:taskGyroSample	2
+tasks.c:140:6:taskUpdateRxMainInProgress	1
+tasks.c:145:13:taskUpdateRxMain	8
+tasks.c:210:13:taskUpdateBaro	2
+tasks.c:220:13:taskUpdateMag	1
+tasks.c:247:13:taskCalculateAltitude	1
+tasks.c:336:9:getTask	1
+tasks.c:342:6:tasksInitData	2
+tasks.c:349:6:tasksInit	1

@@ -1,0 +1,12 @@
+../src/common/core/sensors/gyro_init.c:60:17:calculateNyquistAdjustedNotchHz	24	static
+../src/common/core/sensors/gyro_init.c:74:13:gyroInitFilterNotch1	24	static
+../src/common/core/sensors/gyro_init.c:89:13:gyroInitFilterNotch2	24	static
+../src/common/core/sensors/gyro_init.c:104:13:gyroInitLowpassFilterLpf	64	static
+../src/common/core/sensors/gyro_init.c:180:13:dynLpfFilterInit	4	static
+../src/common/core/sensors/gyro_init.c:209:6:gyroInitFilters	16	static
+../src/common/core/sensors/gyro_init.c:252:13:gyroInitSensorFilters	16	static
+../src/common/core/sensors/gyro_init.c:531:6:gyroInit	16	static
+../src/common/core/sensors/gyro_init.c:591:22:getGyroDetectionFlags	4	static
+../src/common/core/sensors/gyro_init.c:596:6:gyroSetTargetLooptime	24	static
+../src/common/core/sensors/gyro_init.c:609:12:gyroActiveDev	4	static
+../src/common/core/sensors/gyro_init.c:619:9:gyroRateDps	16	static

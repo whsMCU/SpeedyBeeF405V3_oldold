@@ -1,0 +1,14 @@
+../src/hw/driver/accgyro/bmi270.c:132:13:bmi270EnableSPI	16	static
+../src/hw/driver/accgyro/bmi270.c:140:13:bmi270UploadConfig	16	static
+../src/hw/driver/accgyro/bmi270.c:153:13:bmi270Config	16	static
+../src/hw/driver/accgyro/bmi270.c:216:13:bmi270SpiAccInit	16	static
+../src/hw/driver/accgyro/bmi270.c:222:6:bmi270SpiAccDetect	16	static
+../src/hw/driver/accgyro/bmi270.c:232:13:bmi270SpiGyroDetect	16	static
+../src/hw/driver/accgyro/bmi270.c:241:6:bmi270_Init	16	static
+../src/hw/driver/accgyro/bmi270.c:282:6:bmi270Detect	16	static
+../src/hw/driver/accgyro/bmi270.c:293:6:bmi270SpiAccRead	24	static
+../src/hw/driver/accgyro/bmi270.c:318:6:bmi270SpiGyroRead	24	static
+../src/hw/driver/accgyro/bmi270.c:335:6:bmi270SetCallBack	16	static
+../src/hw/driver/accgyro/bmi270.c:342:9:bmi270InterruptStatus	24	static
+../src/hw/driver/accgyro/bmi270.c:349:6:HAL_GPIO_EXTI_Callback	16	static
+../src/hw/driver/accgyro/bmi270.c:359:6:cliBmi270	72	static

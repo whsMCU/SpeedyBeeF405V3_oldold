@@ -1,0 +1,15 @@
+../src/common/core/sensors/acceleration_init.c:48:6:resetRollAndPitchTrims	24	static
+../src/common/core/sensors/acceleration_init.c:56:13:setConfigCalibrationCompleted	4	static
+../src/common/core/sensors/acceleration_init.c:61:6:accHasBeenCalibrated	4	static
+../src/common/core/sensors/acceleration_init.c:66:6:accResetRollAndPitchTrims	8	static
+../src/common/core/sensors/acceleration_init.c:71:13:resetFlightDynamicsTrims	16	static
+../src/common/core/sensors/acceleration_init.c:79:6:pgResetFn_accelerometerConfig	32	static
+../src/common/core/sensors/acceleration_init.c:304:6:accInitFilters	16	static
+../src/common/core/sensors/acceleration_init.c:317:6:accInit	16	static
+../src/common/core/sensors/acceleration_init.c:354:6:accStartCalibration	4	static
+../src/common/core/sensors/acceleration_init.c:359:6:accIsCalibrationComplete	4	static
+../src/common/core/sensors/acceleration_init.c:364:13:isOnFinalAccelerationCalibrationCycle	4	static
+../src/common/core/sensors/acceleration_init.c:369:13:isOnFirstAccelerationCalibrationCycle	4	static
+../src/common/core/sensors/acceleration_init.c:374:6:performAcclerationCalibration	16	static
+../src/common/core/sensors/acceleration_init.c:408:6:performInflightAccelerationCalibration	24	static
+../src/common/core/sensors/acceleration_init.c:461:6:setAccelerationTrims	16	static

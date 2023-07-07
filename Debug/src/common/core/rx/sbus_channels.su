@@ -1,0 +1,3 @@
+../src/common/core/rx/sbus_channels.c:42:9:sbusChannelsDecode	24	static
+../src/common/core/rx/sbus_channels.c:88:14:sbusChannelsReadRawRC	16	static
+../src/common/core/rx/sbus_channels.c:95:6:sbusChannelsInit	24	static

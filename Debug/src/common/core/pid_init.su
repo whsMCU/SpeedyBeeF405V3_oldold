@@ -1,0 +1,3 @@
+../src/common/core/pid_init.c:60:13:pidSetTargetLooptime	16	static
+../src/common/core/pid_init.c:245:6:pidInit	8	static
+../src/common/core/pid_init.c:277:6:pidInitConfig	32	static

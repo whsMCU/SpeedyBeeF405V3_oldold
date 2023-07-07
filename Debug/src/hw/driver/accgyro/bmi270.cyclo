@@ -1,0 +1,14 @@
+bmi270.c:132:13:bmi270EnableSPI	1
+bmi270.c:140:13:bmi270UploadConfig	1
+bmi270.c:153:13:bmi270Config	4
+bmi270.c:216:13:bmi270SpiAccInit	1
+bmi270.c:222:6:bmi270SpiAccDetect	1
+bmi270.c:232:13:bmi270SpiGyroDetect	1
+bmi270.c:241:6:bmi270_Init	4
+bmi270.c:282:6:bmi270Detect	2
+bmi270.c:293:6:bmi270SpiAccRead	3
+bmi270.c:318:6:bmi270SpiGyroRead	2
+bmi270.c:335:6:bmi270SetCallBack	1
+bmi270.c:342:9:bmi270InterruptStatus	1
+bmi270.c:349:6:HAL_GPIO_EXTI_Callback	2
+bmi270.c:359:6:cliBmi270	16

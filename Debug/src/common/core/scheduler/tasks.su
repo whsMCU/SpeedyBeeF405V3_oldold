@@ -1,0 +1,14 @@
+../src/common/core/scheduler/tasks.c:49:13:taskMain	16	static
+../src/common/core/scheduler/tasks.c:58:13:ledUpdate	16	static
+../src/common/core/scheduler/tasks.c:69:13:debugPrint	16	static
+../src/common/core/scheduler/tasks.c:87:13:taskHandleSerial	16	static
+../src/common/core/scheduler/tasks.c:115:13:taskUpdateAccelerometer	16	static
+../src/common/core/scheduler/tasks.c:121:6:taskGyroSample	16	static
+../src/common/core/scheduler/tasks.c:140:6:taskUpdateRxMainInProgress	4	static
+../src/common/core/scheduler/tasks.c:145:13:taskUpdateRxMain	32	static
+../src/common/core/scheduler/tasks.c:210:13:taskUpdateBaro	24	static
+../src/common/core/scheduler/tasks.c:220:13:taskUpdateMag	16	static
+../src/common/core/scheduler/tasks.c:247:13:taskCalculateAltitude	16	static
+../src/common/core/scheduler/tasks.c:336:9:getTask	16	static
+../src/common/core/scheduler/tasks.c:342:6:tasksInitData	16	static
+../src/common/core/scheduler/tasks.c:349:6:tasksInit	8	static
