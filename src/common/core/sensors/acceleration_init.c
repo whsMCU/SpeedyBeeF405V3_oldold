@@ -31,7 +31,9 @@
 #include "driver/accgyro/bmi270.h"
 
 
-//#include "drivers/bus_spi.h"
+#include "config/config.h"
+#include "pg/pg.h"
+#include "pg/pg_ids.h"
 
 
 
@@ -55,17 +57,17 @@ void resetRollAndPitchTrims(rollAndPitchTrims_t *rollAndPitchTrims)
 
 static void setConfigCalibrationCompleted(void)
 {
-    p_acc_pg->accZero.values.calibrationCompleted = 1;
+	accelerometerConfigMutable()->accZero.values.calibrationCompleted = 1;
 }
 
 bool accHasBeenCalibrated(void)
 {
-    return p_acc_pg->accZero.values.calibrationCompleted;
+    return accelerometerConfig()->accZero.values.calibrationCompleted;
 }
 
 void accResetRollAndPitchTrims(void)
 {
-    resetRollAndPitchTrims(&p_acc_pg->accelerometerTrims);
+    resetRollAndPitchTrims(&accelerometerConfigMutable()->accelerometerTrims);
 }
 
 static void resetFlightDynamicsTrims(flightDynamicsTrims_t *accZero)
@@ -87,7 +89,7 @@ void pgResetFn_accelerometerConfig(accelerometerConfig_t *instance)
     resetFlightDynamicsTrims(&instance->accZero);
 }
 
-//PG_REGISTER_WITH_RESET_FN(accelerometerConfig_t, accelerometerConfig, PG_ACCELEROMETER_CONFIG, 2);
+PG_REGISTER_WITH_RESET_FN(accelerometerConfig_t, accelerometerConfig, PG_ACCELEROMETER_CONFIG, 2);
 
 extern uint16_t InflightcalibratingA;
 extern bool AccInflightCalibrationMeasurementDone;
@@ -305,7 +307,7 @@ void accInitFilters(void)
 {
     // Only set the lowpass cutoff if the ACC sample rate is detected otherwise
     // the filter initialization is not defined (sample rate = 0)
-    accelerationRuntime.accLpfCutHz = (acc.sampleRateHz) ? p_acc_pg->acc_lpf_hz : 0;
+    accelerationRuntime.accLpfCutHz = (acc.sampleRateHz) ? accelerometerConfig()->acc_lpf_hz : 0;
     if (accelerationRuntime.accLpfCutHz) {
         const uint32_t accSampleTimeUs = 1e6 / acc.sampleRateHz;
         for (int axis = 0; axis < XYZ_AXIS_COUNT; axis++) {

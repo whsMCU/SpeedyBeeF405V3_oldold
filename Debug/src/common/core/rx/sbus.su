@@ -1,4 +1,0 @@
-../src/common/core/rx/sbus.c:72:23:cmpTimeUs	16	static
-../src/common/core/rx/sbus.c:106:6:sbusDataReceive	32	static
-../src/common/core/rx/sbus.c:136:16:sbusFrameStatus	24	static
-../src/common/core/rx/sbus.c:155:6:sbusInit	24	static

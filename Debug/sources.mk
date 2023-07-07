@@ -26,7 +26,9 @@ src/ap \
 src/bsp \
 src/bsp/startup \
 src/common/core/BMI270-Sensor-API \
+src/common/core/config \
 src/common/core \
+src/common/core/pg \
 src/common/core/rx \
 src/common/core/scheduler \
 src/common/core/sensors \

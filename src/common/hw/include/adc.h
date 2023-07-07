@@ -64,28 +64,6 @@ typedef struct adcOperatingConfig_s {
     uint8_t sampleTime;
 } adcOperatingConfig_t;
 
-typedef struct adcChannelConfig_t {
-    bool enabled;
-    //ioTag_t ioTag;
-#if defined(STM32H7)
-    int8_t device; // ADCDevice
-#endif
-} adcChannelConfig_t;
-
-typedef struct adcConfig_s {
-    adcChannelConfig_t vbat;
-    adcChannelConfig_t rssi;
-    adcChannelConfig_t current;
-    adcChannelConfig_t external1;
-    int8_t device; // ADCDevice
-
-    uint16_t vrefIntCalibration;
-    uint16_t tempSensorCalibration1;
-    uint16_t tempSensorCalibration2;
-
-    int8_t dmaopt[ADCDEV_COUNT]; // One per ADCDEV_x
-} adcConfig_t;
-
 struct adcConfig_s;
 bool adcInit(void);
 uint16_t adcGetChannel(uint8_t channel);

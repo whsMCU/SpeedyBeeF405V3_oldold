@@ -26,6 +26,8 @@ RM := rm -rf
 -include src/common/core/sensors/subdir.mk
 -include src/common/core/scheduler/subdir.mk
 -include src/common/core/rx/subdir.mk
+-include src/common/core/pg/subdir.mk
+-include src/common/core/config/subdir.mk
 -include src/common/core/BMI270-Sensor-API/subdir.mk
 -include src/common/core/subdir.mk
 -include src/common/subdir.mk
@@ -81,8 +83,8 @@ all: main-build
 main-build: SpeedyBeeF405V3.elf secondary-outputs
 
 # Tool invocations
-SpeedyBeeF405V3.elf SpeedyBeeF405V3.map: $(OBJS) $(USER_OBJS) C:\Users\jjins\Documents\Project\SpeedyBeeF405V3\src\bsp\ldscript\STM32F405RGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "SpeedyBeeF405V3.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\jjins\Documents\Project\SpeedyBeeF405V3\src\bsp\ldscript\STM32F405RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="SpeedyBeeF405V3.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+SpeedyBeeF405V3.elf SpeedyBeeF405V3.map: $(OBJS) $(USER_OBJS) D:\STM32CubeIDE\SpeedyBeeF405V3\src\bsp\ldscript\STM32F405RGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "SpeedyBeeF405V3.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"D:\STM32CubeIDE\SpeedyBeeF405V3\src\bsp\ldscript\STM32F405RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="SpeedyBeeF405V3.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

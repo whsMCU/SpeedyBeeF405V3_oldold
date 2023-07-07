@@ -1,3 +1,0 @@
-pid_init.c:60:13:pidSetTargetLooptime	1
-pid_init.c:245:6:pidInit	1
-pid_init.c:277:6:pidInitConfig	12

@@ -1,9 +1,0 @@
-maths.h:166:21:constrainf	3
-dyn_notch_filter.c:156:6:dynNotchInit	9
-dyn_notch_filter.c:204:6:dynNotchPush	1
-dyn_notch_filter.c:212:6:dynNotchUpdate	5
-dyn_notch_filter.c:250:13:dynNotchProcess	32
-dyn_notch_filter.c:402:7:dynNotchFilter	2
-dyn_notch_filter.c:411:6:isDynNotchActive	1
-dyn_notch_filter.c:416:5:getMaxFFT	1
-dyn_notch_filter.c:421:6:resetMaxFFT	1

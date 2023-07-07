@@ -41,7 +41,7 @@
 //#include "flight/gps_rescue.h"
 #include "runtime_config.h"
 
-#include "scheduler.h"
+#include "scheduler/scheduler.h"
 
 #include "sensors.h"
 

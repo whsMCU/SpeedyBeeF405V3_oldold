@@ -1,4 +1,0 @@
-sbus.c:72:23:cmpTimeUs	1
-sbus.c:106:6:sbusDataReceive	6
-sbus.c:136:16:sbusFrameStatus	3
-sbus.c:155:6:sbusInit	1
