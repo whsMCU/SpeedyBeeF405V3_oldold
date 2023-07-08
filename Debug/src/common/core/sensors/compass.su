@@ -1,0 +1,9 @@
+../src/common/core/sensors/compass.h:81:1:compassConfigMutable	4	static
+../src/common/core/sensors/compass.c:45:6:compassPreInit	4	static
+../src/common/core/sensors/compass.c:55:6:compassDetect	24	static
+../src/common/core/sensors/compass.c:79:6:compassInit	8	static
+../src/common/core/sensors/compass.c:109:6:compassIsHealthy	4	static
+../src/common/core/sensors/compass.c:114:6:compassStartCalibration	16	static
+../src/common/core/sensors/compass.c:125:6:compassIsCalibrationComplete	4	static
+../src/common/core/sensors/compass.c:130:10:compassUpdate	32	static
+../src/common/core/sensors/compass.c:177:6:cliQmc5883l	32	static

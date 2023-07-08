@@ -1,0 +1,17 @@
+../src/common/core/maths.h:156:19:constrain	24	static
+D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg/rx.h:69:1:rxConfig	4	static
+../src/common/core/core.c:704:8:calculateThrottlePercent	24	static
+../src/common/core/core.c:730:9:calculateThrottlePercentAbs	16	static
+../src/common/core/core.c:742:13:subTaskPidController	24	static
+../src/common/core/core.c:796:13:subTaskPidSubprocesses	24	static
+../src/common/core/core.c:834:13:subTaskMotorUpdate	24	static
+../src/common/core/core.c:871:13:subTaskRcCommand	16	static
+../src/common/core/core.c:894:6:gyroFilterReady	4	static
+../src/common/core/core.c:903:6:pidLoopReady	4	static
+../src/common/core/core.c:911:6:taskFiltering	16	static
+../src/common/core/core.c:917:6:taskMainPidLoop	16	static
+../src/common/core/core.c:940:6:isFlipOverAfterCrashActive	4	static
+../src/common/core/core.c:945:10:getLastDisarmTimeUs	4	static
+../src/common/core/core.c:950:6:isTryingToArm	4	static
+../src/common/core/core.c:955:6:resetTryingToArm	4	static
+../src/common/core/core.c:960:6:isLaunchControlActive	4	static

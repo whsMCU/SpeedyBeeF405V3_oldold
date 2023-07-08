@@ -612,7 +612,7 @@ bool crsfRxIsTelemetryBufEmpty(void)
 bool crsfRxInit(rxRuntimeState_t *rxRuntimeState)
 {
     for (int ii = 0; ii < CRSF_MAX_CHANNEL; ++ii) {
-        crsfChannelData[ii] = (16 * p_rx_pg->midrc) / 10 - 1408;
+        crsfChannelData[ii] = (16 * rxConfig()->midrc) / 10 - 1408;
     }
 
     rxRuntimeState->channelCount = CRSF_MAX_CHANNEL;

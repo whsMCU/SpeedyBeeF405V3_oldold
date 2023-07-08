@@ -56,6 +56,7 @@ src/common/core/scheduler/scheduler.o: \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/gyro.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/utils.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/dyn_notch_filter.h \
+ D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg/dyn_notch.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors.h
 ../src/common/core/scheduler/tasks.h:
 ../src/common/core/scheduler/scheduler.h:
@@ -113,4 +114,5 @@ D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/gyro.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/utils.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/dyn_notch_filter.h:
+D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg/dyn_notch.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors.h:

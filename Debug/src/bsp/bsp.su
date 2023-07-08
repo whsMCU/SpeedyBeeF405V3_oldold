@@ -1,0 +1,16 @@
+../src/bsp/bsp.c:25:6:HAL_SYSTICK_Callback	4	static
+../src/bsp/bsp.c:77:6:failureMode	16	static
+../src/bsp/bsp.c:88:6:cycleCounterInit	16	static
+../src/bsp/bsp.c:103:6:bspInit	8	static
+../src/bsp/bsp.c:112:10:getCycleCounter	4	static
+../src/bsp/bsp.c:117:9:clockCyclesToMicros	16	static
+../src/bsp/bsp.c:123:9:clockCyclesTo10thMicros	16	static
+../src/bsp/bsp.c:128:10:clockMicrosToCycles	16	static
+../src/bsp/bsp.c:133:6:delay	16	static
+../src/bsp/bsp.c:138:10:millis	8	static
+../src/bsp/bsp.c:143:10:micros	12	static
+../src/bsp/bsp.c:153:6:delayMicroseconds	24	static
+../src/bsp/bsp.c:159:5:__io_putchar	16	static
+../src/bsp/bsp.c:165:6:initialiseMemorySections	8	static
+../src/bsp/bsp.c:180:6:SystemClock_Config	88	static
+../src/bsp/bsp.c:230:6:Error_Handler	4	static,ignoring_inline_asm

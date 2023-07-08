@@ -1,0 +1,10 @@
+../src/common/core/runtime_config.c:67:6:setArmingDisabled	16	static
+../src/common/core/runtime_config.c:72:6:unsetArmingDisabled	16	static
+../src/common/core/runtime_config.c:77:6:isArmingDisabled	4	static
+../src/common/core/runtime_config.c:82:22:getArmingDisableFlags	4	static
+../src/common/core/runtime_config.c:91:10:enableFlightMode	24	static
+../src/common/core/runtime_config.c:105:10:disableFlightMode	24	static
+../src/common/core/runtime_config.c:115:6:sensors	16	static
+../src/common/core/runtime_config.c:120:6:sensorsSet	16	static
+../src/common/core/runtime_config.c:125:6:sensorsClear	16	static
+../src/common/core/runtime_config.c:130:10:sensorsMask	4	static

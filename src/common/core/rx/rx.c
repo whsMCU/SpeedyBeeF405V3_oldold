@@ -24,8 +24,12 @@
 
 #include <string.h>
 
+#include "pg/pg.h"
+#include "pg/pg_ids.h"
+#include "pg/rx.h"
 
-#include "rx.h"
+
+#include "rx/rx.h"
 #include "sbus.h"
 #include "tasks.h"
 #include "maths.h"
@@ -34,7 +38,7 @@
 #include "uart.h"
 #include "cli.h"
 #include "crsf.h"
-#include "pg.h"
+
 
 float rcCommand[4];           // interval [1000;2000] for THROTTLE and [-500;+500] for ROLL/PITCH/YAW
 static bool isRxDataNew = false;
@@ -243,7 +247,6 @@ void rxInit(void)
     rxRuntimeState.rcProcessFrameFn = nullProcessFrame;
     rxRuntimeState.lastRcFrameTimeUs = 0;
     rcSampleIndex = 0;
-    parseRcChannels("AETR1234");
 
     for (int i = 0; i < MAX_SUPPORTED_RC_CHANNEL_COUNT; i++) {
         rcData[i] = 1500;
@@ -316,11 +319,11 @@ void rxInit(void)
 #endif
     }
 
-#if defined(USE_ADC)
-    if (featureIsEnabled(FEATURE_RSSI_ADC)) {
-        rssiSource = RSSI_SOURCE_ADC;
-    } else
-#endif
+//#if defined(USE_ADC)
+//    if (featureIsEnabled(FEATURE_RSSI_ADC)) {
+//        rssiSource = RSSI_SOURCE_ADC;
+//    } else
+//#endif
     // if (rxConfig()->rssi_channel > 0) {
     //     rssiSource = RSSI_SOURCE_RX_CHANNEL;
     // }
@@ -328,7 +331,7 @@ void rxInit(void)
     // Setup source frame RSSI filtering to take averaged values every FRAME_ERR_RESAMPLE_US
     //pt1FilterInit(&frameErrFilter, pt1FilterGain(GET_FRAME_ERR_LPF_FREQUENCY(rxConfig()->rssi_src_frame_lpf_period), FRAME_ERR_RESAMPLE_US/1000000.0));
 
-    rxChannelCount = MIN(6 + NON_AUX_CHANNEL_COUNT, rxRuntimeState.channelCount);
+    rxChannelCount = MIN(rxConfig()->max_aux_channel + NON_AUX_CHANNEL_COUNT, rxRuntimeState.channelCount);
     
     #ifdef _USE_HW_CLI
         cliAdd("rx", cliRx);
@@ -727,12 +730,12 @@ bool calculateRxChannelsAndUpdateFailsafe(uint32_t currentTimeUs)
     return true;
 }
 
-void parseRcChannels(const char *input)
+void parseRcChannels(const char *input, rxConfig_t *rxConfig)
 {
     for (const char *c = input; *c; c++) {
         const char *s = strchr(rcChannelLetters, *c);
         if (s && (s < rcChannelLetters + RX_MAPPABLE_CHANNEL_COUNT)) {
-            rcmap[s - rcChannelLetters] = c - input;
+            rxConfig->rcmap[s - rcChannelLetters] = c - input;
         }
     }
 }
@@ -801,17 +804,17 @@ static void updateRSSIADC(uint32_t currentTimeUs)
 #ifndef USE_ADC
     UNUSED(currentTimeUs);
 #else
-    static uint32_t rssiUpdateAt = 0;
-
-    if ((int32_t)(currentTimeUs - rssiUpdateAt) < 0) {
-        return;
-    }
-    rssiUpdateAt = currentTimeUs + DELAY_20_MS;
-
-    const uint16_t adcRssiSample = adcGetChannel(ADC_RSSI);
-    uint16_t rssiValue = adcRssiSample / RSSI_ADC_DIVISOR;
-
-    setRssi(rssiValue, RSSI_SOURCE_ADC);
+//    static uint32_t rssiUpdateAt = 0;
+//
+//    if ((int32_t)(currentTimeUs - rssiUpdateAt) < 0) {
+//        return;
+//    }
+//    rssiUpdateAt = currentTimeUs + DELAY_20_MS;
+//
+//    const uint16_t adcRssiSample = adcGetChannel(ADC_RSSI);
+//    uint16_t rssiValue = adcRssiSample / RSSI_ADC_DIVISOR;
+//
+//    setRssi(rssiValue, RSSI_SOURCE_ADC);
 #endif
 }
 
@@ -1310,7 +1313,7 @@ void updateRcCommands(void)
     for (int axis = 0; axis < 3; axis++) {
         // non coupled PID reduction scaler used in PID controller 1 and PID controller 2.
 
-        float tmp = MIN(ABS(rcData[axis] - p_rx_pg->midrc), 500);
+        float tmp = MIN(ABS(rcData[axis] - rxConfig()->midrc), 500);
         if (axis == ROLL || axis == PITCH) {
             if (tmp > 5) {
                 tmp -= 5;
@@ -1326,7 +1329,7 @@ void updateRcCommands(void)
             }
             rcCommand[axis] = tmp * -GET_DIRECTION(false);
         }
-        if (rcData[axis] < p_rx_pg->midrc) {
+        if (rcData[axis] < rxConfig()->midrc) {
             rcCommand[axis] = -rcCommand[axis];
         }
     }
@@ -1337,8 +1340,8 @@ void updateRcCommands(void)
     //     tmp = (uint32_t)(tmp - PWM_RANGE_MIN);
     // } else
     {
-        tmp = constrain(rcData[THROTTLE], p_rx_pg->mincheck, PWM_RANGE_MAX);
-        tmp = (uint32_t)(tmp - p_rx_pg->mincheck) * PWM_RANGE_MIN / (PWM_RANGE_MAX - p_rx_pg->mincheck);
+        tmp = constrain(rcData[THROTTLE], rxConfig()->mincheck, PWM_RANGE_MAX);
+        tmp = (uint32_t)(tmp - rxConfig()->mincheck) * PWM_RANGE_MIN / (PWM_RANGE_MAX - rxConfig()->mincheck);
     }
 
     // if (getLowVoltageCutoff()->enabled) {

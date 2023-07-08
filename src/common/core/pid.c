@@ -53,8 +53,8 @@
 
 #include "gps.h"
 
-// #include "pg/pg.h"
-// #include "pg/pg_ids.h"
+#include "pg/pg.h"
+#include "pg/pg_ids.h"
 
 // #include "sensors/acceleration.h"
 // #include "sensors/battery.h"
@@ -95,18 +95,18 @@ pt1Filter_t throttleLpf;
 #define PID_PROCESS_DENOM_DEFAULT       1
 #endif
 
-// #ifdef USE_RUNAWAY_TAKEOFF
-// PG_RESET_TEMPLATE(pidConfig_t, pidConfig,
-//     .pid_process_denom = PID_PROCESS_DENOM_DEFAULT,
-//     .runaway_takeoff_prevention = true,
-//     .runaway_takeoff_deactivate_throttle = 20,  // throttle level % needed to accumulate deactivation time
-//     .runaway_takeoff_deactivate_delay = 500     // Accumulated time (in milliseconds) before deactivation in successful takeoff
-// );
-// #else
-// // PG_RESET_TEMPLATE(pidConfig_t, pidConfig,
-// //     .pid_process_denom = PID_PROCESS_DENOM_DEFAULT
-// // );
-// #endif
+ #ifdef USE_RUNAWAY_TAKEOFF
+ PG_RESET_TEMPLATE(pidConfig_t, pidConfig,
+     .pid_process_denom = PID_PROCESS_DENOM_DEFAULT,
+     .runaway_takeoff_prevention = true,
+     .runaway_takeoff_deactivate_throttle = 20,  // throttle level % needed to accumulate deactivation time
+     .runaway_takeoff_deactivate_delay = 500     // Accumulated time (in milliseconds) before deactivation in successful takeoff
+ );
+ #else
+  PG_RESET_TEMPLATE(pidConfig_t, pidConfig,
+      .pid_process_denom = PID_PROCESS_DENOM_DEFAULT
+  );
+ #endif
 
 #ifdef USE_ACRO_TRAINER
 #define ACRO_TRAINER_LOOKAHEAD_RATE_LIMIT 500.0f  // Max gyro rate for lookahead time scaling
@@ -117,121 +117,121 @@ pt1Filter_t throttleLpf;
 
 #define LAUNCH_CONTROL_YAW_ITERM_LIMIT 50 // yaw iterm windup limit when launch mode is "FULL" (all axes)
 
-//PG_REGISTER_ARRAY_WITH_RESET_FN(pidProfile_t, PID_PROFILE_COUNT, pidProfiles, PG_PID_PROFILE, 3);
+PG_REGISTER_ARRAY_WITH_RESET_FN(pidProfile_t, PID_PROFILE_COUNT, pidProfiles, PG_PID_PROFILE, 3);
 
-// void resetPidProfile(pidProfile_t *pidProfile)
-// {
-//     RESET_CONFIG(pidProfile_t, pidProfile,
-//         .pid = {
-//             [PID_ROLL] =  PID_ROLL_DEFAULT,
-//             [PID_PITCH] = PID_PITCH_DEFAULT,
-//             [PID_YAW] =   PID_YAW_DEFAULT,
-//             [PID_LEVEL] = { 50, 50, 75, 0 },
-//             [PID_MAG] =   { 40, 0, 0, 0 },
-//         },
-//         .pidSumLimit = PIDSUM_LIMIT,
-//         .pidSumLimitYaw = PIDSUM_LIMIT_YAW,
-//         .yaw_lowpass_hz = 100,
-//         .dterm_notch_hz = 0,
-//         .dterm_notch_cutoff = 0,
-//         .itermWindupPointPercent = 85,
-//         .pidAtMinThrottle = PID_STABILISATION_ON,
-//         .levelAngleLimit = 55,
-//         .feedforward_transition = 0,
-//         .yawRateAccelLimit = 0,
-//         .rateAccelLimit = 0,
-//         .itermThrottleThreshold = 250,
-//         .itermAcceleratorGain = 3500,
-//         .crash_time = 500,          // ms
-//         .crash_delay = 0,           // ms
-//         .crash_recovery_angle = 10, // degrees
-//         .crash_recovery_rate = 100, // degrees/second
-//         .crash_dthreshold = 50,     // degrees/second/second
-//         .crash_gthreshold = 400,    // degrees/second
-//         .crash_setpoint_threshold = 350, // degrees/second
-//         .crash_recovery = PID_CRASH_RECOVERY_OFF, // off by default
-//         .horizon_tilt_effect = 75,
-//         .horizon_tilt_expert_mode = false,
-//         .crash_limit_yaw = 200,
-//         .itermLimit = 400,
-//         .throttle_boost = 5,
-//         .throttle_boost_cutoff = 15,
-//         .iterm_rotation = false,
-//         .iterm_relax = ITERM_RELAX_RP,
-//         .iterm_relax_cutoff = ITERM_RELAX_CUTOFF_DEFAULT,
-//         .iterm_relax_type = ITERM_RELAX_SETPOINT,
-//         .acro_trainer_angle_limit = 20,
-//         .acro_trainer_lookahead_ms = 50,
-//         .acro_trainer_debug_axis = FD_ROLL,
-//         .acro_trainer_gain = 75,
-//         .abs_control_gain = 0,
-//         .abs_control_limit = 90,
-//         .abs_control_error_limit = 20,
-//         .abs_control_cutoff = 11,
-//         .antiGravityMode = ANTI_GRAVITY_SMOOTH,
-//         .dterm_lpf1_static_hz = DTERM_LPF1_DYN_MIN_HZ_DEFAULT,
-//             // NOTE: dynamic lpf is enabled by default so this setting is actually
-//             // overridden and the static lowpass 1 is disabled. We can't set this
-//             // value to 0 otherwise Configurator versions 10.4 and earlier will also
-//             // reset the lowpass filter type to PT1 overriding the desired BIQUAD setting.
-//         .dterm_lpf2_static_hz = DTERM_LPF2_HZ_DEFAULT,   // second Dterm LPF ON by default
-//         .dterm_lpf1_type = FILTER_PT1,
-//         .dterm_lpf2_type = FILTER_PT1,
-//         .dterm_lpf1_dyn_min_hz = DTERM_LPF1_DYN_MIN_HZ_DEFAULT,
-//         .dterm_lpf1_dyn_max_hz = DTERM_LPF1_DYN_MAX_HZ_DEFAULT,
-//         .launchControlMode = LAUNCH_CONTROL_MODE_NORMAL,
-//         .launchControlThrottlePercent = 20,
-//         .launchControlAngleLimit = 0,
-//         .launchControlGain = 40,
-//         .launchControlAllowTriggerReset = true,
-//         .use_integrated_yaw = false,
-//         .integrated_yaw_relax = 200,
-//         .thrustLinearization = 0,
-//         .d_min = D_MIN_DEFAULT,
-//         .d_min_gain = 37,
-//         .d_min_advance = 20,
-//         .motor_output_limit = 100,
-//         .auto_profile_cell_count = AUTO_PROFILE_CELL_COUNT_STAY,
-//         .transient_throttle_limit = 0,
-//         .profileName = { 0 },
-//         .dyn_idle_min_rpm = 0,
-//         .dyn_idle_p_gain = 50,
-//         .dyn_idle_i_gain = 50,
-//         .dyn_idle_d_gain = 50,
-//         .dyn_idle_max_increase = 150,
-//         .feedforward_averaging = FEEDFORWARD_AVERAGING_OFF,
-//         .feedforward_max_rate_limit = 90,
-//         .feedforward_smooth_factor = 25,
-//         .feedforward_jitter_factor = 7,
-//         .feedforward_boost = 15,
-//         .dterm_lpf1_dyn_expo = 5,
-//         .level_race_mode = false,
-//         .vbat_sag_compensation = 0,
-//         .simplified_pids_mode = PID_SIMPLIFIED_TUNING_RPY,
-//         .simplified_master_multiplier = SIMPLIFIED_TUNING_DEFAULT,
-//         .simplified_roll_pitch_ratio = SIMPLIFIED_TUNING_DEFAULT,
-//         .simplified_i_gain = SIMPLIFIED_TUNING_DEFAULT,
-//         .simplified_d_gain = SIMPLIFIED_TUNING_D_DEFAULT,
-//         .simplified_pi_gain = SIMPLIFIED_TUNING_DEFAULT,
-//         .simplified_dmin_ratio = SIMPLIFIED_TUNING_D_DEFAULT,
-//         .simplified_feedforward_gain = SIMPLIFIED_TUNING_DEFAULT,
-//         .simplified_pitch_pi_gain = SIMPLIFIED_TUNING_DEFAULT,
-//         .simplified_dterm_filter = true,
-//         .simplified_dterm_filter_multiplier = SIMPLIFIED_TUNING_DEFAULT,
-//     );
+ void resetPidProfile(pidProfile_t *pidProfile)
+ {
+     RESET_CONFIG(pidProfile_t, pidProfile,
+         .pid = {
+             [PID_ROLL] =  PID_ROLL_DEFAULT,
+             [PID_PITCH] = PID_PITCH_DEFAULT,
+             [PID_YAW] =   PID_YAW_DEFAULT,
+             [PID_LEVEL] = { 50, 50, 75, 0 },
+             [PID_MAG] =   { 40, 0, 0, 0 },
+         },
+         .pidSumLimit = PIDSUM_LIMIT,
+         .pidSumLimitYaw = PIDSUM_LIMIT_YAW,
+         .yaw_lowpass_hz = 100,
+         .dterm_notch_hz = 0,
+         .dterm_notch_cutoff = 0,
+         .itermWindupPointPercent = 85,
+         .pidAtMinThrottle = PID_STABILISATION_ON,
+         .levelAngleLimit = 55,
+         .feedforward_transition = 0,
+         .yawRateAccelLimit = 0,
+         .rateAccelLimit = 0,
+         .itermThrottleThreshold = 250,
+         .itermAcceleratorGain = 3500,
+         .crash_time = 500,          // ms
+         .crash_delay = 0,           // ms
+         .crash_recovery_angle = 10, // degrees
+         .crash_recovery_rate = 100, // degrees/second
+         .crash_dthreshold = 50,     // degrees/second/second
+         .crash_gthreshold = 400,    // degrees/second
+         .crash_setpoint_threshold = 350, // degrees/second
+         .crash_recovery = PID_CRASH_RECOVERY_OFF, // off by default
+         .horizon_tilt_effect = 75,
+         .horizon_tilt_expert_mode = false,
+         .crash_limit_yaw = 200,
+         .itermLimit = 400,
+         .throttle_boost = 5,
+         .throttle_boost_cutoff = 15,
+         .iterm_rotation = false,
+         .iterm_relax = ITERM_RELAX_RP,
+         .iterm_relax_cutoff = ITERM_RELAX_CUTOFF_DEFAULT,
+         .iterm_relax_type = ITERM_RELAX_SETPOINT,
+         .acro_trainer_angle_limit = 20,
+         .acro_trainer_lookahead_ms = 50,
+         .acro_trainer_debug_axis = FD_ROLL,
+         .acro_trainer_gain = 75,
+         .abs_control_gain = 0,
+         .abs_control_limit = 90,
+         .abs_control_error_limit = 20,
+         .abs_control_cutoff = 11,
+         .antiGravityMode = ANTI_GRAVITY_SMOOTH,
+         .dterm_lpf1_static_hz = DTERM_LPF1_DYN_MIN_HZ_DEFAULT,
+             // NOTE: dynamic lpf is enabled by default so this setting is actually
+             // overridden and the static lowpass 1 is disabled. We can't set this
+             // value to 0 otherwise Configurator versions 10.4 and earlier will also
+             // reset the lowpass filter type to PT1 overriding the desired BIQUAD setting.
+         .dterm_lpf2_static_hz = DTERM_LPF2_HZ_DEFAULT,   // second Dterm LPF ON by default
+         .dterm_lpf1_type = FILTER_PT1,
+         .dterm_lpf2_type = FILTER_PT1,
+         .dterm_lpf1_dyn_min_hz = DTERM_LPF1_DYN_MIN_HZ_DEFAULT,
+         .dterm_lpf1_dyn_max_hz = DTERM_LPF1_DYN_MAX_HZ_DEFAULT,
+         .launchControlMode = LAUNCH_CONTROL_MODE_NORMAL,
+         .launchControlThrottlePercent = 20,
+         .launchControlAngleLimit = 0,
+         .launchControlGain = 40,
+         .launchControlAllowTriggerReset = true,
+         .use_integrated_yaw = false,
+         .integrated_yaw_relax = 200,
+         .thrustLinearization = 0,
+         .d_min = D_MIN_DEFAULT,
+         .d_min_gain = 37,
+         .d_min_advance = 20,
+         .motor_output_limit = 100,
+         .auto_profile_cell_count = AUTO_PROFILE_CELL_COUNT_STAY,
+         .transient_throttle_limit = 0,
+         .profileName = { 0 },
+         .dyn_idle_min_rpm = 0,
+         .dyn_idle_p_gain = 50,
+         .dyn_idle_i_gain = 50,
+         .dyn_idle_d_gain = 50,
+         .dyn_idle_max_increase = 150,
+         .feedforward_averaging = FEEDFORWARD_AVERAGING_OFF,
+         .feedforward_max_rate_limit = 90,
+         .feedforward_smooth_factor = 25,
+         .feedforward_jitter_factor = 7,
+         .feedforward_boost = 15,
+         .dterm_lpf1_dyn_expo = 5,
+         .level_race_mode = false,
+         .vbat_sag_compensation = 0,
+         .simplified_pids_mode = PID_SIMPLIFIED_TUNING_RPY,
+         .simplified_master_multiplier = SIMPLIFIED_TUNING_DEFAULT,
+         .simplified_roll_pitch_ratio = SIMPLIFIED_TUNING_DEFAULT,
+         .simplified_i_gain = SIMPLIFIED_TUNING_DEFAULT,
+         .simplified_d_gain = SIMPLIFIED_TUNING_D_DEFAULT,
+         .simplified_pi_gain = SIMPLIFIED_TUNING_DEFAULT,
+         .simplified_dmin_ratio = SIMPLIFIED_TUNING_D_DEFAULT,
+         .simplified_feedforward_gain = SIMPLIFIED_TUNING_DEFAULT,
+         .simplified_pitch_pi_gain = SIMPLIFIED_TUNING_DEFAULT,
+         .simplified_dterm_filter = true,
+         .simplified_dterm_filter_multiplier = SIMPLIFIED_TUNING_DEFAULT,
+     );
 
-// #ifndef USE_D_MIN
-//     pidProfile->pid[PID_ROLL].D = 30;
-//     pidProfile->pid[PID_PITCH].D = 32;
-// #endif
-// }
+ #ifndef USE_D_MIN
+     pidProfile->pid[PID_ROLL].D = 30;
+     pidProfile->pid[PID_PITCH].D = 32;
+ #endif
+ }
 
-// void pgResetFn_pidProfiles(pidProfile_t *pidProfiles)
-// {
-//     for (int i = 0; i < 3; i++) {
-//         resetPidProfile(&pidProfiles[i]);
-//     }
-// }
+ void pgResetFn_pidProfiles(pidProfile_t *pidProfiles)
+ {
+     for (int i = 0; i < 3; i++) {
+         resetPidProfile(&pidProfiles[i]);
+     }
+ }
 
 // Scale factors to make best use of range with D_LPF debugging, aiming for max +/-16K as debug values are 16 bit
 #define D_LPF_RAW_SCALE 25

@@ -6,10 +6,13 @@ src/common/core/sensors.o: ../src/common/core/sensors.c \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/gyro.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/utils.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/dyn_notch_filter.h \
+ D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg/dyn_notch.h \
+ D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg/pg.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pid.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors.h \
- D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg.h \
+ D:/STM32CubeIDE/SpeedyBeeF405V3/src/hw/driver/accgyro/bmi270.h \
+ D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/acceleration.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/hw/hw_def.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/bsp/bsp.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/lib/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
@@ -51,18 +54,11 @@ src/common/core/sensors.o: ../src/common/core/sensors.c \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/lib/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/lib/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usb.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/lib/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd_ex.h \
- D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/core.h \
- D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pid_init.h \
- D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/compass.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/accgyro.h \
- D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/acceleration.h \
- D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/hw/include/adc.h \
- D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/rx/rx.h \
- D:/STM32CubeIDE/SpeedyBeeF405V3/src/hw/driver/accgyro/bmi270.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/hw/include/cli.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/hw/include/led.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/gyro_init.h \
- D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/scheduler/scheduler.h
+ D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg/scheduler.h
 ../src/common/core/sensors.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/def.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/axis.h:
@@ -71,10 +67,13 @@ D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/axis.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/gyro.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/utils.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/dyn_notch_filter.h:
+D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg/dyn_notch.h:
+D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg/pg.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pid.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors.h:
-D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg.h:
+D:/STM32CubeIDE/SpeedyBeeF405V3/src/hw/driver/accgyro/bmi270.h:
+D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/acceleration.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/hw/hw_def.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/bsp/bsp.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/lib/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
@@ -116,15 +115,8 @@ D:/STM32CubeIDE/SpeedyBeeF405V3/src/lib/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/lib/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/lib/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usb.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/lib/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd_ex.h:
-D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/core.h:
-D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pid_init.h:
-D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/compass.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/accgyro.h:
-D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/acceleration.h:
-D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/hw/include/adc.h:
-D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/rx/rx.h:
-D:/STM32CubeIDE/SpeedyBeeF405V3/src/hw/driver/accgyro/bmi270.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/hw/include/cli.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/hw/include/led.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/gyro_init.h:
-D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/scheduler/scheduler.h:
+D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg/scheduler.h:

@@ -23,75 +23,74 @@
 #include <string.h>
 #include <math.h>
 
-#include "platform.h"
 
-#include "blackbox/blackbox.h"
+//#include "blackbox/blackbox.h"
 
-#include "build/debug.h"
+//#include "build/debug.h"
 
-#include "cli/cli.h"
+#include "cli.h"
 
-#include "common/sensor_alignment.h"
+//#include "common/sensor_alignment.h"
 
 #include "config/config_eeprom.h"
-#include "config/feature.h"
+//#include "config/feature.h"
 
-#include "drivers/dshot_command.h"
-#include "drivers/motor.h"
-#include "drivers/system.h"
+//#include "drivers/dshot_command.h"
+//#include "drivers/motor.h"
+//#include "drivers/system.h"
 
-#include "fc/controlrate_profile.h"
-#include "fc/core.h"
-#include "fc/rc.h"
-#include "fc/rc_adjustments.h"
-#include "fc/rc_controls.h"
-#include "fc/runtime_config.h"
+//#include "fc/controlrate_profile.h"
+#include "core.h"
+//#include "rx/rc.h"
+//#include "fc/rc_adjustments.h"
+//#include "fc/rc_controls.h"
+//#include "fc/runtime_config.h"
 
-#include "flight/failsafe.h"
-#include "flight/imu.h"
-#include "flight/mixer.h"
-#include "flight/pid.h"
-#include "flight/pid_init.h"
-#include "flight/rpm_filter.h"
-#include "flight/servos.h"
-#include "flight/position.h"
+//#include "flight/failsafe.h"
+#include "sensors.h"
+//#include "flight/mixer.h"
+#include "pid.h"
+#include "pid_init.h"
+//#include "flight/rpm_filter.h"
+//#include "flight/servos.h"
+//#include "flight/position.h"
 
-#include "io/beeper.h"
-#include "io/gps.h"
-#include "io/ledstrip.h"
-#include "io/serial.h"
-#include "io/vtx.h"
+//#include "io/beeper.h"
+//#include "io/gps.h"
+//#include "io/ledstrip.h"
+//#include "io/serial.h"
+//#include "io/vtx.h"
 
-#include "msp/msp_box.h"
+//#include "msp/msp_box.h"
 
-#include "osd/osd.h"
+//#include "osd/osd.h"
 
 #include "pg/adc.h"
-#include "pg/beeper.h"
-#include "pg/beeper_dev.h"
-#include "pg/displayport_profiles.h"
-#include "pg/gyrodev.h"
-#include "pg/motor.h"
+//#include "pg/beeper.h"
+//#include "pg/beeper_dev.h"
+//#include "pg/displayport_profiles.h"
+//#include "pg/gyrodev.h"
+//#include "pg/motor.h"
 #include "pg/pg.h"
 #include "pg/pg_ids.h"
 #include "pg/rx.h"
-#include "pg/rx_spi.h"
-#include "pg/sdcard.h"
-#include "pg/vtx_table.h"
+//#include "pg/rx_spi.h"
+//#include "pg/sdcard.h"
+//#include "pg/vtx_table.h"
 
 #include "rx/rx.h"
-#include "rx/rx_spi.h"
+//#include "rx/rx_spi.h"
 
 #include "scheduler/scheduler.h"
 
 #include "sensors/acceleration.h"
-#include "sensors/battery.h"
+//#include "sensors/battery.h"
 #include "sensors/compass.h"
 #include "sensors/gyro.h"
 
 #include "config.h"
 
-#include "drivers/dshot.h"
+//#include "drivers/dshot.h"
 
 static bool configIsDirty; /* someone indicated that the config is modified and it is not yet saved */
 

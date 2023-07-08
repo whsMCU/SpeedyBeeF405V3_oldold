@@ -1,0 +1,11 @@
+pg.h:60:24:pgN	1
+pg.h:61:23:pgVersion	1
+pg.h:62:24:pgSize	1
+pg.c:31:21:pgFind	3
+pg.c:41:17:pgOffset	1
+pg.c:46:6:pgResetInstance	4
+pg.c:60:6:pgReset	1
+pg.c:65:6:pgResetCopy	2
+pg.c:75:6:pgLoad	2
+pg.c:91:5:pgStore	1
+pg.c:98:6:pgResetAll	2

@@ -1,0 +1,9 @@
+compass.h:81:1:compassConfigMutable	1
+compass.c:45:6:compassPreInit	1
+compass.c:55:6:compassDetect	3
+compass.c:79:6:compassInit	2
+compass.c:109:6:compassIsHealthy	4
+compass.c:114:6:compassStartCalibration	2
+compass.c:125:6:compassIsCalibrationComplete	1
+compass.c:130:10:compassUpdate	10
+compass.c:177:6:cliQmc5883l	10

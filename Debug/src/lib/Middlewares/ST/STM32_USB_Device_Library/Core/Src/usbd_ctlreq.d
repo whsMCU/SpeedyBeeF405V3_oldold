@@ -68,9 +68,10 @@ src/lib/Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ctlreq.o: \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/gyro.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/utils.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/dyn_notch_filter.h \
+ D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg/dyn_notch.h \
+ D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg/pg.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pid.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors.h \
- D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg/pg.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/gyro_init.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/BMI270-Sensor-API/bmi270.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/BMI270-Sensor-API/bmi2.h \
@@ -159,9 +160,10 @@ D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/filter.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/gyro.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/utils.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/dyn_notch_filter.h:
+D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg/dyn_notch.h:
+D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg/pg.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pid.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors.h:
-D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg/pg.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/gyro_init.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/BMI270-Sensor-API/bmi270.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/BMI270-Sensor-API/bmi2.h:

@@ -1,0 +1,17 @@
+acceleration.h:106:1:accelerometerConfig	1
+acceleration.h:106:1:accelerometerConfigMutable	1
+acceleration_init.c:50:6:resetRollAndPitchTrims	1
+acceleration_init.c:58:13:setConfigCalibrationCompleted	1
+acceleration_init.c:63:6:accHasBeenCalibrated	1
+acceleration_init.c:68:6:accResetRollAndPitchTrims	1
+acceleration_init.c:73:13:resetFlightDynamicsTrims	1
+acceleration_init.c:81:6:pgResetFn_accelerometerConfig	1
+acceleration_init.c:306:6:accInitFilters	4
+acceleration_init.c:319:6:accInit	1
+acceleration_init.c:356:6:accStartCalibration	1
+acceleration_init.c:361:6:accIsCalibrationComplete	1
+acceleration_init.c:366:13:isOnFinalAccelerationCalibrationCycle	1
+acceleration_init.c:371:13:isOnFirstAccelerationCalibrationCycle	1
+acceleration_init.c:376:6:performAcclerationCalibration	4
+acceleration_init.c:410:6:performInflightAccelerationCalibration	7
+acceleration_init.c:463:6:setAccelerationTrims	1

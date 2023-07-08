@@ -51,17 +51,11 @@ src/common/core/telemetry.o: ../src/common/core/telemetry.c \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/gyro.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/utils.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/dyn_notch_filter.h \
+ D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg/dyn_notch.h \
+ D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg/pg.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pid.h \
- D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors.h \
- D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg.h \
- D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/core.h \
- D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pid_init.h \
- D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/compass.h \
- D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/accgyro.h \
- D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/acceleration.h \
- D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/hw/include/adc.h \
- D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/rx/rx.h
+ D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors.h
 ../src/common/core/telemetry.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/def.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/hw/include/uart.h:
@@ -115,14 +109,8 @@ D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/axis.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/gyro.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/utils.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/dyn_notch_filter.h:
+D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg/dyn_notch.h:
+D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg/pg.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pid.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors.h:
-D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg.h:
-D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/core.h:
-D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pid_init.h:
-D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/compass.h:
-D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/accgyro.h:
-D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/acceleration.h:
-D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/hw/include/adc.h:
-D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/rx/rx.h:

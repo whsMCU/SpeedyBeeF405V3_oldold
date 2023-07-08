@@ -78,6 +78,8 @@ typedef struct compassConfig_s {
     //sensorAlignment_t mag_customAlignment;
 } compassConfig_t;
 
+PG_DECLARE(compassConfig_t, compassConfig);
+
 bool compassIsHealthy(void);
 uint32_t compassUpdate(uint32_t currentTime);
 bool compassInit(void);

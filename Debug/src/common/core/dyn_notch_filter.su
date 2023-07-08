@@ -1,0 +1,9 @@
+../src/common/core/maths.h:166:21:constrainf	24	static
+../src/common/core/dyn_notch_filter.c:156:6:dynNotchInit	64	static
+../src/common/core/dyn_notch_filter.c:204:6:dynNotchPush	16	static
+../src/common/core/dyn_notch_filter.c:212:6:dynNotchUpdate	16	static
+../src/common/core/dyn_notch_filter.c:250:13:dynNotchProcess	112	static
+../src/common/core/dyn_notch_filter.c:402:7:dynNotchFilter	24	static
+../src/common/core/dyn_notch_filter.c:411:6:isDynNotchActive	4	static
+../src/common/core/dyn_notch_filter.c:416:5:getMaxFFT	4	static
+../src/common/core/dyn_notch_filter.c:421:6:resetMaxFFT	4	static

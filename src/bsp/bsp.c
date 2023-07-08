@@ -74,6 +74,17 @@ void checkForBootLoaderRequest(void)
 }
 #endif
 
+void failureMode(failureMode_e mode)
+{
+    //indicateFailure(mode, 10);
+
+#ifdef DEBUG
+    systemReset();
+#else
+    systemResetToBootloader(BOOTLOADER_REQUEST_ROM);
+#endif
+}
+
 void cycleCounterInit(void)
 {
   cpuClockFrequency = HAL_RCC_GetSysClockFreq();

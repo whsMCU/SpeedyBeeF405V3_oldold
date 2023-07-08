@@ -26,6 +26,8 @@
 #define GET_FRAME_ERR_LPF_FREQUENCY(period) (1 / (period / 10.0f))
 #define FRAME_ERR_RESAMPLE_US 100000
 
+#define RX_MAPPABLE_CHANNEL_COUNT 8
+
 typedef struct rxConfig_s {
     uint8_t rcmap[RX_MAPPABLE_CHANNEL_COUNT];  // mapping of radio channels to internal RPYTA+ order
     uint8_t serialrx_provider;                 // type of UART-based receiver (0 = spek 10, 1 = spek 11, 2 = sbus). Must be enabled by FEATURE_RX_SERIAL first.

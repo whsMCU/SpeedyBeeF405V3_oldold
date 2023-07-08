@@ -24,14 +24,16 @@
 
 #include "pg/pg.h"
 #include "pg/pg_ids.h"
-#include "rx.h"
+#include "pg/rx.h"
 
 #include "config/config_reset.h"
 
 //#include "fc/rc.h"
 //#include "fc/rc_controls.h"
-//#include "rx/rx.h"
+#include "rx/rx.h"
 //#include "rx/rx_spi.h"
+
+#define DEFAULT_AUX_CHANNEL_COUNT       6
 
 PG_REGISTER_WITH_RESET_FN(rxConfig_t, rxConfig, PG_RX_CONFIG, 3);
 void pgResetFn_rxConfig(rxConfig_t *rxConfig)

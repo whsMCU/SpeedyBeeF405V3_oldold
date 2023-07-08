@@ -22,9 +22,8 @@
 #include <stdint.h>
 #include <string.h>
 
-#include "platform.h"
 
-#include "build/build_config.h"
+//#include "build/build_config.h"
 
 #include "common/crc.h"
 #include "common/utils.h"
@@ -38,8 +37,8 @@
 #include "io/asyncfatfs/asyncfatfs.h"
 #endif
 
-#include "drivers/flash.h"
-#include "drivers/system.h"
+#include "hw/include/flash.h"
+#include "bsp.h"
 
 static uint16_t eepromConfigSize;
 

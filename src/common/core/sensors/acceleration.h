@@ -22,6 +22,7 @@
 
 #include "def.h"
 #include "hw_def.h"
+#include "pg/pg.h"
 #include "sensors.h"
 #include "accgyro.h"
 
@@ -102,7 +103,7 @@ typedef struct accelerometerConfig_s {
     rollAndPitchTrims_t accelerometerTrims;
 } accelerometerConfig_t;
 
-//PG_DECLARE(accelerometerConfig_t, accelerometerConfig);
+PG_DECLARE(accelerometerConfig_t, accelerometerConfig);
 
 bool accInit(uint16_t accSampleRateHz);
 bool accIsCalibrationComplete(void);

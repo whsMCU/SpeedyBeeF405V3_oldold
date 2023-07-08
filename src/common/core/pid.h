@@ -27,7 +27,10 @@
 #include "sensors.h"
 #include "def.h"
 
-//#include "pg/pg.h"
+#include "pg/pg.h"
+
+#define PID_PROFILE_COUNT 3
+#define CONTROL_RATE_PROFILE_COUNT  6
 
 #define MAX_PID_PROCESS_DENOM       16
 #define PID_CONTROLLER_BETAFLIGHT   1

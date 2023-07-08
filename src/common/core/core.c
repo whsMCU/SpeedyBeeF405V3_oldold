@@ -91,7 +91,7 @@
 // #include "pg/pg_ids.h"
 // #include "pg/rx.h"
 
-#include "rx.h"
+#include "rx/rx.h"
 
 #include "scheduler.h"
 
@@ -710,13 +710,13 @@ int8_t calculateThrottlePercent(void)
         && false//!IS_RC_MODE_ACTIVE(BOX3D)
         && false) {//!flight3DConfig()->switched_mode3d
 
-        if (channelData > (p_rx_pg->midrc + 0)) {//flight3DConfig()->deadband3d_throttle
-            ret = ((channelData - p_rx_pg->midrc - 0) * 100) / (PWM_RANGE_MAX - p_rx_pg->midrc - 0);
-        } else if (channelData < (p_rx_pg->midrc - 0)) {
-            ret = -((p_rx_pg->midrc - 0 - channelData) * 100) / (p_rx_pg->midrc - 0 - PWM_RANGE_MIN);
+        if (channelData > (rxConfig()->midrc + 0)) {//flight3DConfig()->deadband3d_throttle
+            ret = ((channelData - rxConfig()->midrc - 0) * 100) / (PWM_RANGE_MAX - rxConfig()->midrc - 0);
+        } else if (channelData < (rxConfig()->midrc - 0)) {
+            ret = -((rxConfig()->midrc - 0 - channelData) * 100) / (rxConfig()->midrc - 0 - PWM_RANGE_MIN);
         }
     } else {
-        ret = constrain(((channelData - p_rx_pg->mincheck) * 100) / (PWM_RANGE_MAX - p_rx_pg->mincheck), 0, 100);
+        ret = constrain(((channelData - rxConfig()->mincheck) * 100) / (PWM_RANGE_MAX - rxConfig()->mincheck), 0, 100);
         if (false//featureIsEnabled(FEATURE_3D)
         && false//IS_RC_MODE_ACTIVE(BOX3D)
         && false) {//flight3DConfig()->switched_mode3d

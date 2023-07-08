@@ -33,7 +33,7 @@
 #include "telemetry.h"
 
 #include "tasks.h"
-#include "rx.h"
+#include "rx/rx.h"
 #include "cli.h"
 #include "core.h"
 #include "pg.h"

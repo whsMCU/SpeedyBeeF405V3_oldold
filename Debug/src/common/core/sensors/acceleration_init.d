@@ -9,9 +9,10 @@ src/common/core/sensors/acceleration_init.o: \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/maths.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/gyro.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/dyn_notch_filter.h \
+ D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg/dyn_notch.h \
+ D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg/pg.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pid.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors.h \
- D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg/pg.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/acceleration.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/hw/hw_def.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/bsp/bsp.h \
@@ -69,9 +70,10 @@ D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/maths.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/gyro.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/dyn_notch_filter.h:
+D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg/dyn_notch.h:
+D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg/pg.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pid.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors.h:
-D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg/pg.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/acceleration.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/hw/hw_def.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/bsp/bsp.h:

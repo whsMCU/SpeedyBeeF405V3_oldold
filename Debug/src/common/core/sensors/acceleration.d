@@ -47,13 +47,14 @@ src/common/core/sensors/acceleration.o: \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/lib/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usb.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/lib/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd_ex.h \
  ../src/common/core/sensors/acceleration.h \
+ D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg/pg.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/maths.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/gyro.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/dyn_notch_filter.h \
+ D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg/dyn_notch.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pid.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors.h \
- D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg/pg.h \
  ../src/common/core/sensors/accgyro.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/config/config_reset.h
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/axis.h:
@@ -103,12 +104,13 @@ D:/STM32CubeIDE/SpeedyBeeF405V3/src/lib/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/lib/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usb.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/lib/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd_ex.h:
 ../src/common/core/sensors/acceleration.h:
+D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg/pg.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/maths.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/gyro.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/dyn_notch_filter.h:
+D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg/dyn_notch.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pid.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors.h:
-D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg/pg.h:
 ../src/common/core/sensors/accgyro.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/config/config_reset.h:

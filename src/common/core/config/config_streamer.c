@@ -20,10 +20,9 @@
 
 #include <string.h>
 
-#include "platform.h"
 
-#include "drivers/system.h"
-#include "drivers/flash.h"
+#include "bsp.h"
+#include "flash.h"
 
 #include "config/config_streamer.h"
 
@@ -244,31 +243,10 @@ Sector 11   0x080E0000 - 0x080FFFFF 128 Kbytes
 static uint32_t getFLASHSectorForEEPROM(void)
 {
     if ((uint32_t)&__config_start <= 0x08003FFF)
-        return FLASH_Sector_0;
-    if ((uint32_t)&__config_start <= 0x08007FFF)
-        return FLASH_Sector_1;
-    if ((uint32_t)&__config_start <= 0x0800BFFF)
-        return FLASH_Sector_2;
-    if ((uint32_t)&__config_start <= 0x0800FFFF)
-        return FLASH_Sector_3;
-    if ((uint32_t)&__config_start <= 0x0801FFFF)
-        return FLASH_Sector_4;
-    if ((uint32_t)&__config_start <= 0x0803FFFF)
-        return FLASH_Sector_5;
-    if ((uint32_t)&__config_start <= 0x0805FFFF)
-        return FLASH_Sector_6;
-    if ((uint32_t)&__config_start <= 0x0807FFFF)
-        return FLASH_Sector_7;
-    if ((uint32_t)&__config_start <= 0x0809FFFF)
-        return FLASH_Sector_8;
-    if ((uint32_t)&__config_start <= 0x080DFFFF)
-        return FLASH_Sector_9;
-    if ((uint32_t)&__config_start <= 0x080BFFFF)
-        return FLASH_Sector_10;
-    if ((uint32_t)&__config_start <= 0x080FFFFF)
-        return FLASH_Sector_11;
+    {
+      return ((uint16_t)0x0000);
+    }
 
-    // Not good
     while (1) {
         failureMode(FAILURE_CONFIG_STORE_FAILURE);
     }

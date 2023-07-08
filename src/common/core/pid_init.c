@@ -45,7 +45,6 @@
 
 #include "pid_init.h"
 
-pidProfile_t currentPidProfile;
 
 #if defined(USE_D_MIN)
 #define D_MIN_RANGE_HZ 85    // PT2 lowpass input cutoff to peak D around propwash frequencies

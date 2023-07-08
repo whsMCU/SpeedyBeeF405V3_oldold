@@ -51,7 +51,7 @@
 // #include "io/beeper.h"
 // #include "io/statusindicator.h"
 
-#include "scheduler.h"
+#include "scheduler/scheduler.h"
 
 #include "gyro.h"
 #include "gyro_init.h"
@@ -166,7 +166,7 @@ static bool isOnFinalGyroCalibrationCycle(const gyroCalibration_t *gyroCalibrati
 
 static int32_t gyroCalculateCalibratingCycles(void)
 {
-    return (p_gyro_pg->gyroCalibrationDuration * 10000) / gyro.sampleLooptime; //gyroCalibrationDuration
+    return (gyroConfig()->gyroCalibrationDuration * 10000) / gyro.sampleLooptime; //gyroCalibrationDuration
 }
 
 static bool isOnFirstGyroCalibrationCycle(const gyroCalibration_t *gyroCalibration)
@@ -238,7 +238,7 @@ void performGyroCalibration(gyroSensor_t *gyroSensor, uint8_t gyroMovementCalibr
             // please take care with exotic boardalignment !!
             gyroSensor->gyroDev.gyroZero[axis] = gyroSensor->calibration.sum[axis] / gyroCalculateCalibratingCycles();
             if (axis == Z) {
-              gyroSensor->gyroDev.gyroZero[axis] -= (p_gyro_pg->gyro_offset_yaw / 100);//(float)gyroConfig()->gyro_offset_yaw
+              gyroSensor->gyroDev.gyroZero[axis] -= (gyroConfig()->gyro_offset_yaw / 100);//(float)gyroConfig()->gyro_offset_yaw
             }
         }
     }
@@ -416,7 +416,7 @@ static void gyroUpdateSensor(gyroSensor_t *gyroSensor)
         gyroSensor->gyroDev.gyroADC[Z] = gyroSensor->gyroDev.gyroADCRaw[Z] - gyroSensor->gyroDev.gyroZero[Z];
 #endif
     }else {
-        performGyroCalibration(gyroSensor, p_gyro_pg->gyroMovementCalibrationThreshold);
+        performGyroCalibration(gyroSensor, gyroConfig()->gyroMovementCalibrationThreshold);
     }
 }
 
@@ -531,7 +531,7 @@ void gyroFiltering(uint32_t currentTimeUs)
 //     }
 
 #ifdef USE_GYRO_OVERFLOW_CHECK
-    if (p_gyro_pg->checkOverflow && !gyro.gyroHasOverflowProtection) {
+    if (gyroConfig()->checkOverflow && !gyro.gyroHasOverflowProtection) {
         checkForOverflow(currentTimeUs);
     }
 #endif

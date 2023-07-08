@@ -29,7 +29,7 @@
 #endif
 #include "sensors.h"
 #include "pid.h"
-#include "pg.h"
+#include "pg/pg.h"
 
 
 #define LPF_MAX_HZ 1000 // so little filtering above 1000hz that if the user wants less delay, they must disable the filter
@@ -257,7 +257,7 @@ typedef struct gyroConfig_s {
     uint8_t simplified_gyro_filter_multiplier;
 } gyroConfig_t;
 
-//PG_DECLARE(gyroConfig_t, gyroConfig);
+PG_DECLARE(gyroConfig_t, gyroConfig);
 
 void gyroUpdate(void);
 void gyroFiltering(uint32_t currentTimeUs);

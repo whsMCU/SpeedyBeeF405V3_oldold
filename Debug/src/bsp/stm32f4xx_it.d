@@ -64,26 +64,25 @@ src/bsp/stm32f4xx_it.o: ../src/bsp/stm32f4xx_it.c \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/gyro.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/utils.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/dyn_notch_filter.h \
+ D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg/dyn_notch.h \
+ D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg/pg.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pid.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors.h \
- D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg.h \
- D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/core.h \
- D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pid_init.h \
- D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/compass.h \
- D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/accgyro.h \
- D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/acceleration.h \
- D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/hw/include/adc.h \
- D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/rx/rx.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/gyro_init.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/BMI270-Sensor-API/bmi270.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/BMI270-Sensor-API/bmi2.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/BMI270-Sensor-API/bmi2_defs.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/barometer.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/hw/driver/barometer/barometer_dps310.h \
+ D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/compass.h \
+ D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/accgyro.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/hw/driver/compass/compass_qmc5883l.h \
+ D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/acceleration.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/acceleration_init.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/config/config_reset.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/hw/driver/gps/gps.h \
+ D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg/adc.h \
+ d:\stm32cubeide\speedybeef405v3\src\common\hw\include\adc.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/hw/include/rtc.h \
  ../src/bsp/stm32f4xx_it.h
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/main.h:
@@ -151,25 +150,24 @@ D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/filter.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/gyro.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/utils.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/dyn_notch_filter.h:
+D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg/dyn_notch.h:
+D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg/pg.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pid.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors.h:
-D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg.h:
-D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/core.h:
-D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pid_init.h:
-D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/compass.h:
-D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/accgyro.h:
-D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/acceleration.h:
-D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/hw/include/adc.h:
-D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/rx/rx.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/gyro_init.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/BMI270-Sensor-API/bmi270.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/BMI270-Sensor-API/bmi2.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/BMI270-Sensor-API/bmi2_defs.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/barometer.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/hw/driver/barometer/barometer_dps310.h:
+D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/compass.h:
+D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/accgyro.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/hw/driver/compass/compass_qmc5883l.h:
+D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/acceleration.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/sensors/acceleration_init.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/config/config_reset.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/hw/driver/gps/gps.h:
+D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg/adc.h:
+d:\stm32cubeide\speedybeef405v3\src\common\hw\include\adc.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/hw/include/rtc.h:
 ../src/bsp/stm32f4xx_it.h:

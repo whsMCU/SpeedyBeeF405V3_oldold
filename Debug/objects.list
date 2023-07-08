@@ -32,7 +32,6 @@
 "./src/common/core/telemetry.o"
 "./src/common/core/pg/adc.o"
 "./src/common/core/pg/dyn_notch.o"
-"./src/common/core/pg/gyrodev.o"
 "./src/common/core/pg/pg.o"
 "./src/common/core/pg/rx.o"
 "./src/common/core/pg/scheduler.o"

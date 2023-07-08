@@ -22,8 +22,6 @@
 
 #include "pid.h"
 
-struct pidProfile_s;
-extern struct pidProfile_s currentPidProfile;
 
 void pidInit(void);
 //void pidInitFilters(const pidProfile_t *pidProfile);

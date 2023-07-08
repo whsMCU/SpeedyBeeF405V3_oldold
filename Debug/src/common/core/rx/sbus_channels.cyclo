@@ -1,0 +1,4 @@
+rx.h:69:1:rxConfig	1
+sbus_channels.c:42:9:sbusChannelsDecode	5
+sbus_channels.c:88:14:sbusChannelsReadRawRC	1
+sbus_channels.c:95:6:sbusChannelsInit	2

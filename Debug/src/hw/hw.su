@@ -1,2 +1,0 @@
-../src/hw/hw.c:13:6:hwInit	8	static
-../src/hw/hw.c:54:13:MX_DMA_Init	16	static

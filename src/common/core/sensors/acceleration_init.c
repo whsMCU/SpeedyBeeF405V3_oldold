@@ -322,7 +322,7 @@ bool accInit(uint16_t accSampleRateHz)
     // copy over the common gyro mpu settings
     acc.dev.gyro = gyroActiveDev();
     //acc.dev.mpuDetectionResult = *gyroMpuDetectionResult();
-    acc.dev.acc_high_fsr = p_acc_pg->acc_high_fsr;
+    acc.dev.acc_high_fsr = accelerometerConfig()->acc_high_fsr;
 
     // Copy alignment from active gyro, as all production boards use acc-gyro-combi chip.
     // Exceptions are STM32F3DISCOVERY and STM32F411DISCOVERY, and (may be) handled in future enhancement.

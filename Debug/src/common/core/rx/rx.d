@@ -1,5 +1,8 @@
 src/common/core/rx/rx.o: ../src/common/core/rx/rx.c \
- ../src/common/core/rx/rx.h \
+ D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg/pg.h \
+ D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg/pg_ids.h \
+ D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg/rx.h \
+ D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/rx/rx.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/def.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/hw/hw_def.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/bsp/bsp.h \
@@ -50,9 +53,11 @@ src/common/core/rx/rx.o: ../src/common/core/rx/rx.c \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/axis.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/hw/include/uart.h \
  D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/hw/include/cli.h \
- ../src/common/core/rx/crsf.h ../src/common/core/rx/crsf_protocol.h \
- D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg/pg.h
-../src/common/core/rx/rx.h:
+ ../src/common/core/rx/crsf.h ../src/common/core/rx/crsf_protocol.h
+D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg/pg.h:
+D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg/pg_ids.h:
+D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg/rx.h:
+D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/rx/rx.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/def.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/hw/hw_def.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/bsp/bsp.h:
@@ -105,4 +110,3 @@ D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/hw/include/uart.h:
 D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/hw/include/cli.h:
 ../src/common/core/rx/crsf.h:
 ../src/common/core/rx/crsf_protocol.h:
-D:/STM32CubeIDE/SpeedyBeeF405V3/src/common/core/pg/pg.h:
