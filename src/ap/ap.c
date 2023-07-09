@@ -10,9 +10,10 @@
 #include "uart.h"
 #include "scheduler.h"
 #include "tasks.h"
-#include "rx.h"
+#include "rx/rx.h"
 #include "pid_init.h"
 #include "sensors.h"
+#include "config.h"
 
   
 void apInit(void)
@@ -29,7 +30,7 @@ void apInit(void)
 	rxInit();
 	// Finally initialize the gyro filtering
     gyroInitFilters();
-	pidInit();
+	pidInit(currentPidProfile);
 }
 
 void apMain(void)

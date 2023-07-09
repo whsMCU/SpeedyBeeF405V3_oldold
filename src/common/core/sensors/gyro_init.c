@@ -28,7 +28,7 @@
 #include "maths.h"
 #include "filter.h"
 
-//#include "config/config.h"
+#include "config/config.h"
 
 #include "driver/accgyro/bmi270.h"
 
@@ -42,7 +42,6 @@
 
 #include "gyro.h"
 #include "sensors.h"
-#include "pg.h"
 
 #ifdef USE_MULTI_GYRO
 #define ACTIVE_GYRO ((gyro.gyroToUse == GYRO_CONFIG_USE_GYRO_2) ? &gyro.gyroSensor2 : &gyro.gyroSensor1)

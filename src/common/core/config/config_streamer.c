@@ -23,6 +23,7 @@
 
 #include "bsp.h"
 #include "flash.h"
+#include "stm32f4xx_flash.h"
 
 #include "config/config_streamer.h"
 
@@ -489,12 +490,12 @@ static int write_word(config_streamer_t *c, config_streamer_buffer_align_type_t 
 #else // STM32F3, STM32F1
         const FLASH_Status status = FLASH_ErasePage(c->address);
 #endif
-        if (status != FLASH_COMPLETE) {
+        if (status != SP_FLASH_COMPLETE) {
             return -1;
         }
     }
     const FLASH_Status status = FLASH_ProgramWord(c->address, *buffer);
-    if (status != FLASH_COMPLETE) {
+    if (status != SP_FLASH_COMPLETE) {
         return -2;
     }
 #endif

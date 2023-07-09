@@ -1,4 +1,0 @@
-adc.c:118:6:adcInit	4
-adc.c:254:10:adcGetChannel	1
-adc.c:322:6:HAL_ADC_MspInit	3
-adc.c:372:6:HAL_ADC_MspDeInit	2

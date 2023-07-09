@@ -182,59 +182,6 @@ bool flashInSector(uint16_t sector_num, uint32_t addr, uint32_t length)
   return ret;
 }
 
-FLASH_Status FLASH_EraseSector(uint32_t FLASH_Sector, uint8_t VoltageRange)
-{
-  uint32_t tmp_psize = 0x0;
-  FLASH_Status status = FLASH_COMPLETE;
-
-  /* Check the parameters */
-  assert_param(IS_FLASH_SECTOR(FLASH_Sector));
-  assert_param(IS_VOLTAGERANGE(VoltageRange));
-
-  if(VoltageRange == VoltageRange_1)
-  {
-     tmp_psize = FLASH_PSIZE_BYTE;
-  }
-  else if(VoltageRange == VoltageRange_2)
-  {
-    tmp_psize = FLASH_PSIZE_HALF_WORD;
-  }
-  else if(VoltageRange == VoltageRange_3)
-  {
-    tmp_psize = FLASH_PSIZE_WORD;
-  }
-  else
-  {
-    tmp_psize = FLASH_PSIZE_DOUBLE_WORD;
-  }
-  /* Wait for last operation to be completed */
-  status = FLASH_WaitForLastOperation();
-
-  if(status == FLASH_COMPLETE)
-  {
-    /* if the previous operation is completed, proceed to erase the sector */
-    FLASH->CR &= CR_PSIZE_MASK;
-    FLASH->CR |= tmp_psize;
-    FLASH->CR &= SECTOR_MASK;
-    FLASH->CR |= FLASH_CR_SER | FLASH_Sector;
-    FLASH->CR |= FLASH_CR_STRT;
-
-    /* Wait for last operation to be completed */
-    status = FLASH_WaitForLastOperation();
-
-    /* if the erase operation is completed, disable the SER Bit */
-    FLASH->CR &= (~FLASH_CR_SER);
-    FLASH->CR &= SECTOR_MASK;
-  }
-  /* Return the Erase Status */
-  return status;
-}
-
-
-
-
-
-
 #ifdef _USE_HW_CLI
 void cliFlash(cli_args_t *args)
 {

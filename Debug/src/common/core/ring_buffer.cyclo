@@ -1,8 +1,0 @@
-ring_buffer.c:10:6:Init_Q	1
-ring_buffer.c:15:6:QueueCreate	1
-ring_buffer.c:29:9:Q_full	2
-ring_buffer.c:35:9:Q_empty	2
-ring_buffer.c:41:6:Q_write	3
-ring_buffer.c:53:6:Q_read	3
-ring_buffer.c:66:10:QueueAvailable	1
-ring_buffer.c:75:6:QueueFlush	1

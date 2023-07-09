@@ -6447,7 +6447,7 @@ typedef struct
 #define FLASH_CR_SER                   FLASH_CR_SER_Msk                        
 #define FLASH_CR_MER_Pos               (2U)                                    
 #define FLASH_CR_MER_Msk               (0x1UL << FLASH_CR_MER_Pos)              /*!< 0x00000004 */
-#define FLASH_CR_MER                   FLASH_CR_MER_Msk                        
+#define FLASH_CR_MER                   FLASH_CR_MER_Msk
 #define FLASH_CR_SNB_Pos               (3U)                                    
 #define FLASH_CR_SNB_Msk               (0x1FUL << FLASH_CR_SNB_Pos)             /*!< 0x000000F8 */
 #define FLASH_CR_SNB                   FLASH_CR_SNB_Msk                        
@@ -6486,7 +6486,7 @@ typedef struct
 #define FLASH_OPTCR_BOR_LEV_1          0x00000008U                             
 #define FLASH_OPTCR_BOR_LEV_Pos        (2U)                                    
 #define FLASH_OPTCR_BOR_LEV_Msk        (0x3UL << FLASH_OPTCR_BOR_LEV_Pos)       /*!< 0x0000000C */
-#define FLASH_OPTCR_BOR_LEV            FLASH_OPTCR_BOR_LEV_Msk                 
+#define FLASH_OPTCR_BOR_LEV            FLASH_OPTCR_BOR_LEV_Msk
 #define FLASH_OPTCR_WDG_SW_Pos         (5U)                                    
 #define FLASH_OPTCR_WDG_SW_Msk         (0x1UL << FLASH_OPTCR_WDG_SW_Pos)        /*!< 0x00000020 */
 #define FLASH_OPTCR_WDG_SW             FLASH_OPTCR_WDG_SW_Msk                  
