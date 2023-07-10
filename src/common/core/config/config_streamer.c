@@ -23,7 +23,6 @@
 
 #include "bsp.h"
 #include "flash.h"
-#include "stm32f4xx_flash.h"
 
 #include "config/config_streamer.h"
 
@@ -102,7 +101,7 @@ void config_streamer_start(config_streamer_t *c, uintptr_t base, int size)
 #if defined(STM32F7) || defined(STM32H7) || defined(STM32G4)
         HAL_FLASH_Unlock();
 #else
-        FLASH_Unlock();
+        HAL_FLASH_Unlock();
 #endif
 #endif
         c->unlocked = true;
@@ -116,7 +115,7 @@ void config_streamer_start(config_streamer_t *c, uintptr_t base, int size)
 #elif defined(STM32F303)
     FLASH_ClearFlag(FLASH_FLAG_EOP | FLASH_FLAG_PGERR | FLASH_FLAG_WRPERR);
 #elif defined(STM32F4)
-    FLASH_ClearFlag(FLASH_FLAG_EOP | FLASH_FLAG_OPERR | FLASH_FLAG_WRPERR | FLASH_FLAG_PGAERR | FLASH_FLAG_PGPERR | FLASH_FLAG_PGSERR);
+    __HAL_FLASH_CLEAR_FLAG(FLASH_FLAG_EOP | FLASH_FLAG_OPERR | FLASH_FLAG_WRPERR | FLASH_FLAG_PGAERR | FLASH_FLAG_PGPERR | FLASH_FLAG_PGSERR);
 #elif defined(STM32F7)
     // NOP
 #elif defined(STM32H7)
@@ -486,16 +485,16 @@ static int write_word(config_streamer_t *c, config_streamer_buffer_align_type_t 
 #else // !STM32H7 && !STM32F7 && !STM32G4
     if (c->address % FLASH_PAGE_SIZE == 0) {
 #if defined(STM32F4)
-        const FLASH_Status status = FLASH_EraseSector(getFLASHSectorForEEPROM(), VoltageRange_3); //0x08080000 to 0x080A0000
+        const HAL_StatusTypeDef status = flashErase(getFLASHSectorForEEPROM(), FLASH_VOLTAGE_RANGE_3); //0x08080000 to 0x080A0000
 #else // STM32F3, STM32F1
         const FLASH_Status status = FLASH_ErasePage(c->address);
 #endif
-        if (status != SP_FLASH_COMPLETE) {
+        if (status != HAL_OK) {
             return -1;
         }
     }
-    const FLASH_Status status = FLASH_ProgramWord(c->address, *buffer);
-    if (status != SP_FLASH_COMPLETE) {
+    const HAL_StatusTypeDef status = FLASH_ProgramWord(c->address, *buffer);
+    if (status != HAL_OK) {
         return -2;
     }
 #endif
@@ -549,7 +548,7 @@ int config_streamer_finish(config_streamer_t *c)
 #if defined(STM32F7) || defined(STM32H7) || defined(STM32G4)
         HAL_FLASH_Lock();
 #else
-        FLASH_Lock();
+        HAL_FLASH_Lock();
 #endif
 #endif
         c->unlocked = false;

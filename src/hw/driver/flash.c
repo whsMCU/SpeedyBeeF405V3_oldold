@@ -55,7 +55,7 @@ bool flashInit(void)
   return true;
 }
 
-bool flashErase(uint32_t addr, uint32_t length)
+HAL_StatusTypeDef flashErase(uint32_t addr, uint32_t length)
 {
   bool ret = false;
   HAL_StatusTypeDef status;
@@ -99,7 +99,7 @@ bool flashErase(uint32_t addr, uint32_t length)
     HAL_FLASH_Lock();
   }
 
-  return ret;
+  return status;
 }
 
 bool flashWrite(uint32_t addr, uint8_t *p_data, uint32_t length)
@@ -127,6 +127,31 @@ bool flashWrite(uint32_t addr, uint8_t *p_data, uint32_t length)
   HAL_FLASH_Lock();
 
   return ret;
+}
+
+HAL_StatusTypeDef flashWriteWord(uint32_t addr, uint8_t *p_data, uint32_t length)
+{
+  HAL_StatusTypeDef status;
+
+
+  HAL_FLASH_Unlock();
+
+  for (int i=0; i<length; i+=1)
+  {
+    uint16_t data;
+
+    data  = p_data[i+0] << 0;
+
+    status = HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, addr + i, (uint64_t)data);
+    if (status != HAL_OK)
+    {
+      break;
+    }
+  }
+
+  HAL_FLASH_Lock();
+
+  return status;
 }
 
 bool flashRead(uint32_t addr, uint8_t *p_data, uint32_t length)

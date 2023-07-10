@@ -28,6 +28,7 @@
 #include "filter.h"
 #include "maths.h"
 #include "utils.h"
+#include "stm32f4xx_hal_def.h"
 
 #define BIQUAD_Q 1.0f / sqrtf(2.0f)     /* quality factor - 2nd order butterworth*/
 

@@ -83,13 +83,3 @@ extern volatile uint16_t adcValues[ADC_CHANNEL_COUNT];
 // Marshall values in DMA instance/channel based order to adcChannel based order.
 // Required for multi DMA instance implementation
 void adcGetChannelValues(void);
-
-//
-// VREFINT and TEMPSENSOR related definitions
-// These are shared among common adc.c and MCU dependent adc_stm32XXX.c
-//
-#define VREFINT_CAL_VREF                   (3300U)
-#define TEMPSENSOR_CAL_VREFANALOG          (3300U)
-#define TEMPSENSOR_CAL1_TEMP               ((int32_t)  30)
-#define TEMPSENSOR_CAL2_TEMP               ((int32_t) 110)
-
