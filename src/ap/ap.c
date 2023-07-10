@@ -23,14 +23,14 @@ void apInit(void)
 
 	initEEPROM();
 	ensureEEPROMStructureIsValid();
-    bool readSuccess = readEEPROM();
-
-    if (!readSuccess || !isEEPROMVersionValid() || strncasecmp(systemConfig()->boardIdentifier, TARGET_BOARD_IDENTIFIER, sizeof(TARGET_BOARD_IDENTIFIER))) {
-        resetEEPROM(false);
-    }
+//  bool readSuccess = readEEPROM();
+//
+//  if (!readSuccess || !isEEPROMVersionValid() || strncasecmp(systemConfig()->boardIdentifier, TARGET_BOARD_IDENTIFIER, sizeof(TARGET_BOARD_IDENTIFIER))) {
+//      resetEEPROM(false);
+//  }
 	// Initialize task data as soon as possible. Has to be done before tasksInit(),
     // and any init code that may try to modify task behaviour before tasksInit().
-    tasksInitData();
+  tasksInitData();
 	Sensor_Init();
 	Baro_Init();
 	compassInit();

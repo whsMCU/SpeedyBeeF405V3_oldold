@@ -65,6 +65,10 @@ defined in linker script */
 Reset_Handler:  
   ldr   sp, =_estack     /* set stack pointer */
 
+  // Defined in C code
+  //bl persistentObjectInit
+  //bl checkForBootLoaderRequest
+
 /* Copy the data segment initializers from flash to SRAM */  
   movs  r1, #0
   b  LoopCopyDataInit
