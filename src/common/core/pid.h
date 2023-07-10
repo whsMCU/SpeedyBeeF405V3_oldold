@@ -257,7 +257,7 @@ typedef struct pidProfile_s {
     uint8_t simplified_pitch_pi_gain;
 } pidProfile_t;
 
-//PG_DECLARE_ARRAY(pidProfile_t, PID_PROFILE_COUNT, pidProfiles);
+PG_DECLARE_ARRAY(pidProfile_t, PID_PROFILE_COUNT, pidProfiles);
 
 typedef struct pidConfig_s {
     uint8_t pid_process_denom;              // Processing denominator for PID controller vs gyro sampling rate
@@ -266,7 +266,7 @@ typedef struct pidConfig_s {
     uint8_t runaway_takeoff_deactivate_throttle; // minimum throttle percent required during deactivation phase
 } pidConfig_t;
 
-//PG_DECLARE(pidConfig_t, pidConfig);
+PG_DECLARE(pidConfig_t, pidConfig);
 
 union rollAndPitchTrims_u;
 void pidController(const pidProfile_t *pidProfile, uint32_t currentTimeUs);

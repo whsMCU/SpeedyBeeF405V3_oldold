@@ -543,7 +543,7 @@ FLASH_Status FLASH_EraseAllSectors(uint8_t VoltageRange)
   FLASH_Status status = SP_FLASH_COMPLETE;
   
   /* Wait for last operation to be completed */
-  status = FLASH_WaitForLastOperation();
+  status = FLASH_WaitForLastOperationSP();
   assert_param(IS_VOLTAGERANGE(VoltageRange));
   
   if(VoltageRange == VoltageRange_1)
@@ -585,7 +585,7 @@ FLASH_Status FLASH_EraseAllSectors(uint8_t VoltageRange)
     FLASH->CR |= FLASH_CR_STRT;
     
     /* Wait for last operation to be completed */
-    status = FLASH_WaitForLastOperation();
+    status = FLASH_WaitForLastOperationSP();
 
     /* if the erase operation is completed, disable the MER Bit */
     FLASH->CR &= (~FLASH_CR_MER);
@@ -617,7 +617,7 @@ FLASH_Status FLASH_ProgramDoubleWord(uint32_t Address, uint64_t Data)
   assert_param(IS_FLASH_ADDRESS(Address));
 
   /* Wait for last operation to be completed */
-  status = FLASH_WaitForLastOperation();
+  status = FLASH_WaitForLastOperationSP();
   
   if(status == SP_FLASH_COMPLETE)
   {
@@ -629,7 +629,7 @@ FLASH_Status FLASH_ProgramDoubleWord(uint32_t Address, uint64_t Data)
     *(__IO uint64_t*)Address = Data;
         
     /* Wait for last operation to be completed */
-    status = FLASH_WaitForLastOperation();
+    status = FLASH_WaitForLastOperationSP();
 
     /* if the program operation is completed, disable the PG Bit */
     FLASH->CR &= (~FLASH_CR_PG);
@@ -660,7 +660,7 @@ FLASH_Status FLASH_ProgramWord(uint32_t Address, uint32_t Data)
   assert_param(IS_FLASH_ADDRESS(Address));
 
   /* Wait for last operation to be completed */
-  status = FLASH_WaitForLastOperation();
+  status = FLASH_WaitForLastOperationSP();
   
   if(status == SP_FLASH_COMPLETE)
   {
@@ -672,7 +672,7 @@ FLASH_Status FLASH_ProgramWord(uint32_t Address, uint32_t Data)
     *(__IO uint32_t*)Address = Data;
         
     /* Wait for last operation to be completed */
-    status = FLASH_WaitForLastOperation();
+    status = FLASH_WaitForLastOperationSP();
 
     /* if the program operation is completed, disable the PG Bit */
     FLASH->CR &= (~FLASH_CR_PG);
@@ -702,7 +702,7 @@ FLASH_Status FLASH_ProgramHalfWord(uint32_t Address, uint16_t Data)
   assert_param(IS_FLASH_ADDRESS(Address));
 
   /* Wait for last operation to be completed */
-  status = FLASH_WaitForLastOperation();
+  status = FLASH_WaitForLastOperationSP();
   
   if(status == SP_FLASH_COMPLETE)
   {
@@ -714,7 +714,7 @@ FLASH_Status FLASH_ProgramHalfWord(uint32_t Address, uint16_t Data)
     *(__IO uint16_t*)Address = Data;
         
     /* Wait for last operation to be completed */
-    status = FLASH_WaitForLastOperation();
+    status = FLASH_WaitForLastOperationSP();
 
     /* if the program operation is completed, disable the PG Bit */
     FLASH->CR &= (~FLASH_CR_PG);
@@ -744,7 +744,7 @@ FLASH_Status FLASH_ProgramByte(uint32_t Address, uint8_t Data)
   assert_param(IS_FLASH_ADDRESS(Address));
 
   /* Wait for last operation to be completed */
-  status = FLASH_WaitForLastOperation();
+  status = FLASH_WaitForLastOperationSP();
   
   if(status == SP_FLASH_COMPLETE)
   {
@@ -756,7 +756,7 @@ FLASH_Status FLASH_ProgramByte(uint32_t Address, uint8_t Data)
     *(__IO uint8_t*)Address = Data;
         
     /* Wait for last operation to be completed */
-    status = FLASH_WaitForLastOperation();
+    status = FLASH_WaitForLastOperationSP();
 
     /* if the program operation is completed, disable the PG Bit */
     FLASH->CR &= (~FLASH_CR_PG);
@@ -1166,7 +1166,7 @@ FLASH_Status FLASH_OB_Launch(void)
   *(__IO uint8_t *)OPTCR_BYTE0_ADDRESS |= FLASH_OPTCR_OPTSTRT;
 
   /* Wait for last operation to be completed */
-  status = FLASH_WaitForLastOperation();
+  status = FLASH_WaitForLastOperationSP();
 
   return status;
 }

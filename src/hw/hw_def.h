@@ -15,7 +15,7 @@
 #define _USE_HW_FATFS
 //#define _USE_HW_FILES
 #define _USE_HW_FLASH
-//#define _USE_HW_RTC
+#define _USE_HW_RTC
 //#define USE_SDCARD
 //#define USE_SDCARD_SPI
 

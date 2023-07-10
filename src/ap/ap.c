@@ -13,12 +13,21 @@
 #include "rx/rx.h"
 #include "pid_init.h"
 #include "sensors.h"
-#include "config.h"
+#include "config/config.h"
+#include "pg/pg.h"
 
   
 void apInit(void)
 {
 	cliOpen(_DEF_USB, 57600);
+
+	initEEPROM();
+	ensureEEPROMStructureIsValid();
+    bool readSuccess = readEEPROM();
+
+    if (!readSuccess || !isEEPROMVersionValid() || strncasecmp(systemConfig()->boardIdentifier, TARGET_BOARD_IDENTIFIER, sizeof(TARGET_BOARD_IDENTIFIER))) {
+        resetEEPROM(false);
+    }
 	// Initialize task data as soon as possible. Has to be done before tasksInit(),
     // and any init code that may try to modify task behaviour before tasksInit().
     tasksInitData();
