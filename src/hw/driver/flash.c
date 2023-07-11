@@ -133,12 +133,7 @@ HAL_StatusTypeDef FLASH_ProgramWord(uint32_t Address, uint32_t Data)
 {
   HAL_StatusTypeDef status;
 
-
-  HAL_FLASH_Unlock();
-
   status = HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, Address, (uint64_t)Data);
-
-  HAL_FLASH_Lock();
 
   return status;
 }

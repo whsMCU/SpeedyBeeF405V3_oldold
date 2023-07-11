@@ -243,9 +243,29 @@ Sector 11   0x080E0000 - 0x080FFFFF 128 Kbytes
 static uint32_t getFLASHSectorForEEPROM(void)
 {
     if ((uint32_t)&__config_start <= 0x08003FFF)
-    {
-      return ((uint16_t)0x0000);
-    }
+        return FLASH_SECTOR_0;
+    if ((uint32_t)&__config_start <= 0x08007FFF)
+        return FLASH_SECTOR_1;
+    if ((uint32_t)&__config_start <= 0x0800BFFF)
+        return FLASH_SECTOR_2;
+    if ((uint32_t)&__config_start <= 0x0800FFFF)
+        return FLASH_SECTOR_3;
+    if ((uint32_t)&__config_start <= 0x0801FFFF)
+        return FLASH_SECTOR_4;
+    if ((uint32_t)&__config_start <= 0x0803FFFF)
+        return FLASH_SECTOR_5;
+    if ((uint32_t)&__config_start <= 0x0805FFFF)
+        return FLASH_SECTOR_6;
+    if ((uint32_t)&__config_start <= 0x0807FFFF)
+        return FLASH_SECTOR_7;
+    if ((uint32_t)&__config_start <= 0x0809FFFF)
+        return FLASH_SECTOR_8;
+    if ((uint32_t)&__config_start <= 0x080DFFFF)
+        return FLASH_SECTOR_9;
+    if ((uint32_t)&__config_start <= 0x080BFFFF)
+        return FLASH_SECTOR_10;
+    if ((uint32_t)&__config_start <= 0x080FFFFF)
+        return FLASH_SECTOR_11;
 
     while (1) {
         failureMode(FAILURE_CONFIG_STORE_FAILURE);
