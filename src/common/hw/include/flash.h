@@ -15,7 +15,7 @@
 
 
 bool flashInit(void);
-HAL_StatusTypeDef flashErase(uint32_t addr, uint32_t length);
+HAL_StatusTypeDef flashErase(int16_t sector_num, unsigned int FLASH_VOLTAGE_RANGE);
 bool flashWrite(uint32_t addr, uint8_t *p_data, uint32_t length);
 HAL_StatusTypeDef FLASH_ProgramWord(uint32_t Address, uint32_t Data);
 bool flashRead(uint32_t addr, uint8_t *p_data, uint32_t length);

@@ -505,7 +505,7 @@ static int write_word(config_streamer_t *c, config_streamer_buffer_align_type_t 
 #else // !STM32H7 && !STM32F7 && !STM32G4
     if (c->address % FLASH_PAGE_SIZE == 0) {
 #if defined(STM32F4)
-        const HAL_StatusTypeDef status = flashErase(getFLASHSectorForEEPROM(), FLASH_VOLTAGE_RANGE_3); //0x08080000 to 0x080A0000
+        const HAL_StatusTypeDef status = flashErase(getFLASHSectorForEEPROM(), FLASH_VOLTAGE_RANGE_3); //0x0804000 to 0x080A0000
 #else // STM32F3, STM32F1
         const FLASH_Status status = FLASH_ErasePage(c->address);
 #endif

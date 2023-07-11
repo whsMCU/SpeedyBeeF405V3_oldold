@@ -12,7 +12,7 @@
 #ifdef _USE_HW_FLASH
 
 
-#define FLASH_SECTOR_MAX          8
+#define FLASH_SECTOR_MAX          11
 
 
 
@@ -33,6 +33,10 @@ static flash_tbl_t flash_tbl[FLASH_SECTOR_MAX] =
         {0x8020000, 128*1024},
         {0x8040000, 128*1024},
         {0x8060000, 128*1024},
+				{0x8080000, 128*1024},
+				{0x80A0000, 128*1024},
+				{0x80C0000, 128*1024},
+				{0x80E0000, 128*1024},
     };
 
 
@@ -55,40 +59,23 @@ bool flashInit(void)
   return true;
 }
 
-HAL_StatusTypeDef flashErase(uint32_t addr, uint32_t length)
+HAL_StatusTypeDef flashErase(int16_t sector_num, unsigned int FLASH_VOLTAGE_RANGE)
 {
   bool ret = false;
   HAL_StatusTypeDef status;
   FLASH_EraseInitTypeDef init;
   uint32_t page_error;
-
-  int16_t  start_sector_num = -1;
-  uint32_t sector_count = 0;
-
-
-
-  for (int i=0; i<FLASH_SECTOR_MAX; i++)
-  {
-    if (flashInSector(i, addr, length) == true)
-    {
-      if (start_sector_num < 0)
-      {
-        start_sector_num = i;
-      }
-      sector_count++;
-    }
-  }
+  uint32_t sector_count = 1;
 
 
   if (sector_count > 0)
   {
-    HAL_FLASH_Unlock();
 
     init.TypeErase   = FLASH_TYPEERASE_SECTORS;
     init.Banks       = FLASH_BANK_1;
-    init.Sector      = start_sector_num;
+    init.Sector      = sector_num;
     init.NbSectors   = sector_count;
-    init.VoltageRange = FLASH_VOLTAGE_RANGE_3;
+    init.VoltageRange = FLASH_VOLTAGE_RANGE;
 
     status = HAL_FLASHEx_Erase(&init, &page_error);
     if (status == HAL_OK)
@@ -96,7 +83,6 @@ HAL_StatusTypeDef flashErase(uint32_t addr, uint32_t length)
       ret = true;
     }
 
-    HAL_FLASH_Lock();
   }
 
   return status;
