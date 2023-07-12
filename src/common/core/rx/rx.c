@@ -96,15 +96,15 @@ uint32_t validRxSignalTimeout[MAX_SUPPORTED_RC_CHANNEL_COUNT];
 rxRuntimeState_t rxRuntimeState;
 static uint8_t rcSampleIndex = 0;
 
-// PG_REGISTER_ARRAY_WITH_RESET_FN(rxChannelRangeConfig_t, NON_AUX_CHANNEL_COUNT, rxChannelRangeConfigs, PG_RX_CHANNEL_RANGE_CONFIG, 0);
-// void pgResetFn_rxChannelRangeConfigs(rxChannelRangeConfig_t *rxChannelRangeConfigs)
-// {
-//     // set default calibration to full range and 1:1 mapping
-//     for (int i = 0; i < NON_AUX_CHANNEL_COUNT; i++) {
-//         rxChannelRangeConfigs[i].min = PWM_RANGE_MIN;
-//         rxChannelRangeConfigs[i].max = PWM_RANGE_MAX;
-//     }
-// }
+ PG_REGISTER_ARRAY_WITH_RESET_FN(rxChannelRangeConfig_t, NON_AUX_CHANNEL_COUNT, rxChannelRangeConfigs, PG_RX_CHANNEL_RANGE_CONFIG, 0);
+ void pgResetFn_rxChannelRangeConfigs(rxChannelRangeConfig_t *rxChannelRangeConfigs)
+ {
+     // set default calibration to full range and 1:1 mapping
+     for (int i = 0; i < NON_AUX_CHANNEL_COUNT; i++) {
+         rxChannelRangeConfigs[i].min = PWM_RANGE_MIN;
+         rxChannelRangeConfigs[i].max = PWM_RANGE_MAX;
+     }
+ }
 
 // PG_REGISTER_ARRAY_WITH_RESET_FN(rxFailsafeChannelConfig_t, MAX_SUPPORTED_RC_CHANNEL_COUNT, rxFailsafeChannelConfigs, PG_RX_FAILSAFE_CHANNEL_CONFIG, 0);
 // void pgResetFn_rxFailsafeChannelConfigs(rxFailsafeChannelConfig_t *rxFailsafeChannelConfigs)
@@ -331,7 +331,7 @@ void rxInit(void)
     // Setup source frame RSSI filtering to take averaged values every FRAME_ERR_RESAMPLE_US
     //pt1FilterInit(&frameErrFilter, pt1FilterGain(GET_FRAME_ERR_LPF_FREQUENCY(rxConfig()->rssi_src_frame_lpf_period), FRAME_ERR_RESAMPLE_US/1000000.0));
 
-    rxChannelCount = MIN(rxConfig()->max_aux_channel + NON_AUX_CHANNEL_COUNT, rxRuntimeState.channelCount);
+    rxChannelCount = MIN(14 + NON_AUX_CHANNEL_COUNT, rxRuntimeState.channelCount);
     
     #ifdef _USE_HW_CLI
         cliAdd("rx", cliRx);
@@ -593,7 +593,7 @@ static void readRxChannelsApplyRanges(void)
 {
     for (int channel = 0; channel < rxChannelCount; channel++) {
 
-        const uint8_t rawChannel = channel < RX_MAPPABLE_CHANNEL_COUNT ? rcmap[channel] : channel;
+        const uint8_t rawChannel = channel < RX_MAPPABLE_CHANNEL_COUNT ? rxConfig()->rcmap[channel] : channel;
 
         // sample the channel
         float sample;
@@ -607,9 +607,9 @@ static void readRxChannelsApplyRanges(void)
         }
 
         // apply the rx calibration
-        if (channel < NON_AUX_CHANNEL_COUNT) {
-            sample = applyRxChannelRangeConfiguraton(sample);
-        }
+//        if (channel < NON_AUX_CHANNEL_COUNT) {
+//            sample = applyRxChannelRangeConfiguraton(sample);
+//        }
 
         rcRaw[channel] = sample;
     }
@@ -715,10 +715,10 @@ bool calculateRxChannelsAndUpdateFailsafe(uint32_t currentTimeUs)
         return true;
     }
 
+//    while(uartAvailable(_DEF_UART2)){
+//        sbusDataReceive(uartRead(_DEF_UART2), rxRuntimeState.frameData);
+//    }
     while(uartAvailable(_DEF_UART2)){
-        sbusDataReceive(uartRead(_DEF_UART2), rxRuntimeState.frameData);
-    }
-        while(uartAvailable(_DEF_UART2)){
         crsfDataReceive(uartRead(_DEF_UART2), rxRuntimeState.frameData);
     }
 
