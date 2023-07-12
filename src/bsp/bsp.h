@@ -31,9 +31,8 @@ typedef enum {
 
 void systemReset(void);
 void systemResetToBootloader(bootloaderRequestType_e requestType);
-#ifdef _USE_HW_RTC
 void checkForBootLoaderRequest(void);
-#endif
+
 
 typedef enum {
     FAILURE_DEVELOPER = 0,
