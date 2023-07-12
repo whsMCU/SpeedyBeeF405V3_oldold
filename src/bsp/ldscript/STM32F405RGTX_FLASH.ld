@@ -150,14 +150,14 @@ SECTIONS
     KEEP (*(SORT(.pg_registry.*)))
     . = ALIGN(4);
     PROVIDE_HIDDEN (__pg_registry_end = .);
-  } >CONFIG
+  } >FLASH
 
   .pg_resetdata :
   {
     PROVIDE_HIDDEN (__pg_resetdata_start = .);
     KEEP (*(.pg_resetdata))
     PROVIDE_HIDDEN (__pg_resetdata_end = .);
-  } >CONFIG
+  } >FLASH
 
   /* Used by the startup to initialize data */
   _sidata = LOADADDR(.data);
