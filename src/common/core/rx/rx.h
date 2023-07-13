@@ -56,25 +56,6 @@
 #define RX_MAX_USEC 2115
 #define RX_MID_USEC 1500
 
-typedef enum rc_alias {
-    ROLL = 0,
-    PITCH,
-    YAW,
-    THROTTLE,
-    AUX1,
-    AUX2,
-    AUX3,
-    AUX4,
-    AUX5,
-    AUX6,
-    AUX7,
-    AUX8,
-    AUX9,
-    AUX10,
-    AUX11,
-    AUX12
-} rc_alias_e;
-
 typedef enum {
     RX_FRAME_PENDING = 0,
     RX_FRAME_COMPLETE = (1 << 0),
@@ -144,7 +125,7 @@ typedef struct rxFailsafeChannelConfig_s {
     uint8_t step;
 } rxFailsafeChannelConfig_t;
 
-//PG_DECLARE_ARRAY(rxFailsafeChannelConfig_t, MAX_SUPPORTED_RC_CHANNEL_COUNT, rxFailsafeChannelConfigs);
+PG_DECLARE_ARRAY(rxFailsafeChannelConfig_t, MAX_SUPPORTED_RC_CHANNEL_COUNT, rxFailsafeChannelConfigs);
 
 typedef struct rxChannelRangeConfig_s {
     uint16_t min;
@@ -253,8 +234,5 @@ int32_t rxGetFrameDelta(int32_t *frameAgeUs);
 
 uint32_t rxFrameTimeUs(void);
 
-
-bool processRx(uint32_t currentTimeUs);
-void processRxModes(uint32_t currentTimeUs);
 
 void updateRcCommands(void);
