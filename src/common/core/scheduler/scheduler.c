@@ -26,7 +26,7 @@
 
 #include "tasks.h"
 #include "maths.h"
-#include "rx.h"
+#include "rx/rx.h"
 #include "core.h"
 
 #include "scheduler.h"

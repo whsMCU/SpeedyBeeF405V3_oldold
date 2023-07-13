@@ -27,7 +27,7 @@
 #include "maths.h"
 #include "cli.h"
 #include "i2c.h"
-#include "scheduler.h"
+#include "scheduler/scheduler.h"
 
 #ifdef USE_BARO_DPS310
 
