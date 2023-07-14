@@ -31,6 +31,8 @@
 #include "config/config.h"
 #include "config/config_reset.h"
 
+#include "time.h"
+
 #include "rc_controls.h"
 #include "runtime_config.h"
 
@@ -46,13 +48,7 @@
 #include "filter.h"
 
 
-float rcCommand[4];           // interval [1000;2000] for THROTTLE and [-500;+500] for ROLL/PITCH/YAW
-static bool isRxDataNew = false;
-static inline int32_t cmpTimeUs(uint32_t a, uint32_t b) { return (int32_t)(a - b); }
-
 const char rcChannelLetters[] = "AERT12345678abcdefgh";
-#define RX_MAPPABLE_CHANNEL_COUNT 8
-uint8_t rcmap[RX_MAPPABLE_CHANNEL_COUNT];
 
 static uint16_t rssi = 0;                  // range: [0;1023]
 static int16_t rssiDbm = CRSF_RSSI_MIN;    // range: [-130,20]
@@ -969,87 +965,6 @@ static int16_t rcLookupThrottle(int32_t tmp)
     const int32_t tmp2 = tmp / 100;
     // [0;1000] -> expo -> [MINTHROTTLE;MAXTHROTTLE]
     return lookupThrottleRC[tmp2] + (tmp - tmp2 * 100) * (lookupThrottleRC[tmp2 + 1] - lookupThrottleRC[tmp2]) / 100;
-}
-
-void updateRcCommands(void)
-{
-    isRxDataNew = true;
-
-    for (int axis = 0; axis < 3; axis++) {
-        // non coupled PID reduction scaler used in PID controller 1 and PID controller 2.
-
-        float tmp = MIN(ABS(rcData[axis] - rxConfig()->midrc), 500);
-        if (axis == ROLL || axis == PITCH) {
-            if (tmp > 5) {
-                tmp -= 5;
-            } else {
-                tmp = 0;
-            }
-            rcCommand[axis] = tmp;
-        } else {
-            if (tmp > 5) {
-                tmp -= 5;
-            } else {
-                tmp = 0;
-            }
-            rcCommand[axis] = tmp * -GET_DIRECTION(false);
-        }
-        if (rcData[axis] < rxConfig()->midrc) {
-            rcCommand[axis] = -rcCommand[axis];
-        }
-    }
-
-    int32_t tmp;
-    // if (featureIsEnabled(FEATURE_3D)) {
-    //     tmp = constrain(rcData[THROTTLE], PWM_RANGE_MIN, PWM_RANGE_MAX);
-    //     tmp = (uint32_t)(tmp - PWM_RANGE_MIN);
-    // } else
-    {
-        tmp = constrain(rcData[THROTTLE], rxConfig()->mincheck, PWM_RANGE_MAX);
-        tmp = (uint32_t)(tmp - rxConfig()->mincheck) * PWM_RANGE_MIN / (PWM_RANGE_MAX - rxConfig()->mincheck);
-    }
-
-    // if (getLowVoltageCutoff()->enabled) {
-    //     tmp = tmp * getLowVoltageCutoff()->percentage / 100;
-    // }
-
-    rcCommand[THROTTLE] = rcLookupThrottle(tmp);
-
-    // if (featureIsEnabled(FEATURE_3D) && !failsafeIsActive()) {
-    //     if (!flight3DConfig()->switched_mode3d) {
-    //         if (IS_RC_MODE_ACTIVE(BOX3D)) {
-    //             fix12_t throttleScaler = qConstruct(rcCommand[THROTTLE] - 1000, 1000);
-    //             rcCommand[THROTTLE] = rxConfig()->midrc + qMultiply(throttleScaler, PWM_RANGE_MAX - rxConfig()->midrc);
-    //         }
-    //     } else {
-    //         if (IS_RC_MODE_ACTIVE(BOX3D)) {
-    //             reverseMotors = true;
-    //             fix12_t throttleScaler = qConstruct(rcCommand[THROTTLE] - 1000, 1000);
-    //             rcCommand[THROTTLE] = rxConfig()->midrc + qMultiply(throttleScaler, PWM_RANGE_MIN - rxConfig()->midrc);
-    //         } else {
-    //             reverseMotors = false;
-    //             fix12_t throttleScaler = qConstruct(rcCommand[THROTTLE] - 1000, 1000);
-    //             rcCommand[THROTTLE] = rxConfig()->midrc + qMultiply(throttleScaler, PWM_RANGE_MAX - rxConfig()->midrc);
-    //         }
-    //     }
-    // }
-    // if (FLIGHT_MODE(HEADFREE_MODE)) {
-    //     static t_fp_vector_def  rcCommandBuff;
-
-    //     rcCommandBuff.X = rcCommand[ROLL];
-    //     rcCommandBuff.Y = rcCommand[PITCH];
-    //     if ((!FLIGHT_MODE(ANGLE_MODE) && (!FLIGHT_MODE(HORIZON_MODE)) && (!FLIGHT_MODE(GPS_RESCUE_MODE)))) {
-    //         rcCommandBuff.Z = rcCommand[YAW];
-    //     } else {
-    //         rcCommandBuff.Z = 0;
-    //     }
-    //     imuQuaternionHeadfreeTransformVectorEarthToBody(&rcCommandBuff);
-    //     rcCommand[ROLL] = rcCommandBuff.X;
-    //     rcCommand[PITCH] = rcCommandBuff.Y;
-    //     if ((!FLIGHT_MODE(ANGLE_MODE)&&(!FLIGHT_MODE(HORIZON_MODE)) && (!FLIGHT_MODE(GPS_RESCUE_MODE)))) {
-    //         rcCommand[YAW] = rcCommandBuff.Z;
-    //     }
-    // }
 }
 
 

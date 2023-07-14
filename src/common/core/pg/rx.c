@@ -28,8 +28,8 @@
 
 #include "config/config_reset.h"
 
-//#include "fc/rc.h"
-//#include "fc/rc_controls.h"
+#include "rc.h"
+#include "rc_controls.h"
 #include "rx/rx.h"
 //#include "rx/rx_spi.h"
 

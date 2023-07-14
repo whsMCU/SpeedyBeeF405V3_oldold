@@ -233,6 +233,3 @@ uint16_t rxGetRefreshRate(void);
 int32_t rxGetFrameDelta(int32_t *frameAgeUs);
 
 uint32_t rxFrameTimeUs(void);
-
-
-void updateRcCommands(void);

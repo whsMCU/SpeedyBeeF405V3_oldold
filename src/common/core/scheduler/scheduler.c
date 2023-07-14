@@ -88,9 +88,6 @@ static int16_t taskCount = 0;
 static uint32_t nextTimingCycles;
 #endif
 
-static inline int32_t cmpTimeUs(uint32_t a, uint32_t b) { return (int32_t)(a - b); }
-static inline int32_t cmpTimeCycles(uint32_t a, uint32_t b) { return (int32_t)(a - b); }
-
 static uint32_t lastFailsafeCheckMs = 0;
 
 // No need for a linked list for the queue, since items are only inserted at startup

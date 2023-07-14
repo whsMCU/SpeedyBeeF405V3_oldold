@@ -168,7 +168,7 @@ void processRcStickPositions()
 
     // perform actions
     if (!isUsingSticksToArm) {
-        if (IS_RC_MODE_ACTIVE(BOXARM)) {
+        if (false) { //IS_RC_MODE_ACTIVE(BOXARM)
             rcDisarmTicks = 0;
             // Arming via ARM BOX
             tryArm();
@@ -176,7 +176,7 @@ void processRcStickPositions()
             resetTryingToArm();
             // Disarming via ARM BOX
             resetArmingDisabled();
-            if (ARMING_FLAG(ARMED) && rxIsReceivingSignal() && !failsafeIsActive()  ) {
+            if (ARMING_FLAG(ARMED) && rxIsReceivingSignal()) {// && !failsafeIsActive()
                 rcDisarmTicks++;
                 if (rcDisarmTicks > 3) {
                     disarm(DISARM_REASON_SWITCH);
@@ -205,7 +205,7 @@ void processRcStickPositions()
             }
         }
         return;
-    } else if (rcSticks == THR_LO + YAW_HI + PIT_CE + ROL_CE && !IS_RC_MODE_ACTIVE(BOXSTICKCOMMANDDISABLE)) { // disable stick arming if STICK COMMAND DISABLE SW is active
+    } else if (rcSticks == THR_LO + YAW_HI + PIT_CE + ROL_CE) { // disable stick arming if STICK COMMAND DISABLE SW is active //&& !IS_RC_MODE_ACTIVE(BOXSTICKCOMMANDDISABLE)
         if (rcDelayMs >= ARM_DELAY_MS && !doNotRepeat) {
             doNotRepeat = true;
             if (!ARMING_FLAG(ARMED)) {
@@ -257,7 +257,7 @@ void processRcStickPositions()
         return;
     }
 
-    if (featureIsEnabled(FEATURE_INFLIGHT_ACC_CAL) && (rcSticks == THR_LO + YAW_LO + PIT_HI + ROL_HI)) {
+    if ((rcSticks == THR_LO + YAW_LO + PIT_HI + ROL_HI)) { //featureIsEnabled(FEATURE_INFLIGHT_ACC_CAL) &&
         // Inflight ACC Calibration
         handleInflightCalibrationStickPosition();
         return;
@@ -337,7 +337,7 @@ void processRcStickPositions()
 #endif
             pendingApplyRollAndPitchTrimDeltaSave = true;
 
-            beeperConfirmationBeeps(1);
+            //beeperConfirmationBeeps(1);
 
             repeatAfter(STICK_AUTOREPEAT_MS);
 
@@ -414,6 +414,6 @@ int32_t getRcStickDeflection(int32_t axis, uint16_t midrc) {
 
 void rcControlsInit(void)
 {
-    analyzeModeActivationConditions();
-    isUsingSticksToArm = !isModeActivationConditionPresent(BOXARM) && systemConfig()->enableStickArming;
+//    analyzeModeActivationConditions();
+//    isUsingSticksToArm = !isModeActivationConditionPresent(BOXARM) && systemConfig()->enableStickArming;
 }

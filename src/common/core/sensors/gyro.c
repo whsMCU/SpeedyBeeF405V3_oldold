@@ -41,10 +41,10 @@
 //#include "drivers/io.h"
 
 #include "config/config.h"
-//#include "fc/runtime_config.h"
+#include "runtime_config.h"
 
 #ifdef USE_DYN_NOTCH_FILTER
-#include "flight/dyn_notch_filter.h"
+#include "dyn_notch_filter.h"
 #endif
 //#include "flight/rpm_filter.h"
 
@@ -63,8 +63,6 @@
 #endif
 
 FAST_DATA_ZERO_INIT gyro_t gyro;
-
-static inline int32_t cmpTimeUs(uint32_t a, uint32_t b) { return (int32_t)(a - b); }
 
 static FAST_DATA_ZERO_INIT bool overflowDetected;
 #ifdef USE_GYRO_OVERFLOW_CHECK

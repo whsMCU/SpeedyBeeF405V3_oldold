@@ -51,11 +51,11 @@
 //#include "drivers/time.h"
 //#include "drivers/transponder_ir.h"
 
-//#include "fc/controlrate_profile.h"
+#include "controlrate_profile.h"
 #include "rc.h"
 // #include "fc/rc_adjustments.h"
 #include "rc_controls.h"
-// #include "fc/runtime_config.h"
+#include "runtime_config.h"
 // #include "fc/stats.h"
 
 // #include "flight/failsafe.h"
@@ -65,7 +65,7 @@
 #include "dyn_notch_filter.h"
 #endif
 
-//#include "imu.h"
+#include "imu.h"
 // #include "flight/mixer.h"
 #include "pid.h"
 // #include "flight/position.h"
@@ -141,9 +141,8 @@ enum {
 #define DEBUG_RUNAWAY_TAKEOFF_FALSE 0
 #endif
 
-#if defined(USE_GPS) || defined(USE_MAG)
+
 int16_t magHold;
-#endif
 
 static FAST_DATA_ZERO_INIT uint8_t pidUpdateCounter;
 
@@ -637,10 +636,10 @@ const char * const osdLaunchControlModeNames[] = {
 //     }
 // }
 
-#if defined(USE_GPS) || defined(USE_MAG)
+
 static void updateMagHold(void)
 {
-    if (fabsf(rcCommand[YAW]) < 15 && FLIGHT_MODE(MAG_MODE)) {
+    if (fabsf(rcCommand[YAW]) < 15) { //&& FLIGHT_MODE(MAG_MODE)
         int16_t dif = DECIDEGREES_TO_DEGREES(attitude.values.yaw) - magHold;
         if (dif <= -180)
             dif += 360;
@@ -653,7 +652,7 @@ static void updateMagHold(void)
     } else
         magHold = DECIDEGREES_TO_DEGREES(attitude.values.yaw);
 }
-#endif
+
 
 #ifdef USE_VTX_CONTROL
 static bool canUpdateVTX(void)
@@ -1144,11 +1143,8 @@ static void subTaskPidSubprocesses(uint32_t currentTimeUs)
     //     startTime = micros();
     // }
 
-#if defined(USE_GPS) || defined(USE_MAG)
-    if (sensors(SENSOR_GPS) || sensors(SENSOR_MAG)) {
-        updateMagHold();
-    }
-#endif
+    updateMagHold();
+
 
 #ifdef USE_BLACKBOX
     if (!cliMode && blackboxConfig()->device) {

@@ -32,6 +32,7 @@
 #include "led.h"
 #include "telemetry.h"
 
+#include "imu.h"
 #include "tasks.h"
 #include "rx/rx.h"
 #include "cli.h"

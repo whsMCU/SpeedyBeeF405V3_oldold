@@ -30,14 +30,19 @@
 #include "utils.h"
 #include "uart.h"
 
+#include "pg.h"
+#include "pg_ids.h"
+
+#include "time.h"
 
 #include "gps.h"
 //#include "io/serial.h"
 
-//#include "config.h"
+#include "config/config.h"
 
-//#include "imu.h"
-//#include "flight/pid.h"
+
+#include "imu.h"
+#include "pid.h"
 //#include "flight/gps_rescue.h"
 #include "runtime_config.h"
 
@@ -47,7 +52,6 @@
 
 #define USE_GPS_UBLOX
 
-static inline int32_t cmpTimeUs(uint32_t a, uint32_t b) { return (int32_t)(a - b); }
 
 #define LOG_ERROR        '?'
 #define LOG_IGNORED      '!'

@@ -22,6 +22,9 @@
 
 #include "def.h"
 #include "hw_def.h"
+#include "time.h"
+#include "config/config.h"
+#include "pg/scheduler.h"
 
 #define TASK_PERIOD_HZ(hz) (1000000 / (hz))
 #define TASK_PERIOD_MS(ms) ((ms) * 1000)

@@ -39,12 +39,12 @@
 //#include "drivers/motor.h"
 //#include "drivers/system.h"
 
-//#include "fc/controlrate_profile.h"
+#include "controlrate_profile.h"
 #include "core.h"
-//#include "rx/rc.h"
+#include "rc.h"
 //#include "fc/rc_adjustments.h"
-//#include "fc/rc_controls.h"
-//#include "fc/runtime_config.h"
+#include "rc_controls.h"
+#include "runtime_config.h"
 
 //#include "flight/failsafe.h"
 #include "sensors.h"
@@ -173,9 +173,9 @@ void resetConfig(void)
 static void activateConfig(void)
 {
     loadPidProfile();
-    //loadControlRateProfile();
+    loadControlRateProfile();
 
-    //initRcProcessing();
+    initRcProcessing();
 
     //activeAdjustmentRangeReset();
 

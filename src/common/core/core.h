@@ -20,8 +20,8 @@
 
 #pragma once
 
-// #include "common/time.h"
-// #include "pg/pg.h"
+#include "time.h"
+#include "pg/pg.h"
 #include "pid_init.h"
 #include "hw_def.h"
 
@@ -67,7 +67,7 @@ typedef enum {
 extern const char * const osdLaunchControlModeNames[LAUNCH_CONTROL_MODE_COUNT];
 #endif
 
-//PG_DECLARE(throttleCorrectionConfig_t, throttleCorrectionConfig);
+PG_DECLARE(throttleCorrectionConfig_t, throttleCorrectionConfig);
 
 union rollAndPitchTrims_u;
 void handleInflightCalibrationStickPosition(void);
