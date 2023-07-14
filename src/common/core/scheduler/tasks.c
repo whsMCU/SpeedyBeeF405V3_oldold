@@ -118,17 +118,6 @@ static void taskUpdateAccelerometer(uint32_t currentTimeUs)
     accUpdate(currentTimeUs);
 }
 
-
-void taskGyroSample(uint32_t currentTimeUs)
-{
-    UNUSED(currentTimeUs);
-    gyroUpdate();
-    if (pidUpdateCounter % activePidLoopDenom == 0) {
-        pidUpdateCounter = 0;
-    }
-    pidUpdateCounter++;
-}
-
 typedef enum {
     RX_STATE_CHECK,
     RX_STATE_MODES,
@@ -377,7 +366,7 @@ void tasksInit(void)
     setTaskEnabled(TASK_STACK_CHECK, true);
 #endif
 
-    rescheduleTask(TASK_GYRO, 312);
+    rescheduleTask(TASK_GYRO, gyro.sampleLooptime);
     rescheduleTask(TASK_FILTER, gyro.targetLooptime);
     rescheduleTask(TASK_PID, gyro.targetLooptime);
     setTaskEnabled(TASK_GYRO, true);

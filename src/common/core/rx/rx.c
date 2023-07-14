@@ -103,8 +103,8 @@ static uint8_t rcSampleIndex = 0;
  {
      // set default calibration to full range and 1:1 mapping
      for (int i = 0; i < NON_AUX_CHANNEL_COUNT; i++) {
-         rxChannelRangeConfigs[i].min = PWM_RANGE_MIN;
-         rxChannelRangeConfigs[i].max = PWM_RANGE_MAX;
+         rxChannelRangeConfigs[i].min = 989;
+         rxChannelRangeConfigs[i].max = 2012;
      }
  }
 
