@@ -550,7 +550,7 @@ static uint16_t getRxfailValue(uint8_t channel)
     const rxFailsafeChannelConfig_t *channelFailsafeConfig = rxFailsafeChannelConfigs(channel);
     const bool failsafeAuxSwitch = false;//IS_RC_MODE_ACTIVE(BOXFAILSAFE);
 
-    switch (RX_FAILSAFE_MODE_AUTO) { //channelFailsafeConfig->mode
+    switch (channelFailsafeConfig->mode) {
     case RX_FAILSAFE_MODE_AUTO:
         switch (channel) {
         case ROLL:

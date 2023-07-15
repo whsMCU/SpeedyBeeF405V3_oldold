@@ -741,13 +741,13 @@ uint8_t calculateThrottlePercentAbs(void)
 /*
  * processRx called from taskUpdateRxMain
  */
-bool processRx(uint32_t currentTimeUs)
+bool processRx(timeUs_t currentTimeUs)
 {
     if (!calculateRxChannelsAndUpdateFailsafe(currentTimeUs)) {
         return false;
     }
 
-    //updateRcRefreshRate(currentTimeUs);
+    updateRcRefreshRate(currentTimeUs);
 
     // in 3D mode, we need to be able to disarm by switch at any time
     // if (featureIsEnabled(FEATURE_3D)) {
@@ -761,10 +761,10 @@ bool processRx(uint32_t currentTimeUs)
     //     failsafeStartMonitoring();
     // }
 
-    // const throttleStatus_e throttleStatus = calculateThrottleStatus();
-    // const uint8_t throttlePercent = calculateThrottlePercentAbs();
+     const throttleStatus_e throttleStatus = calculateThrottleStatus();
+     const uint8_t throttlePercent = calculateThrottlePercentAbs();
 
-    // const bool launchControlActive = isLaunchControlActive();
+     const bool launchControlActive = isLaunchControlActive();
 
     // if (airmodeIsEnabled() && ARMING_FLAG(ARMED) && !launchControlActive) {
     //     if (throttlePercent >= rxConfig()->airModeActivateThreshold) {
@@ -1185,7 +1185,7 @@ static void subTaskMotorUpdate(uint32_t currentTimeUs)
     //     startTime = micros();
     // }
 
-    //mixTable(currentTimeUs);
+    mixTable(currentTimeUs);
 
 #ifdef USE_SERVOS
     // motor outputs are used as sources for servo mixing, so motors must be calculated using mixTable() before servos.

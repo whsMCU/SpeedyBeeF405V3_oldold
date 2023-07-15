@@ -57,7 +57,7 @@ PG_DECLARE(timeConfig_t, timeConfig);
 // Milliseconds since Jan 1 1970
 typedef int64_t rtcTime_t;
 
-rtcTime_t rtcTimeMake(int32_t secs, uint16_t millis);
+rtcTime_t rtcTimeMake(int32_t secs, uint16_t millis);3
 int32_t rtcTimeGetSeconds(rtcTime_t *t);
 uint16_t rtcTimeGetMillis(rtcTime_t *t);
 

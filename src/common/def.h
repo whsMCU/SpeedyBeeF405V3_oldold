@@ -49,6 +49,9 @@
 #define _DEF_INPUT_AF_PP      7
 
 
+#define MAX_SUPPORTED_MOTORS 8
+
+
 #define USE_GYRO_OVERFLOW_CHECK
 //#define USE_YAW_SPIN_RECOVERY
 #define USE_ACC
@@ -61,6 +64,9 @@
 #define USE_SERIAL_RX
 #define USE_ADC
 #define CONFIG_IN_FLASH
+//#define USE_CRSF_V3
+//#define USE_CRSF_LINK_STATISTICS
+//#define USE_DYN_IDLE
 
 #ifdef USE_FAST_DATA
 #define FAST_DATA_ZERO_INIT         __attribute__ ((section(".fastram_bss"), aligned(4)))

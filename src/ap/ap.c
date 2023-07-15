@@ -16,10 +16,15 @@
 #include "config/config.h"
 #include "config/config_eeprom.h"
 #include "pg/pg.h"
+#include "mixer.h"
 
   
 void apInit(void)
 {
+	// Initialize task data as soon as possible. Has to be done before tasksInit(),
+  // and any init code that may try to modify task behaviour before tasksInit().
+  tasksInitData();
+
 	cliOpen(_DEF_USB, 57600);
 
 	initEEPROM();
@@ -29,18 +34,19 @@ void apInit(void)
 	if (!readSuccess || !isEEPROMVersionValid() || strncasecmp(systemConfig()->boardIdentifier, TARGET_BOARD_IDENTIFIER, sizeof(TARGET_BOARD_IDENTIFIER))) {
 		resetEEPROM(false);
 	}
-	// Initialize task data as soon as possible. Has to be done before tasksInit(),
-  // and any init code that may try to modify task behaviour before tasksInit().
-  tasksInitData();
+
 	Sensor_Init();
 	Baro_Init();
 	compassInit();
-	gpsInit();
-	tasksInit();
-	rxInit();
+
+	mixerInit(mixerConfig()->mixerMode);
 	// Finally initialize the gyro filtering
   gyroInitFilters();
 	pidInit(currentPidProfile);
+	mixerInitProfile();
+	rxInit();
+	gpsInit();
+	tasksInit();
 }
 
 void apMain(void)
