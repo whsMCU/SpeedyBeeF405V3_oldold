@@ -9,13 +9,16 @@
 #include "uart.h"
 #include "ring_buffer.h"
 #include "usbd_cdc_if.h"
+#include "rx/rx.h"
+#include "rx/crsf.h"
 
 
 static bool is_open[UART_MAX_CH];
+#define MAX_SIZE_RX 255
 
 static Queue_t ring_buffer[UART_MAX_CH];
 static uint8_t u1_rx_buf[MAX_SIZE];
-static uint8_t u2_rx_buf[MAX_SIZE];
+static uint8_t u2_rx_buf[MAX_SIZE_RX];
 static uint8_t u3_rx_buf[MAX_SIZE];
 static uint8_t u4_rx_buf[MAX_SIZE];
 static uint8_t u5_rx_buf[MAX_SIZE];
@@ -70,7 +73,14 @@ bool uartOpen(uint8_t ch, uint32_t baud)
     	huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
     	huart2.Init.OverSampling = UART_OVERSAMPLING_16;
 
-    	QueueCreate(&ring_buffer[ch], (uint8_t *)&u2_rx_buf[0], MAX_SIZE);
+    	QueueCreate(&ring_buffer[ch], (uint8_t *)&u2_rx_buf[0], MAX_SIZE_RX);
+
+      /* DMA controller clock enable */
+      __HAL_RCC_DMA1_CLK_ENABLE();
+
+      /* DMA1_Stream5_IRQn interrupt configuration */
+      HAL_NVIC_SetPriority(DMA1_Stream5_IRQn, 0, 0);
+      HAL_NVIC_EnableIRQ(DMA1_Stream5_IRQn);
 
     	if (HAL_UART_Init(&huart2) != HAL_OK)
     	{
@@ -80,7 +90,7 @@ bool uartOpen(uint8_t ch, uint32_t baud)
     	{
     		ret = true;
         is_open[ch] = true;
-        if(HAL_UART_Receive_DMA(&huart2, (uint8_t *)&u2_rx_buf[0], MAX_SIZE) != HAL_OK)
+        if(HAL_UART_Receive_DMA(&huart2, (uint8_t *)&u2_rx_buf[0], MAX_SIZE_RX) != HAL_OK)
         {
           ret = false;
         }
@@ -100,6 +110,13 @@ bool uartOpen(uint8_t ch, uint32_t baud)
     	huart3.Init.OverSampling = UART_OVERSAMPLING_16;
 
     	QueueCreate(&ring_buffer[ch], (uint8_t *)&u3_rx_buf[0], MAX_SIZE);
+
+      /* DMA controller clock enable */
+      __HAL_RCC_DMA1_CLK_ENABLE();
+
+      /* DMA1_Stream1_IRQn interrupt configuration */
+      HAL_NVIC_SetPriority(DMA1_Stream1_IRQn, 0, 0);
+      HAL_NVIC_EnableIRQ(DMA1_Stream1_IRQn);
 
     	if (HAL_UART_Init(&huart3) != HAL_OK)
     	{
@@ -130,6 +147,13 @@ bool uartOpen(uint8_t ch, uint32_t baud)
 
     	QueueCreate(&ring_buffer[ch], (uint8_t *)&u4_rx_buf[0], MAX_SIZE);
 
+      /* DMA controller clock enable */
+      __HAL_RCC_DMA1_CLK_ENABLE();
+
+      /* DMA1_Stream2_IRQn interrupt configuration */
+      HAL_NVIC_SetPriority(DMA1_Stream2_IRQn, 0, 0);
+      HAL_NVIC_EnableIRQ(DMA1_Stream2_IRQn);
+
     	if (HAL_UART_Init(&huart4) != HAL_OK)
     	{
     	  Error_Handler();
@@ -157,6 +181,13 @@ bool uartOpen(uint8_t ch, uint32_t baud)
     	huart5.Init.OverSampling = UART_OVERSAMPLING_16;
 
     	QueueCreate(&ring_buffer[ch], (uint8_t *)&u5_rx_buf[0], MAX_SIZE);
+
+      /* DMA controller clock enable */
+      __HAL_RCC_DMA1_CLK_ENABLE();
+
+      /* DMA1_Stream0_IRQn interrupt configuration */
+      HAL_NVIC_SetPriority(DMA1_Stream0_IRQn, 0, 0);
+      HAL_NVIC_EnableIRQ(DMA1_Stream0_IRQn);
 
     	if (HAL_UART_Init(&huart5) != HAL_OK)
     	{
@@ -186,6 +217,12 @@ bool uartOpen(uint8_t ch, uint32_t baud)
     	huart6.Init.OverSampling = UART_OVERSAMPLING_16;
 
     	QueueCreate(&ring_buffer[ch], (uint8_t *)&u6_rx_buf[0], MAX_SIZE);
+
+      /* DMA controller clock enable */
+      __HAL_RCC_DMA2_CLK_ENABLE();
+      /* DMA2_Stream1_IRQn interrupt configuration */
+      HAL_NVIC_SetPriority(DMA2_Stream1_IRQn, 0, 0);
+      HAL_NVIC_EnableIRQ(DMA2_Stream1_IRQn);
 
     	if (HAL_UART_Init(&huart6) != HAL_OK)
     	{
@@ -585,11 +622,12 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
   //  {
   //  	Q_write(&ring_buffer[_DEF_UART1], &rx_data[_DEF_UART1], 1);
   //  }
-  // if(huart->Instance == USART2)
-  // {
-  //   Q_write(&ring_buffer[_DEF_UART2], &u2_rx_buf[0], 1);
-  //   cliPrintf("%d",u2_rx_buf[0]);
-  // }
+//   if(huart->Instance == USART2)
+//   {
+//     while(uartAvailable(_DEF_UART2)){
+//    	 crsfDataReceive(uartRead(_DEF_UART2), rxRuntimeState.frameData);
+//     }
+//  }
 }
 
 void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
