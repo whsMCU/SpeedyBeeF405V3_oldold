@@ -14,9 +14,14 @@
 #include "gyro.h"
 #include "scheduler.h"
 #include "time.h"
+#include "accgyro/accgyro.h"
 
 
 static bool is_init = false;
+
+// requestedSensors is not actually used
+uint8_t requestedSensors[SENSOR_INDEX_COUNT] = { GYRO_NONE, ACC_NONE, 0, 0, 0 };
+uint8_t detectedSensors[SENSOR_INDEX_COUNT] = { GYRO_NONE, ACC_NONE, 0, 0, 0 };
 
 #ifdef _USE_HW_CLI
 static void cliSensor(cli_args_t *args);

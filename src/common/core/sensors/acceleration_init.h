@@ -38,5 +38,5 @@ typedef struct accelerationRuntime_s {
 
 extern accelerationRuntime_t accelerationRuntime;
 
-void performAcclerationCalibration(void);
+void performAcclerationCalibration(rollAndPitchTrims_t *rollAndPitchTrims);
 void performInflightAccelerationCalibration(rollAndPitchTrims_t *rollAndPitchTrims);

@@ -296,42 +296,232 @@ void bmi270ExtiHandler(extiCallbackRec_t *cb)
 
 bool bmi270SpiAccRead(accDev_t *acc)
 {
-    HAL_StatusTypeDef status = 0;
-    uint8_t data_status[2] = {0, 0};
-    static uint32_t test = 0;
-    SPI_ByteRead(_DEF_SPI1, BMI270_REG_STATUS | 0x80, data_status, 2);
-    //memset(_buffer, 0x00, 7);
-    if(data_status[1] & 0x80)
-    {
-        status = SPI_ByteRead(_DEF_SPI1, BMI270_REG_ACC_DATA_X_LSB | 0x80, _buffer, 7);
-        acc->ADCRaw[X] = (int16_t)((uint16_t)_buffer[2]<<8 | (uint16_t)_buffer[1]);
-        acc->ADCRaw[Y] = (int16_t)((uint16_t)_buffer[4]<<8 | (uint16_t)_buffer[3]);
-        acc->ADCRaw[Z] = (int16_t)((uint16_t)_buffer[6]<<8 | (uint16_t)_buffer[5]);
-    }else
-    {
-        test +=1;
-    }
-    
 
-    if(status == HAL_OK)
-    {
-        return true;
-    }
-    return false;
+  switch (acc->gyro->gyroModeSPI) {
+  case GYRO_EXTI_INT:
+  case GYRO_EXTI_NO_INT:
+  {
+//      acc->gyro->dev.txBuf[0] = BMI270_REG_ACC_DATA_X_LSB | 0x80;
+//
+//      busSegment_t segments[] = {
+//              {.u.buffers = {NULL, NULL}, 8, true, NULL},
+//              {.u.link = {NULL, NULL}, 0, true, NULL},
+//      };
+//      segments[0].u.buffers.txData = acc->gyro->dev.txBuf;
+//      segments[0].u.buffers.rxData = acc->gyro->dev.rxBuf;
+//
+//      spiSequence(&acc->gyro->dev, &segments[0]);
+//
+//      // Wait for completion
+//      spiWait(&acc->gyro->dev);
+
+      // Fall through
+      FALLTHROUGH;
+  }
+
+  case GYRO_EXTI_INT_DMA:
+  {
+      // If read was triggered in interrupt don't bother waiting. The worst that could happen is that we pick
+      // up an old value.
+
+      // This data was read from the gyro, which is the same SPI device as the acc
+      uint16_t *accData = (uint16_t *)acc->gyro->rxBuf;
+      acc->ADCRaw[X] = accData[1];
+      acc->ADCRaw[Y] = accData[2];
+      acc->ADCRaw[Z] = accData[3];
+      break;
+  }
+
+  case GYRO_EXTI_INIT:
+  default:
+      break;
+  }
+
+  return true;
+//    HAL_StatusTypeDef status = 0;
+//    uint8_t data_status[2] = {0, 0};
+//    static uint32_t test = 0;
+//    SPI_ByteRead(_DEF_SPI1, BMI270_REG_STATUS | 0x80, data_status, 2);
+//    //memset(_buffer, 0x00, 7);
+//    if(data_status[1] & 0x80)
+//    {
+//        status = SPI_ByteRead(_DEF_SPI1, BMI270_REG_ACC_DATA_X_LSB | 0x80, _buffer, 7);
+//        acc->ADCRaw[X] = (int16_t)((uint16_t)_buffer[2]<<8 | (uint16_t)_buffer[1]);
+//        acc->ADCRaw[Y] = (int16_t)((uint16_t)_buffer[4]<<8 | (uint16_t)_buffer[3]);
+//        acc->ADCRaw[Z] = (int16_t)((uint16_t)_buffer[6]<<8 | (uint16_t)_buffer[5]);
+//    }else
+//    {
+//        test +=1;
+//    }
+//
+//
+//    if(status == HAL_OK)
+//    {
+//        return true;
+//    }
+//    return false;
 }
+
+static bool bmi270GyroReadRegister(gyroDev_t *gyro)
+{
+    uint16_t *gyroData = (uint16_t *)gyro->rxBuf;
+    switch (gyro->gyroModeSPI) {
+    case GYRO_EXTI_INIT:
+    {
+        // Initialise the tx buffer to all 0x00
+        memset(gyro->txBuf, 0x00, 14);
+#ifdef USE_GYRO_EXTI
+        // Check that minimum number of interrupts have been detected
+
+        // We need some offset from the gyro interrupts to ensure sampling after the interrupt
+        gyro->gyroDmaMaxDuration = 5;
+        // Using DMA for gyro access upsets the scheduler on the F4
+        if (gyro->detectedEXTI > GYRO_EXTI_DETECT_THRESHOLD) {
+            if (true) {
+                gyro->txBuf[0] = BMI270_REG_ACC_DATA_X_LSB | 0x80;
+                SPI_ByteReadWrite_DMA(_DEF_SPI1, gyro->txBuf, gyro->rxBuf, 14);
+                gyro->gyroModeSPI = GYRO_EXTI_INT_DMA;
+            } else {
+                // Interrupts are present, but no DMA
+                gyro->gyroModeSPI = GYRO_EXTI_INT;
+            }
+        } else
+#endif
+        {
+            gyro->gyroModeSPI = GYRO_EXTI_NO_INT;
+        }
+        break;
+    }
+
+    case GYRO_EXTI_INT:
+    case GYRO_EXTI_NO_INT:
+    {
+//        gyro->dev.txBuf[0] = BMI270_REG_GYR_DATA_X_LSB | 0x80;
+//
+//        busSegment_t segments[] = {
+//                {.u.buffers = {NULL, NULL}, 8, true, NULL},
+//                {.u.link = {NULL, NULL}, 0, true, NULL},
+//        };
+//        segments[0].u.buffers.txData = gyro->dev.txBuf;
+//        segments[0].u.buffers.rxData = gyro->dev.rxBuf;
+//
+//        spiSequence(&gyro->dev, &segments[0]);
+//
+//        // Wait for completion
+//        spiWait(&gyro->dev);
+
+        gyro->gyroADCRaw[X] = gyroData[1];
+        gyro->gyroADCRaw[Y] = gyroData[2];
+        gyro->gyroADCRaw[Z] = gyroData[3];
+
+        break;
+    }
+
+    case GYRO_EXTI_INT_DMA:
+    {
+        // If read was triggered in interrupt don't bother waiting. The worst that could happen is that we pick
+        // up an old value.
+        gyro->gyroADCRaw[X] = gyroData[4];
+        gyro->gyroADCRaw[Y] = gyroData[5];
+        gyro->gyroADCRaw[Z] = gyroData[6];
+        break;
+    }
+
+    default:
+        break;
+    }
+
+    return true;
+}
+
+#ifdef USE_GYRO_DLPF_EXPERIMENTAL
+static bool bmi270GyroReadFifo(gyroDev_t *gyro)
+{
+    enum {
+        IDX_REG = 0,
+        IDX_SKIP,
+        IDX_FIFO_LENGTH_L,
+        IDX_FIFO_LENGTH_H,
+        IDX_GYRO_XOUT_L,
+        IDX_GYRO_XOUT_H,
+        IDX_GYRO_YOUT_L,
+        IDX_GYRO_YOUT_H,
+        IDX_GYRO_ZOUT_L,
+        IDX_GYRO_ZOUT_H,
+        BUFFER_SIZE,
+    };
+
+    bool dataRead = false;
+    static uint8_t bmi270_tx_buf[BUFFER_SIZE] = {BMI270_REG_FIFO_LENGTH_LSB | 0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    static uint8_t bmi270_rx_buf[BUFFER_SIZE];
+
+    // Burst read the FIFO length followed by the next 6 bytes containing the gyro axis data for
+    // the first sample in the queue. It's possible for the FIFO to be empty so we need to check the
+    // length before using the sample.
+    SPI_ByteReadWrite_DMA(gyro->gyro_bus_ch, (uint8_t *)bmi270_tx_buf, bmi270_rx_buf, BUFFER_SIZE);   // receive response
+
+    int fifoLength = (uint16_t)((bmi270_rx_buf[IDX_FIFO_LENGTH_H] << 8) | bmi270_rx_buf[IDX_FIFO_LENGTH_L]);
+
+    if (fifoLength >= BMI270_FIFO_FRAME_SIZE) {
+
+        const int16_t gyroX = (int16_t)((bmi270_rx_buf[IDX_GYRO_XOUT_H] << 8) | bmi270_rx_buf[IDX_GYRO_XOUT_L]);
+        const int16_t gyroY = (int16_t)((bmi270_rx_buf[IDX_GYRO_YOUT_H] << 8) | bmi270_rx_buf[IDX_GYRO_YOUT_L]);
+        const int16_t gyroZ = (int16_t)((bmi270_rx_buf[IDX_GYRO_ZOUT_H] << 8) | bmi270_rx_buf[IDX_GYRO_ZOUT_L]);
+
+        // If the FIFO data is invalid then the returned values will be 0x8000 (-32768) (pg. 43 of datasheet).
+        // This shouldn't happen since we're only using the data if the FIFO length indicates
+        // that data is available, but this safeguard is needed to prevent bad things in
+        // case it does happen.
+        if ((gyroX != INT16_MIN) || (gyroY != INT16_MIN) || (gyroZ != INT16_MIN)) {
+            gyro->gyroADCRaw[X] = gyroX;
+            gyro->gyroADCRaw[Y] = gyroY;
+            gyro->gyroADCRaw[Z] = gyroZ;
+            dataRead = true;
+        }
+        fifoLength -= BMI270_FIFO_FRAME_SIZE;
+    }
+
+    // If there are additional samples in the FIFO then we don't use those for now and simply
+    // flush the FIFO. Under normal circumstances we only expect one sample in the FIFO since
+    // the gyro loop is running at the native sample rate of 6.4KHz.
+    // However the way the FIFO works in the sensor is that if a frame is partially read then
+    // it remains in the queue instead of bein removed. So if we ever got into a state where there
+    // was a partial frame or other unexpected data in the FIFO is may never get cleared and we
+    // would end up in a lock state of always re-reading the same partial or invalid sample.
+    if (fifoLength > 0) {
+        // Partial or additional frames left - flush the FIFO
+        SPI_RegisterWrite(_DEF_SPI1, BMI270_REG_CMD, BMI270_VAL_CMD_FIFOFLUSH, 0);
+    }
+
+    return dataRead;
+}
+#endif
+
 bool bmi270SpiGyroRead(gyroDev_t *gyro)
 {
-    HAL_StatusTypeDef status = 0;
-    //memset(_buffer, 0x00, 7);
-    status = SPI_ByteRead(_DEF_SPI1, BMI270_REG_GYR_DATA_X_LSB | 0x80, _buffer, 7);
-    gyro->gyroADCRaw[X] = (int16_t)((uint16_t)_buffer[2]<<8 | (uint16_t)_buffer[1]);
-    gyro->gyroADCRaw[Y] = (int16_t)((uint16_t)_buffer[4]<<8 | (uint16_t)_buffer[3]);
-    gyro->gyroADCRaw[Z] = (int16_t)((uint16_t)_buffer[6]<<8 | (uint16_t)_buffer[5]);
-    if(status == HAL_OK)
+
+#ifdef USE_GYRO_DLPF_EXPERIMENTAL
+    if (gyro->hardware_lpf == GYRO_HARDWARE_LPF_EXPERIMENTAL) {
+        // running in 6.4KHz FIFO mode
+        return bmi270GyroReadFifo(gyro);
+    } else
+#endif
     {
-        return true;
+        // running in 3.2KHz register mode
+        return bmi270GyroReadRegister(gyro);
     }
-    return false;
+
+//    HAL_StatusTypeDef status = 0;
+//    //memset(_buffer, 0x00, 7);
+//    status = SPI_ByteRead(_DEF_SPI1, BMI270_REG_GYR_DATA_X_LSB | 0x80, _buffer, 7);
+//    gyro->gyroADCRaw[X] = (int16_t)((uint16_t)_buffer[2]<<8 | (uint16_t)_buffer[1]);
+//    gyro->gyroADCRaw[Y] = (int16_t)((uint16_t)_buffer[4]<<8 | (uint16_t)_buffer[3]);
+//    gyro->gyroADCRaw[Z] = (int16_t)((uint16_t)_buffer[6]<<8 | (uint16_t)_buffer[5]);
+//    if(status == HAL_OK)
+//    {
+//        return true;
+//    }
+//    return false;
 }
 
 static void bmi270SpiGyroInit(gyroDev_t *gyro)

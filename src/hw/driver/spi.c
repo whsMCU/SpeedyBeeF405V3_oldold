@@ -215,6 +215,16 @@ HAL_StatusTypeDef SPI_ByteRead_DMA(uint8_t ch, uint8_t MemAddress, uint8_t *data
   return status;
 }
 
+HAL_StatusTypeDef SPI_ByteReadWrite_DMA(uint8_t ch, uint8_t *MemAddress, uint8_t *data, uint8_t length)
+{
+  spi_t  *p_spi = &spi_tbl[ch];
+  HAL_StatusTypeDef status;
+    gpioPinWrite(_PIN_DEF_CS, _DEF_LOW);
+    status = HAL_SPI_TransmitReceive_DMA(p_spi->h_spi, MemAddress, data, length);
+    gpioPinWrite(_PIN_DEF_CS, _DEF_HIGH);
+  return status;
+}
+
 HAL_StatusTypeDef SPI_ByteWrite(uint8_t ch, uint8_t MemAddress, uint8_t *data, uint32_t length)
 {
   spi_t  *p_spi = &spi_tbl[ch];

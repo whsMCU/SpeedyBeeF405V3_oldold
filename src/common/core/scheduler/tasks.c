@@ -113,9 +113,9 @@ static void taskHandleSerial(uint32_t currentTimeUs)
 // }
 
 
-static void taskUpdateAccelerometer(uint32_t currentTimeUs)
+static void taskUpdateAccelerometer(timeUs_t currentTimeUs)
 {
-    accUpdate(currentTimeUs);
+    accUpdate(currentTimeUs, &accelerometerConfigMutable()->accelerometerTrims);
 }
 
 typedef enum {

@@ -40,32 +40,20 @@ static void applyAccelerationTrims(const flightDynamicsTrims_t *accelerationTrim
 
 #define acc_lpf_factor 4
 
-void accUpdate(uint32_t currentTimeUs)
+void accUpdate(uint32_t currentTimeUs, rollAndPitchTrims_t *rollAndPitchTrims)
 {
     UNUSED(currentTimeUs);
-    //static float accLPF[3];
 
-    if(acc.dev.dataReady){
-        if (!acc.dev.readFn(&acc.dev)) {
-            return;
-        }
-        acc.dev.dataReady = false;
+    if (!acc.dev.readFn(&acc.dev)) {
+        return;
     }
+
     acc.isAccelUpdatedAtLeastOnce = true;
 
     for (int axis = 0; axis < XYZ_AXIS_COUNT; axis++) {
         //DEBUG_SET(DEBUG_ACCELEROMETER, axis, acc.dev.ADCRaw[axis]);
         acc.accADC[axis] = acc.dev.ADCRaw[axis];
     }
-
-    // for(int axis=0;axis<3;axis++)
-	// {
-	// 	if (acc_lpf_factor > 0)
-	// 	{
-	// 		accLPF[axis] = accLPF[axis] * (1.0f - (1.0f / acc_lpf_factor)) + acc.accADC[axis] * (1.0f / acc_lpf_factor);
-	// 		acc.accADC[axis] = accLPF[axis];
-	// 	}
-	// }
 
     if (accelerationRuntime.accLpfCutHz) {
         for (int axis = 0; axis < XYZ_AXIS_COUNT; axis++) {
@@ -74,7 +62,7 @@ void accUpdate(uint32_t currentTimeUs)
     }
 
     if (!accIsCalibrationComplete()) {
-        performAcclerationCalibration();
+        performAcclerationCalibration(rollAndPitchTrims);
     }
 
     applyAccelerationTrims(accelerationRuntime.accelerationTrims);

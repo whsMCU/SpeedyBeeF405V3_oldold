@@ -373,32 +373,10 @@ static void checkForYawSpin(timeUs_t currentTimeUs)
 
 static void gyroUpdateSensor(gyroSensor_t *gyroSensor)
 {
+		if (!gyroSensor->gyroDev.readFn(&gyroSensor->gyroDev)) {
+				return;
+		}
 
-    gyroSensor->gyroDev.InterruptStatus = bmi270InterruptStatus(gyro.rawSensorDev);
-
-    if(gyroSensor->gyroDev.InterruptStatus & 0x40)
-    {
-        gyroSensor->gyroDev.dataReady = true;
-    }
-
-    if(gyroSensor->gyroDev.InterruptStatus & 0x80)
-    {
-        acc.dev.dataReady = true;
-    }
-    
-    if(gyroSensor->gyroDev.dataReady)
-    {
-        if (!gyroSensor->gyroDev.readFn(&gyroSensor->gyroDev)) {
-        return;
-        }
-        gyroSensor->gyroDev.gyroADC[X] = gyroSensor->gyroDev.gyroADCRaw[X] - gyroSensor->gyroDev.gyroZero[X];
-        gyroSensor->gyroDev.gyroADC[Y] = gyroSensor->gyroDev.gyroADCRaw[Y] - gyroSensor->gyroDev.gyroZero[Y];
-        gyroSensor->gyroDev.gyroADC[Z] = gyroSensor->gyroDev.gyroADCRaw[Z] - gyroSensor->gyroDev.gyroZero[Z];
-    }
-    gyroSensor->gyroDev.dataReady = false;
-    if (!gyroSensor->gyroDev.readFn(&gyroSensor->gyroDev)) {
-        return;
-    }
     gyroSensor->gyroDev.dataReady = false;
 
     if (isGyroSensorCalibrationComplete(gyroSensor)) {
