@@ -11,6 +11,8 @@ typedef struct gyroDev_s gyroDev_t;
 bool bmi270_Init(void);
 bool bmi270Detect(uint8_t ch);
 bool bmi270SpiAccDetect(accDev_t *acc);
+bool bmi270SpiGyroDetect(gyroDev_t *gyro);
+void bmi270Config();
 bool bmi270SpiAccRead(accDev_t *acc);
 bool bmi270SpiGyroRead(gyroDev_t *gyro);
 bool bmi270SetCallBack(void (*p_func)(void));

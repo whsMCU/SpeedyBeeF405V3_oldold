@@ -25,6 +25,7 @@
 #include "cli.h"
 #include "axis.h"
 #include "gyro_init.h"
+#include "gyro.h"
 
 #ifdef USE_ACCGYRO_BMI270
 
@@ -150,12 +151,12 @@ static void bmi270UploadConfig(uint8_t ch)
 }
 
 
-static void bmi270Config(void)
+void bmi270Config()
 {
     // If running in hardware_lpf experimental mode then switch to FIFO-based,
     // 6.4KHz sampling, unfiltered data vs. the default 3.2KHz with hardware filtering
 #ifdef USE_GYRO_DLPF_EXPERIMENTAL
-    const bool fifoMode = (gyro->hardware_lpf == GYRO_HARDWARE_LPF_EXPERIMENTAL);
+    const bool fifoMode = (gyro.gyroSensor1.gyroDev.hardware_lpf == GYRO_HARDWARE_LPF_EXPERIMENTAL);
 #else
     const bool fifoMode = false;
 #endif
@@ -229,15 +230,6 @@ bool bmi270SpiAccDetect(accDev_t *acc)
 }
 
 
-static bool bmi270SpiGyroDetect(gyroDev_t *gyro)
-{
-    gyro->initFn = bmi270Config;
-    gyro->readFn = bmi270SpiGyroRead;
-    gyro->scale = GYRO_SCALE_2000DPS;
-
-    return true;
-}
-
 bool bmi270_Init(void)
 {
     bool ret = true;
@@ -252,26 +244,10 @@ bool bmi270_Init(void)
     gyroSetTargetLooptime(activePidLoopDenom);
     gyroStartCalibration(false);
 
-    bmi270SpiGyroDetect(&gyro.gyroSensor1.gyroDev);
-
     accInit(gyro.accSampleRateHz);
 
     accStartCalibration();
     
-    //gyro_instace = gyro;
-
-    bmi270Config();
-
-    for(int i = 0; i > 5; i++)
-    {
-        if (bmi270Detect(_DEF_SPI1))
-        {
-            bmi270Config();
-            break;
-        }
-        delay(100);
-    }
-
     #ifdef _USE_HW_CLI
         cliAdd("bmi270", cliBmi270);
     #endif
@@ -289,6 +265,34 @@ bool bmi270Detect(uint8_t ch)
     }
     return false;
 }
+
+/*
+ * Gyro interrupt service routine
+ */
+#ifdef USE_GYRO_EXTI
+// Called in ISR context
+// Gyro read has just completed
+busStatus_e bmi270Intcallback(uint32_t arg)
+{
+    gyroDev_t *gyro = (gyroDev_t *)arg;
+    int32_t gyroDmaDuration = cmpTimeCycles(getCycleCounter(), gyro->gyroLastEXTI);
+
+    if (gyroDmaDuration > gyro->gyroDmaMaxDuration) {
+        gyro->gyroDmaMaxDuration = gyroDmaDuration;
+    }
+
+    gyro->dataReady = true;
+
+    return BUS_READY;
+}
+
+#else
+void bmi270ExtiHandler(extiCallbackRec_t *cb)
+{
+    gyroDev_t *gyro = container_of(cb, gyroDev_t, exti);
+    gyro->dataReady = true;
+}
+#endif
 
 bool bmi270SpiAccRead(accDev_t *acc)
 {
@@ -330,6 +334,25 @@ bool bmi270SpiGyroRead(gyroDev_t *gyro)
     return false;
 }
 
+static void bmi270SpiGyroInit(gyroDev_t *gyro)
+{
+    //extDevice_t *dev = &gyro->dev;
+
+    bmi270Config(gyro);
+
+    //spiSetClkDivisor(dev, spiCalculateDivider(BMI270_MAX_SPI_CLK_HZ));
+}
+
+bool bmi270SpiGyroDetect(gyroDev_t *gyro)
+{
+    gyro->initFn = bmi270SpiGyroInit;
+    gyro->readFn = bmi270SpiGyroRead;
+    gyro->scale = GYRO_SCALE_2000DPS;
+
+    return true;
+}
+
+
 static void (*frameCallBack)(void) = NULL;
 
 bool bmi270SetCallBack(void (*p_func)(void))
@@ -350,9 +373,23 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
     if(GPIO_Pin==GPIO_PIN_4)
     {
-        gyro.rawSensorDev->dataReady = true;
+        //gyro.rawSensorDev->dataReady = true;
         //gyro_instace->imuDev.InterruptStatus = bmi270InterruptStatus(gyro_instace);
+        gyroDev_t *gyro_temp = gyro.rawSensorDev;
+        // Ideally we'd use a timer to capture such information, but unfortunately the port used for EXTI interrupt does
+        // not have an associated timer
+        uint32_t nowCycles = getCycleCounter();
+        gyro_temp->gyroSyncEXTI = gyro_temp->gyroLastEXTI + gyro_temp->gyroDmaMaxDuration;
+        gyro_temp->gyroLastEXTI = nowCycles;
+
+        if (gyro_temp->gyroModeSPI == GYRO_EXTI_INT_DMA) {
+        	SPI_ByteRead_DMA(_DEF_SPI1, BMI270_REG_GYR_DATA_X_LSB | 0x80, _buffer, 14);
+            //spiSequence(&gyro_temp->dev, gyro_temp->segments);
+        }
+
+        gyro_temp->detectedEXTI++;
     }
+
 }
 
 #ifdef _USE_HW_CLI

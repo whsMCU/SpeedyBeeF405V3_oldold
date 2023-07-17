@@ -16,6 +16,29 @@ typedef union flightDynamicsTrims_u {
 } flightDynamicsTrims_t;
 
 typedef enum {
+    GYRO_NONE = 0,
+    GYRO_DEFAULT,
+    GYRO_MPU6050,
+    GYRO_L3G4200D,
+    GYRO_MPU3050,
+    GYRO_L3GD20,
+    GYRO_MPU6000,
+    GYRO_MPU6500,
+    GYRO_MPU9250,
+    GYRO_ICM20601,
+    GYRO_ICM20602,
+    GYRO_ICM20608G,
+    GYRO_ICM20649,
+    GYRO_ICM20689,
+    GYRO_ICM42605,
+    GYRO_ICM42688P,
+    GYRO_BMI160,
+    GYRO_BMI270,
+    GYRO_LSM6DSO,
+    GYRO_FAKE
+} gyroHardware_e;
+
+typedef enum {
     GYRO_HARDWARE_LPF_NORMAL,
     GYRO_HARDWARE_LPF_OPTION_1,
     GYRO_HARDWARE_LPF_OPTION_2,

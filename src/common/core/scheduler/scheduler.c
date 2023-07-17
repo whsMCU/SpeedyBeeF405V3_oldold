@@ -562,7 +562,7 @@ void scheduler(void)
 
                     // Move the desired start time of the gyroTask
                     lastTargetCycles -= (accGyroSkew/GYRO_LOCK_COUNT);
-                    DEBUG_SET(DEBUG_SCHEDULER_DETERMINISM, 3, clockCyclesTo10thMicros(accGyroSkew/GYRO_LOCK_COUNT));
+                    //DEBUG_SET(DEBUG_SCHEDULER_DETERMINISM, 3, clockCyclesTo10thMicros(accGyroSkew/GYRO_LOCK_COUNT));
                     accGyroSkew = 0;
                 }
             }

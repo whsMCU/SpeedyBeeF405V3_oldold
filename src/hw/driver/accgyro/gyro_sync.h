@@ -18,22 +18,16 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
+/*
+ * gyro_sync.h
+ *
+ *  Created on: 3 aug. 2015
+ *      Author: borisb
+ */
+
 #pragma once
 
-#include "gyro.h"
+#include "accgyro.h"
 
-#include "def.h"
-#include "hw_def.h"
-#include "sensors.h"
-
-void gyroSetTargetLooptime(uint8_t pidDenom);
-void gyroPreInit(void);
-bool gyroInit(void);
-void gyroInitFilters(void);
-void gyroInitSensor(gyroSensor_t *gyroSensor);
-gyroDetectionFlags_t getGyroDetectionFlags(void);
-gyroDev_t *gyroActiveDev(void);
-struct mpuDetectionResult_s;
-const struct mpuDetectionResult_s *gyroMpuDetectionResult(void);
-int16_t gyroRateDps(int axis);
-uint8_t gyroReadRegister(uint8_t whichSensor, uint8_t reg);
+bool gyroSyncCheckUpdate(gyroDev_t *gyro);
+uint16_t gyroSetSampleRate(gyroDev_t *gyro);

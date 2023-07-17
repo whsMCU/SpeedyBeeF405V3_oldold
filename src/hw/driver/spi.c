@@ -87,6 +87,15 @@ bool spiBegin(uint8_t ch)
       hspi1.Init.CRCPolynomial = 10;
 
       //HAL_SPI_DeInit(&hspi1);
+      /* DMA controller clock enable */
+      __HAL_RCC_DMA2_CLK_ENABLE();
+
+      /* DMA2_Stream2_IRQn interrupt configuration */
+      HAL_NVIC_SetPriority(DMA2_Stream2_IRQn, 0, 0);
+      HAL_NVIC_EnableIRQ(DMA2_Stream2_IRQn);
+      /* DMA2_Stream3_IRQn interrupt configuration */
+      HAL_NVIC_SetPriority(DMA2_Stream3_IRQn, 0, 0);
+      HAL_NVIC_EnableIRQ(DMA2_Stream3_IRQn);
       if (HAL_SPI_Init(&hspi1) == HAL_OK)
       {
         p_spi->is_open = true;
@@ -189,6 +198,18 @@ bool SPI_Set_Speed(uint8_t ch, uint32_t prescaler)
     gpioPinWrite(_PIN_DEF_CS, _DEF_LOW);
     HAL_SPI_Transmit(p_spi->h_spi, &MemAddress, 1, 10);
     status = HAL_SPI_Receive(p_spi->h_spi, data, length, 10);
+    //status = HAL_SPI_TransmitReceive(p_spi->h_spi, &MemAddress, data, length, 10);
+    gpioPinWrite(_PIN_DEF_CS, _DEF_HIGH);
+  return status;
+}
+
+HAL_StatusTypeDef SPI_ByteRead_DMA(uint8_t ch, uint8_t MemAddress, uint8_t *data, uint8_t length)
+{
+  spi_t  *p_spi = &spi_tbl[ch];
+  HAL_StatusTypeDef status;
+    gpioPinWrite(_PIN_DEF_CS, _DEF_LOW);
+    HAL_SPI_Transmit_DMA(p_spi->h_spi, &MemAddress, 1);
+    status = HAL_SPI_Receive_DMA(p_spi->h_spi, data, length);
     //status = HAL_SPI_TransmitReceive(p_spi->h_spi, &MemAddress, data, length, 10);
     gpioPinWrite(_PIN_DEF_CS, _DEF_HIGH);
   return status;

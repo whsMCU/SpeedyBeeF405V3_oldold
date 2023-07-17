@@ -30,6 +30,7 @@
 #include "sensors.h"
 #include "pid.h"
 #include "pg/pg.h"
+#include "accgyro.h"
 
 
 #define LPF_MAX_HZ 1000 // so little filtering above 1000hz that if the user wants less delay, they must disable the filter
@@ -86,7 +87,7 @@ typedef enum {
 } gyroModeSPI_e;
 
 struct gyroDev_s;
-typedef void (*sensorGyroInitFuncPtr)(void);
+typedef void (*sensorGyroInitFuncPtr)(struct gyroDev_s *gyro);
 typedef bool (*sensorGyroReadFuncPtr)(struct gyroDev_s *gyro);
 typedef bool (*sensorGyroReadDataFuncPtr)(struct gyroDev_s *gyro, int16_t *data);
 
@@ -113,7 +114,7 @@ typedef struct gyroDev_s {
     uint32_t gyroSyncEXTI;
     int32_t gyroShortPeriod;
     int32_t gyroDmaMaxDuration;
-    busSegment_t segments[2];
+    //busSegment_t segments[2];
 #endif
     volatile bool dataReady;
     bool gyro_high_fsr;
@@ -122,7 +123,7 @@ typedef struct gyroDev_s {
     //uint8_t mpuDividerDrops;
     //ioTag_t mpuIntExtiTag;
     uint8_t gyroHasOverflowProtection;
-    //gyroHardware_e gyroHardware;
+    gyroHardware_e gyroHardware;
     fp_rotationMatrix_t rotationMatrix;
     uint16_t gyroSampleRateHz;
     uint16_t accSampleRateHz;

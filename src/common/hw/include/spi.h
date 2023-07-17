@@ -21,6 +21,12 @@
 #define SPI_MODE2           2
 #define SPI_MODE3           3
 
+typedef enum {
+    BUS_READY,
+    BUS_BUSY,
+    BUS_ABORT
+} busStatus_e;
+
 
 bool spiInit(void);
 bool spiBegin(uint8_t ch);
@@ -31,6 +37,7 @@ uint32_t SPI_Get_Speed(uint8_t ch);
 bool SPI_Set_Speed(uint8_t ch, uint32_t prescaler);
 
 HAL_StatusTypeDef SPI_ByteRead(uint8_t ch, uint8_t MemAddress, uint8_t *data, uint8_t length);
+HAL_StatusTypeDef SPI_ByteRead_DMA(uint8_t ch, uint8_t MemAddress, uint8_t *data, uint8_t length);
 HAL_StatusTypeDef SPI_ByteWrite(uint8_t ch, uint8_t MemAddress, uint8_t *data, uint32_t length);
 void SPI_RegisterWrite(uint8_t ch, uint8_t MemAddress, uint8_t data, uint8_t delayMs);
 
