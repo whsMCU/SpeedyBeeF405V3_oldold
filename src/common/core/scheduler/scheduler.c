@@ -24,10 +24,14 @@
 #include <stdint.h>
 #include <string.h>
 
+#include "driver/accgyro/accgyro.h"
+
 #include "tasks.h"
 #include "maths.h"
 #include "rx/rx.h"
 #include "core.h"
+#include "sensors/gyro_init.h"
+#include "sensors/gyro.h"
 
 #include "scheduler.h"
 

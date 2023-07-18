@@ -48,7 +48,7 @@
 //#include "drivers/motor.h"
 //#include "drivers/sound_beeper.h"
 //#include "drivers/system.h"
-//#include "drivers/time.h"
+#include "time.h"
 //#include "drivers/transponder_ir.h"
 
 #include "controlrate_profile.h"
@@ -66,7 +66,7 @@
 #endif
 
 #include "imu.h"
-// #include "flight/mixer.h"
+#include "mixer.h"
 #include "pid.h"
 // #include "flight/position.h"
 // #include "flight/rpm_filter.h"
@@ -95,13 +95,13 @@
 
 #include "scheduler.h"
 
-//#include "sensors/acceleration.h"
-#include "barometer.h"
+#include "sensors/acceleration.h"
+#include "sensors/barometer.h"
 //#include "sensors/battery.h"
 //#include "sensors/boardalignment.h"
-#include "compass.h"
+#include "sensors/compass.h"
 #include "sensors.h"
-//#include "gyro.h"
+#include "sensors/gyro.h"
 
 //#include "telemetry/telemetry.h"
 
@@ -1087,7 +1087,7 @@ static void subTaskPidController(uint32_t currentTimeUs)
     uint32_t startTime = 0;
     //if (debugMode == DEBUG_PIDLOOP) {startTime = micros();}
     // PID - note this is function pointer set by setPIDController()
-    pidController(&currentPidProfile, currentTimeUs);
+    pidController(currentPidProfile, currentTimeUs);
     //DEBUG_SET(DEBUG_PIDLOOP, 1, micros() - startTime);
 
 #ifdef USE_RUNAWAY_TAKEOFF

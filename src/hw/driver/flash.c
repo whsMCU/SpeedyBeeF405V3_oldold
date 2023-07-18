@@ -12,7 +12,7 @@
 #ifdef _USE_HW_FLASH
 
 
-#define FLASH_SECTOR_MAX          11
+#define FLASH_SECTOR_MAX          12
 
 
 

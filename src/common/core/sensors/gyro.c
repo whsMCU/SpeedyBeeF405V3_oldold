@@ -53,9 +53,9 @@
 
 #include "scheduler/scheduler.h"
 
-#include "gyro.h"
-#include "gyro_init.h"
-#include "acceleration.h"
+#include "sensors/gyro.h"
+#include "sensors/gyro_init.h"
+#include "sensors/acceleration.h"
 #include "driver/accgyro/bmi270.h"
 
 #if ((TARGET_FLASH_SIZE > 128) && (defined(USE_GYRO_SPI_ICM20601) || defined(USE_GYRO_SPI_ICM20689) || defined(USE_GYRO_SPI_MPU6500)))

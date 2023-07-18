@@ -35,6 +35,7 @@
 #include "imu.h"
 #include "tasks.h"
 #include "rx/rx.h"
+#include "rc.h"
 #include "cli.h"
 #include "core.h"
 #include "pg.h"

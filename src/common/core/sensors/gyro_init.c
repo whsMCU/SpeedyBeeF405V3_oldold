@@ -30,6 +30,8 @@
 
 #include "config/config.h"
 
+#include "runtime_config.h"
+
 #include "driver/accgyro/bmi270.h"
 
 #include "driver/accgyro/gyro_sync.h"

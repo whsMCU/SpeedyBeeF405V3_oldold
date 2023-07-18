@@ -816,13 +816,13 @@ static float applyLaunchControl(int axis, const rollAndPitchTrims_t *angleTrim)
 
 // Betaflight pid controller, which will be maintained in the future with additional features specialised for current (mini) multirotor usage.
 // Based on 2DOF reference design (matlab)
- void pidController(const pidProfile_t *pidProfile, uint32_t currentTimeUs)
+ void pidController(const pidProfile_t *pidProfile, timeUs_t currentTimeUs)
  {
      static float previousGyroRateDterm[XYZ_AXIS_COUNT];
      static float previousRawGyroRateDterm[XYZ_AXIS_COUNT];
 
  #if defined(USE_ACC)
-     static uint32_t levelModeStartTimeUs = 0;
+     static timeUs_t levelModeStartTimeUs = 0;
      static bool gpsRescuePreviousState = false;
  #endif
 
