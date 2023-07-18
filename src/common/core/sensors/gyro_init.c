@@ -419,7 +419,7 @@ bool gyroInit(void)
     }
 
     if (eepromWriteRequired) {
-        writeEEPROM();
+        //writeEEPROM();
     }
 
      if (gyro.gyroToUse == GYRO_CONFIG_USE_GYRO_1 || gyro.gyroToUse == GYRO_CONFIG_USE_GYRO_BOTH) {

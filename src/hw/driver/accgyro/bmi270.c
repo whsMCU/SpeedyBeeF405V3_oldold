@@ -120,7 +120,7 @@ typedef enum {
 } bmi270ConfigValues_e;
 
 // Need to see at least this many interrupts during initialisation to confirm EXTI connectivity
-#define GYRO_EXTI_DETECT_THRESHOLD 1000
+#define GYRO_EXTI_DETECT_THRESHOLD 300
 
 static uint8_t _buffer[16] = {0, };
 
@@ -183,10 +183,11 @@ void bmi270Config()
 
     // Configure the accelerometer full-scale range
     SPI_RegisterWrite(_DEF_SPI1, BMI270_REG_ACC_RANGE, BMI270_VAL_ACC_RANGE_16G, 1);
-
+//    uint8_t temp_1[10], temp_2[10];
+//    SPI_ByteRead(_DEF_SPI1, BMI270_REG_GYRO_CONF | 0x80, temp_1, 2);
     // Configure the gyro
     SPI_RegisterWrite(_DEF_SPI1, BMI270_REG_GYRO_CONF, (BMI270_VAL_GYRO_CONF_FILTER_PERF << 7) | (BMI270_VAL_GYRO_CONF_NOISE_PERF << 6) | (BMI270_VAL_GYRO_CONF_BWP_OSR4 << 4) | BMI270_VAL_GYRO_CONF_ODR3200, 1);
-
+//    SPI_ByteRead(_DEF_SPI1, BMI270_REG_GYRO_CONF | 0x80, temp_2, 2);
     // Configure the gyro full-range scale
     SPI_RegisterWrite(_DEF_SPI1, BMI270_REG_GYRO_RANGE, BMI270_VAL_GYRO_RANGE_2000DPS, 1);
 
@@ -269,7 +270,7 @@ bool bmi270Detect(uint8_t ch)
 /*
  * Gyro interrupt service routine
  */
-#ifdef USE_GYRO_EXTI
+
 // Called in ISR context
 // Gyro read has just completed
 busStatus_e bmi270Intcallback(uint32_t arg)
@@ -286,13 +287,6 @@ busStatus_e bmi270Intcallback(uint32_t arg)
     return BUS_READY;
 }
 
-#else
-void bmi270ExtiHandler(extiCallbackRec_t *cb)
-{
-    gyroDev_t *gyro = container_of(cb, gyroDev_t, exti);
-    gyro->dataReady = true;
-}
-#endif
 
 bool bmi270SpiAccRead(accDev_t *acc)
 {
@@ -370,7 +364,7 @@ static bool bmi270GyroReadRegister(gyroDev_t *gyro)
     {
         // Initialise the tx buffer to all 0x00
         memset(gyro->txBuf, 0x00, 14);
-#ifdef USE_GYRO_EXTI
+
         // Check that minimum number of interrupts have been detected
 
         // We need some offset from the gyro interrupts to ensure sampling after the interrupt
@@ -386,7 +380,6 @@ static bool bmi270GyroReadRegister(gyroDev_t *gyro)
                 gyro->gyroModeSPI = GYRO_EXTI_INT;
             }
         } else
-#endif
         {
             gyro->gyroModeSPI = GYRO_EXTI_NO_INT;
         }

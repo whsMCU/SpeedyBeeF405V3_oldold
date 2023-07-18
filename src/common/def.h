@@ -67,7 +67,6 @@
 //#define USE_CRSF_V3
 //#define USE_CRSF_LINK_STATISTICS
 //#define USE_DYN_IDLE
-#define USE_GYRO_EXTI
 //#define USE_GYRO_DLPF_EXPERIMENTAL
 
 #ifdef USE_FAST_DATA
