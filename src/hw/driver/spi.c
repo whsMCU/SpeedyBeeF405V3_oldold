@@ -9,7 +9,7 @@
 #include "spi.h"
 #include "cli.h"
 #include "gpio.h"
-#include "bmi270.h"
+#include "driver/accgyro/bmi270.h"
 
 
 typedef struct
@@ -203,12 +203,12 @@ bool SPI_Set_Speed(uint8_t ch, uint32_t prescaler)
   return status;
 }
 
-HAL_StatusTypeDef SPI_ByteRead_DMA(uint8_t ch, uint8_t MemAddress, uint8_t *data, uint8_t length)
+HAL_StatusTypeDef SPI_ByteRead_DMA(uint8_t ch, uint8_t *MemAddress, uint8_t *data, uint8_t length)
 {
   spi_t  *p_spi = &spi_tbl[ch];
   HAL_StatusTypeDef status;
     gpioPinWrite(_PIN_DEF_CS, _DEF_LOW);
-    HAL_SPI_Transmit_DMA(p_spi->h_spi, &MemAddress, 1);
+    HAL_SPI_Transmit_DMA(p_spi->h_spi, MemAddress, 1);
     status = HAL_SPI_Receive_DMA(p_spi->h_spi, data, length);
     //status = HAL_SPI_TransmitReceive(p_spi->h_spi, &MemAddress, data, length, 10);
     gpioPinWrite(_PIN_DEF_CS, _DEF_HIGH);
@@ -480,6 +480,8 @@ void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
     {
       (*p_spi->func_rx)();
     }
+
+    bmi270Intcallback();
   }
 
   if (hspi->Instance == spi_tbl[_DEF_SPI2].h_spi->Instance)

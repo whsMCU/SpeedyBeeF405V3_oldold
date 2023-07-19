@@ -273,18 +273,16 @@ bool bmi270Detect(uint8_t ch)
 
 // Called in ISR context
 // Gyro read has just completed
-busStatus_e bmi270Intcallback(uint32_t arg)
+void bmi270Intcallback(void)
 {
-    gyroDev_t *gyro = (gyroDev_t *)arg;
-    int32_t gyroDmaDuration = cmpTimeCycles(getCycleCounter(), gyro->gyroLastEXTI);
+    gyroDev_t *gyro_temp = gyro.rawSensorDev;
+    int32_t gyroDmaDuration = cmpTimeCycles(getCycleCounter(), gyro_temp->gyroLastEXTI);
 
-    if (gyroDmaDuration > gyro->gyroDmaMaxDuration) {
-        gyro->gyroDmaMaxDuration = gyroDmaDuration;
+    if (gyroDmaDuration > gyro_temp->gyroDmaMaxDuration) {
+    	gyro_temp->gyroDmaMaxDuration = gyroDmaDuration;
     }
 
-    gyro->dataReady = true;
-
-    return BUS_READY;
+    gyro_temp->dataReady = true;
 }
 
 
@@ -373,7 +371,7 @@ static bool bmi270GyroReadRegister(gyroDev_t *gyro)
         if (gyro->detectedEXTI > GYRO_EXTI_DETECT_THRESHOLD) {
             if (true) {
                 gyro->txBuf[0] = BMI270_REG_ACC_DATA_X_LSB | 0x80;
-                SPI_ByteReadWrite_DMA(_DEF_SPI1, gyro->txBuf, gyro->rxBuf, 14);
+                //SPI_ByteRead_DMA(_DEF_SPI1, gyro->txBuf, gyro->rxBuf, 14);
                 gyro->gyroModeSPI = GYRO_EXTI_INT_DMA;
             } else {
                 // Interrupts are present, but no DMA
@@ -521,7 +519,7 @@ static void bmi270SpiGyroInit(gyroDev_t *gyro)
 {
     //extDevice_t *dev = &gyro->dev;
 
-    bmi270Config(gyro);
+    bmi270Config();
 
     //spiSetClkDivisor(dev, spiCalculateDivider(BMI270_MAX_SPI_CLK_HZ));
 }
@@ -538,11 +536,9 @@ bool bmi270SpiGyroDetect(gyroDev_t *gyro)
 
 static void (*frameCallBack)(void) = NULL;
 
-bool bmi270SetCallBack(void (*p_func)(void))
+void bmi270SetCallBack(void (*p_func)(void))
 {
   frameCallBack = p_func;
-
-  return true;
 }
 
 uint8_t bmi270InterruptStatus(gyroDev_t *gyro)
@@ -566,7 +562,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
         gyro_temp->gyroLastEXTI = nowCycles;
 
         if (gyro_temp->gyroModeSPI == GYRO_EXTI_INT_DMA) {
-        	SPI_ByteRead_DMA(_DEF_SPI1, BMI270_REG_GYR_DATA_X_LSB | 0x80, _buffer, 14);
+        	SPI_ByteReadWrite_DMA(_DEF_SPI1, gyro_temp->txBuf, gyro_temp->rxBuf, 14);
             //spiSequence(&gyro_temp->dev, gyro_temp->segments);
         }
 
