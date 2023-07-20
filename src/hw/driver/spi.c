@@ -85,6 +85,7 @@ bool spiBegin(uint8_t ch)
       hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
       hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
       hspi1.Init.CRCPolynomial = 10;
+      hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
 
       //HAL_SPI_DeInit(&hspi1);
       /* DMA controller clock enable */
@@ -210,7 +211,6 @@ HAL_StatusTypeDef SPI_ByteRead_DMA(uint8_t ch, uint8_t *MemAddress, uint8_t *dat
     gpioPinWrite(_PIN_DEF_CS, _DEF_LOW);
     HAL_SPI_Transmit_DMA(p_spi->h_spi, MemAddress, 1);
     status = HAL_SPI_Receive_DMA(p_spi->h_spi, data, length);
-    //status = HAL_SPI_TransmitReceive(p_spi->h_spi, &MemAddress, data, length, 10);
     gpioPinWrite(_PIN_DEF_CS, _DEF_HIGH);
   return status;
 }
@@ -436,6 +436,7 @@ void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi)
 
   if (hspi->Instance == spi_tbl[_DEF_SPI1].h_spi->Instance)
   {
+    bmi270Intcallback();
     p_spi = &spi_tbl[_DEF_SPI1];
 
     p_spi->is_rx_done = true;
@@ -480,8 +481,6 @@ void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
     {
       (*p_spi->func_rx)();
     }
-
-    bmi270Intcallback();
   }
 
   if (hspi->Instance == spi_tbl[_DEF_SPI2].h_spi->Instance)

@@ -371,7 +371,6 @@ static bool bmi270GyroReadRegister(gyroDev_t *gyro)
         if (gyro->detectedEXTI > GYRO_EXTI_DETECT_THRESHOLD) {
             if (true) {
                 gyro->txBuf[0] = BMI270_REG_ACC_DATA_X_LSB | 0x80;
-                //SPI_ByteRead_DMA(_DEF_SPI1, gyro->txBuf, gyro->rxBuf, 14);
                 gyro->gyroModeSPI = GYRO_EXTI_INT_DMA;
             } else {
                 // Interrupts are present, but no DMA
