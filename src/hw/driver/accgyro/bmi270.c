@@ -287,6 +287,31 @@ void bmi270Intcallback(void)
     gyro_temp->dataReady = true;
 }
 
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+	static uint32_t pre_time = 0;
+    if(GPIO_Pin==GPIO_PIN_4)
+    {
+        //gyro.rawSensorDev->dataReady = true;
+        //gyro_instace->imuDev.InterruptStatus = bmi270InterruptStatus(gyro_instace);
+        gyroDev_t *gyro_temp = gyro.rawSensorDev;
+        gyro_temp->exit_callback_dt = micros() - pre_time;
+        // Ideally we'd use a timer to capture such information, but unfortunately the port used for EXTI interrupt does
+        // not have an associated timer
+        uint32_t nowCycles = getCycleCounter();
+        gyro_temp->gyroSyncEXTI = gyro_temp->gyroLastEXTI + gyro_temp->gyroDmaMaxDuration;
+        gyro_temp->gyroLastEXTI = nowCycles;
+
+        if (gyro_temp->gyroModeSPI == GYRO_EXTI_INT_DMA) {
+        	SPI_ByteRead_DMA(_DEF_SPI1, gyro_temp->txBuf, gyro_temp->rxBuf, 14);
+            //spiSequence(&gyro_temp->dev, gyro_temp->segments);
+        }
+        pre_time = micros();
+        gyro_temp->detectedEXTI++;
+    }
+
+}
+
 
 bool bmi270SpiAccRead(accDev_t *acc)
 {
@@ -547,33 +572,6 @@ uint8_t bmi270InterruptStatus(gyroDev_t *gyro)
     uint8_t buffer[2] = {0, 0};
     SPI_ByteRead(gyro->gyro_bus_ch, BMI270_REG_INT_STATUS_1 | 0x80, buffer, 2);
     return buffer[1];
-}
-
-
-
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
-{
-	static uint32_t pre_time = 0;
-    if(GPIO_Pin==GPIO_PIN_4)
-    {
-        //gyro.rawSensorDev->dataReady = true;
-        //gyro_instace->imuDev.InterruptStatus = bmi270InterruptStatus(gyro_instace);
-        gyroDev_t *gyro_temp = gyro.rawSensorDev;
-        gyro_temp->exit_callback_dt = micros() - pre_time;
-        // Ideally we'd use a timer to capture such information, but unfortunately the port used for EXTI interrupt does
-        // not have an associated timer
-        uint32_t nowCycles = getCycleCounter();
-        gyro_temp->gyroSyncEXTI = gyro_temp->gyroLastEXTI + gyro_temp->gyroDmaMaxDuration;
-        gyro_temp->gyroLastEXTI = nowCycles;
-
-        if (gyro_temp->gyroModeSPI == GYRO_EXTI_INT_DMA) {
-        	SPI_ByteRead_DMA(_DEF_SPI1, gyro_temp->txBuf, gyro_temp->rxBuf, 14);
-            //spiSequence(&gyro_temp->dev, gyro_temp->segments);
-        }
-        pre_time = micros();
-        gyro_temp->detectedEXTI++;
-    }
-
 }
 
 #ifdef _USE_HW_CLI
