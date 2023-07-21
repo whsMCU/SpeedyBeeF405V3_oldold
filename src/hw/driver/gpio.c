@@ -60,7 +60,7 @@ bool gpioInit(void)
   }
 
   /* EXTI interrupt init*/
-  HAL_NVIC_SetPriority(EXTI4_IRQn, 0x0F, 0x0F);
+  HAL_NVIC_SetPriority(EXTI4_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(EXTI4_IRQn);
 
 #ifdef _USE_HW_CLI

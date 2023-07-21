@@ -115,6 +115,8 @@ typedef struct gyroDev_s {
     uint32_t gyroSyncEXTI;
     int32_t gyroShortPeriod;
     int32_t gyroDmaMaxDuration;
+    uint32_t exit_callback_dt;
+    uint32_t rx_callback_dt;
     //busSegment_t segments[2];
 
     volatile bool dataReady;

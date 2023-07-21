@@ -85,18 +85,9 @@ bool spiBegin(uint8_t ch)
       hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
       hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
       hspi1.Init.CRCPolynomial = 10;
-      hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
 
       //HAL_SPI_DeInit(&hspi1);
-      /* DMA controller clock enable */
-      __HAL_RCC_DMA2_CLK_ENABLE();
 
-      /* DMA2_Stream2_IRQn interrupt configuration */
-      HAL_NVIC_SetPriority(DMA2_Stream2_IRQn, 0, 0);
-      HAL_NVIC_EnableIRQ(DMA2_Stream2_IRQn);
-      /* DMA2_Stream3_IRQn interrupt configuration */
-      HAL_NVIC_SetPriority(DMA2_Stream3_IRQn, 0, 0);
-      HAL_NVIC_EnableIRQ(DMA2_Stream3_IRQn);
       if (HAL_SPI_Init(&hspi1) == HAL_OK)
       {
         p_spi->is_open = true;
