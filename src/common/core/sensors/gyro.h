@@ -132,7 +132,6 @@ typedef struct gyroDev_s {
     uint16_t accSampleRateHz;
     uint8_t accDataReg;
     uint8_t gyroDataReg;
-    volatile uint8_t InterruptStatus;
 } gyroDev_t;
 
 typedef struct gyroSensor_s {

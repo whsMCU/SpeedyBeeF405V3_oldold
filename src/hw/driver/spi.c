@@ -427,7 +427,6 @@ void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi)
 
   if (hspi->Instance == spi_tbl[_DEF_SPI1].h_spi->Instance)
   {
-    bmi270Intcallback();
     p_spi = &spi_tbl[_DEF_SPI1];
 
     p_spi->is_rx_done = true;
@@ -457,6 +456,7 @@ void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
 
   if (hspi->Instance == spi_tbl[_DEF_SPI1].h_spi->Instance)
   {
+    bmi270Intcallback();
     p_spi = &spi_tbl[_DEF_SPI1];
 
     p_spi->is_tx_done = true;
