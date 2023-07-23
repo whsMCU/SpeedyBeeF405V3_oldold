@@ -344,7 +344,8 @@ static bool gyroDetectSensor(gyroSensor_t *gyroSensor)
 	//bool gyroFound = mpuDetect(&gyroSensor->gyroDev, config);
 
 	delay(35);
-	bmi270Config();
+	//bmi270Config();
+	while (millis() < 100);
 
 	for(int i = 0; i > 5; i++)
 	{

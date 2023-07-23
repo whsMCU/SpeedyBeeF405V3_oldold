@@ -258,13 +258,14 @@ bool bmi270_Init(void)
 
 bool bmi270Detect(uint8_t ch)
 {
-    memset(_buffer, 0x00, 7);
-    SPI_ByteRead(ch, BMI270_REG_CHIP_ID | 0x80, _buffer, 2);
-    if (_buffer[1] == BMI270_CHIP_ID)
-    {
-        return true;
-    }
-    return false;
+	memset(_buffer, 0x00, 7);
+	bmi270EnableSPI(0);
+	SPI_ByteRead(ch, BMI270_REG_CHIP_ID | 0x80, _buffer, 2);
+	if (_buffer[1] == BMI270_CHIP_ID)
+	{
+			return true;
+	}
+	return false;
 }
 
 /*
