@@ -75,13 +75,6 @@ bool uartOpen(uint8_t ch, uint32_t baud)
 
     	QueueCreate(&ring_buffer[ch], (uint8_t *)&u2_rx_buf[0], MAX_SIZE_RX);
 
-      /* DMA controller clock enable */
-      __HAL_RCC_DMA1_CLK_ENABLE();
-
-      /* DMA1_Stream5_IRQn interrupt configuration */
-      HAL_NVIC_SetPriority(DMA1_Stream5_IRQn, 0, 0);
-      HAL_NVIC_EnableIRQ(DMA1_Stream5_IRQn);
-
     	if (HAL_UART_Init(&huart2) != HAL_OK)
     	{
     	  Error_Handler();
@@ -110,13 +103,6 @@ bool uartOpen(uint8_t ch, uint32_t baud)
     	huart3.Init.OverSampling = UART_OVERSAMPLING_16;
 
     	QueueCreate(&ring_buffer[ch], (uint8_t *)&u3_rx_buf[0], MAX_SIZE);
-
-      /* DMA controller clock enable */
-      __HAL_RCC_DMA1_CLK_ENABLE();
-
-      /* DMA1_Stream1_IRQn interrupt configuration */
-      HAL_NVIC_SetPriority(DMA1_Stream1_IRQn, 0, 0);
-      HAL_NVIC_EnableIRQ(DMA1_Stream1_IRQn);
 
     	if (HAL_UART_Init(&huart3) != HAL_OK)
     	{
@@ -147,13 +133,6 @@ bool uartOpen(uint8_t ch, uint32_t baud)
 
     	QueueCreate(&ring_buffer[ch], (uint8_t *)&u4_rx_buf[0], MAX_SIZE);
 
-      /* DMA controller clock enable */
-      __HAL_RCC_DMA1_CLK_ENABLE();
-
-      /* DMA1_Stream2_IRQn interrupt configuration */
-      HAL_NVIC_SetPriority(DMA1_Stream2_IRQn, 0, 0);
-      HAL_NVIC_EnableIRQ(DMA1_Stream2_IRQn);
-
     	if (HAL_UART_Init(&huart4) != HAL_OK)
     	{
     	  Error_Handler();
@@ -181,13 +160,6 @@ bool uartOpen(uint8_t ch, uint32_t baud)
     	huart5.Init.OverSampling = UART_OVERSAMPLING_16;
 
     	QueueCreate(&ring_buffer[ch], (uint8_t *)&u5_rx_buf[0], MAX_SIZE);
-
-      /* DMA controller clock enable */
-      __HAL_RCC_DMA1_CLK_ENABLE();
-
-      /* DMA1_Stream0_IRQn interrupt configuration */
-      HAL_NVIC_SetPriority(DMA1_Stream0_IRQn, 0, 0);
-      HAL_NVIC_EnableIRQ(DMA1_Stream0_IRQn);
 
     	if (HAL_UART_Init(&huart5) != HAL_OK)
     	{
@@ -217,12 +189,6 @@ bool uartOpen(uint8_t ch, uint32_t baud)
     	huart6.Init.OverSampling = UART_OVERSAMPLING_16;
 
     	QueueCreate(&ring_buffer[ch], (uint8_t *)&u6_rx_buf[0], MAX_SIZE);
-
-      /* DMA controller clock enable */
-      __HAL_RCC_DMA2_CLK_ENABLE();
-      /* DMA2_Stream1_IRQn interrupt configuration */
-      HAL_NVIC_SetPriority(DMA2_Stream1_IRQn, 0, 0);
-      HAL_NVIC_EnableIRQ(DMA2_Stream1_IRQn);
 
     	if (HAL_UART_Init(&huart6) != HAL_OK)
     	{
@@ -622,12 +588,12 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
   //  {
   //  	Q_write(&ring_buffer[_DEF_UART1], &rx_data[_DEF_UART1], 1);
   //  }
-//   if(huart->Instance == USART2)
-//   {
-//     while(uartAvailable(_DEF_UART2)){
-//    	 crsfDataReceive(uartRead(_DEF_UART2), rxRuntimeState.frameData);
-//     }
-//  }
+   if(huart->Instance == USART2)
+   {
+			while(uartAvailable(_DEF_UART2)){
+					crsfDataReceive(uartRead(_DEF_UART2), rxRuntimeState.frameData);
+			}
+   }
 }
 
 void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
@@ -708,8 +674,11 @@ void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
     hdma_usart2_rx.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
     hdma_usart2_rx.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
     hdma_usart2_rx.Init.Mode = DMA_CIRCULAR;
-    hdma_usart2_rx.Init.Priority = DMA_PRIORITY_LOW;
+    hdma_usart2_rx.Init.Priority = DMA_PRIORITY_MEDIUM;
     hdma_usart2_rx.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
+    hdma_usart2_rx.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_1QUARTERFULL;
+    hdma_usart2_rx.Init.MemBurst = DMA_MBURST_SINGLE;
+    hdma_usart2_rx.Init.PeriphBurst = DMA_PBURST_SINGLE;
     if (HAL_DMA_Init(&hdma_usart2_rx) != HAL_OK)
     {
       Error_Handler();
