@@ -195,6 +195,20 @@ bool SPI_Set_Speed(uint8_t ch, uint32_t prescaler)
   return status;
 }
 
+HAL_StatusTypeDef SPI_ByteRead_Poll(uint8_t ch, uint8_t *MemAddress, uint8_t *data, uint8_t length)
+{
+	spi_t  *p_spi = &spi_tbl[ch];
+	HAL_StatusTypeDef status;
+	gpioPinWrite(_PIN_DEF_CS, _DEF_LOW);
+	HAL_SPI_Transmit(p_spi->h_spi, MemAddress, 1, 10);
+	status = HAL_SPI_Receive(p_spi->h_spi, data, length, 10);
+	gpioPinWrite(_PIN_DEF_CS, _DEF_HIGH);
+
+    // Wait for completion
+	while(HAL_SPI_GetState(p_spi->h_spi) != HAL_SPI_STATE_READY);
+	return status;
+}
+
 HAL_StatusTypeDef SPI_ByteRead_DMA(uint8_t ch, uint8_t *MemAddress, uint8_t *data, uint8_t length)
 {
   spi_t  *p_spi = &spi_tbl[ch];

@@ -120,7 +120,7 @@ typedef enum {
 } bmi270ConfigValues_e;
 
 // Need to see at least this many interrupts during initialisation to confirm EXTI connectivity
-#define GYRO_EXTI_DETECT_THRESHOLD 300
+#define GYRO_EXTI_DETECT_THRESHOLD 1000
 
 static uint8_t _buffer[16] = {0, };
 
@@ -313,7 +313,6 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 
 }
 
-
 bool bmi270SpiAccRead(accDev_t *acc)
 {
 
@@ -321,19 +320,9 @@ bool bmi270SpiAccRead(accDev_t *acc)
   case GYRO_EXTI_INT:
   case GYRO_EXTI_NO_INT:
   {
-//      acc->gyro->dev.txBuf[0] = BMI270_REG_ACC_DATA_X_LSB | 0x80;
-//
-//      busSegment_t segments[] = {
-//              {.u.buffers = {NULL, NULL}, 8, true, NULL},
-//              {.u.link = {NULL, NULL}, 0, true, NULL},
-//      };
-//      segments[0].u.buffers.txData = acc->gyro->dev.txBuf;
-//      segments[0].u.buffers.rxData = acc->gyro->dev.rxBuf;
-//
-//      spiSequence(&acc->gyro->dev, &segments[0]);
-//
-//      // Wait for completion
-//      spiWait(&acc->gyro->dev);
+      acc->gyro->txBuf[0] = BMI270_REG_ACC_DATA_X_LSB | 0x80;
+
+      SPI_ByteRead_Poll(_DEF_SPI1, acc->gyro->txBuf, acc->gyro->rxBuf, 8);
 
       // Fall through
       FALLTHROUGH;
@@ -345,10 +334,14 @@ bool bmi270SpiAccRead(accDev_t *acc)
       // up an old value.
 
       // This data was read from the gyro, which is the same SPI device as the acc
-      uint16_t *accData = (uint16_t *)acc->gyro->rxBuf;
-      acc->ADCRaw[X] = accData[1];
-      acc->ADCRaw[Y] = accData[2];
-      acc->ADCRaw[Z] = accData[3];
+      uint16_t *accData = (uint16_t *)(acc->gyro->rxBuf+1);
+      acc->ADCRaw[X] = accData[0];
+      acc->ADCRaw[Y] = accData[1];
+      acc->ADCRaw[Z] = accData[2];
+
+      //acc->ADCRaw[X] = (int16_t)((uint16_t)acc->gyro->rxBuf[2]<<8 | (uint16_t)acc->gyro->rxBuf[1]);
+      //acc->ADCRaw[Y] = (int16_t)((uint16_t)acc->gyro->rxBuf[4]<<8 | (uint16_t)acc->gyro->rxBuf[3]);
+      //acc->ADCRaw[Z] = (int16_t)((uint16_t)acc->gyro->rxBuf[6]<<8 | (uint16_t)acc->gyro->rxBuf[5]);
       break;
   }
 
@@ -384,7 +377,7 @@ bool bmi270SpiAccRead(accDev_t *acc)
 
 static bool bmi270GyroReadRegister(gyroDev_t *gyro)
 {
-    uint16_t *gyroData = (uint16_t *)gyro->rxBuf;
+    uint16_t *gyroData = (uint16_t *)(gyro->rxBuf+1);
     switch (gyro->gyroModeSPI) {
     case GYRO_EXTI_INIT:
     {
@@ -414,23 +407,18 @@ static bool bmi270GyroReadRegister(gyroDev_t *gyro)
     case GYRO_EXTI_INT:
     case GYRO_EXTI_NO_INT:
     {
-//        gyro->dev.txBuf[0] = BMI270_REG_GYR_DATA_X_LSB | 0x80;
-//
-//        busSegment_t segments[] = {
-//                {.u.buffers = {NULL, NULL}, 8, true, NULL},
-//                {.u.link = {NULL, NULL}, 0, true, NULL},
-//        };
-//        segments[0].u.buffers.txData = gyro->dev.txBuf;
-//        segments[0].u.buffers.rxData = gyro->dev.rxBuf;
-//
-//        spiSequence(&gyro->dev, &segments[0]);
-//
-//        // Wait for completion
-//        spiWait(&gyro->dev);
+        gyro->txBuf[0] = BMI270_REG_GYR_DATA_X_LSB | 0x80;
 
-        gyro->gyroADCRaw[X] = gyroData[1];
-        gyro->gyroADCRaw[Y] = gyroData[2];
-        gyro->gyroADCRaw[Z] = gyroData[3];
+        SPI_ByteRead_Poll(_DEF_SPI1, gyro->txBuf, gyro->rxBuf, 8);
+
+
+        gyro->gyroADCRaw[X] = gyroData[0];
+        gyro->gyroADCRaw[Y] = gyroData[1];
+        gyro->gyroADCRaw[Z] = gyroData[2];
+
+        //gyro->gyroADCRaw[X] = (int16_t)((uint16_t)gyro->rxBuf[2]<<8 | (uint16_t)gyro->rxBuf[1]);
+        //gyro->gyroADCRaw[Y] = (int16_t)((uint16_t)gyro->rxBuf[4]<<8 | (uint16_t)gyro->rxBuf[3]);
+        //gyro->gyroADCRaw[Z] = (int16_t)((uint16_t)gyro->rxBuf[6]<<8 | (uint16_t)gyro->rxBuf[5]);
 
         break;
     }

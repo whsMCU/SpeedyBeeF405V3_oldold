@@ -373,10 +373,9 @@ static void checkForYawSpin(timeUs_t currentTimeUs)
 
 static void gyroUpdateSensor(gyroSensor_t *gyroSensor)
 {
-		if (!gyroSensor->gyroDev.readFn(&gyroSensor->gyroDev)) {
-				return;
-		}
-
+	if (!gyroSensor->gyroDev.readFn(&gyroSensor->gyroDev)) {
+		return;
+	}
     gyroSensor->gyroDev.dataReady = false;
 
     if (isGyroSensorCalibrationComplete(gyroSensor)) {

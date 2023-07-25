@@ -41,7 +41,7 @@ void apInit(void)
 
 	mixerInit(mixerConfig()->mixerMode);
 	// Finally initialize the gyro filtering
-  gyroInitFilters();
+	gyroInitFilters();
 	pidInit(currentPidProfile);
 	mixerInitProfile();
 	rxInit();
