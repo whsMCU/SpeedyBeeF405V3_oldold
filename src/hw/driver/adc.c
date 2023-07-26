@@ -253,7 +253,7 @@ bool adcInit(void)
 
 uint16_t adcGetChannel(uint8_t channel)
 {
-    adcGetChannelValues();
+    //adcGetChannelValues();
 
 #ifdef DEBUG_ADC_CHANNELS
     if (adcOperatingConfig[0].enabled) {

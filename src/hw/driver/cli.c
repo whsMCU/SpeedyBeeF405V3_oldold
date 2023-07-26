@@ -139,7 +139,7 @@ bool cliInit(void)
 
   cliAdd("help", cliShowList);
   cliAdd("md"  , cliMemoryDump);
-  cliAdd("task"  , cliTaskList);
+  cliAdd("tasks"  , cliTaskList);
   #ifdef _USE_HW_RTC
   cliAdd("bl"  , cliBootloader);
   #endif

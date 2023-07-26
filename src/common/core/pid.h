@@ -26,6 +26,7 @@
 #include "axis.h"
 #include "sensors.h"
 #include "def.h"
+#include "sensors/battery.h"
 
 #include "pg/pg.h"
 
@@ -77,11 +78,6 @@
 #define SIMPLIFIED_TUNING_MAX 200
 #define SIMPLIFIED_TUNING_DEFAULT 100
 #define SIMPLIFIED_TUNING_D_DEFAULT 100
-
-enum {
-    AUTO_PROFILE_CELL_COUNT_STAY = 0, // Stay on this profile irrespective of the detected cell count. Use this profile if no other profile matches (default, i.e. auto profile switching is off)
-    AUTO_PROFILE_CELL_COUNT_CHANGE = -1, // Always switch to a profile with matching cell count if there is one
-};
 
 typedef enum {
     PID_SIMPLIFIED_TUNING_OFF = 0,

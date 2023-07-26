@@ -588,11 +588,13 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
   //  {
   //  	Q_write(&ring_buffer[_DEF_UART1], &rx_data[_DEF_UART1], 1);
   //  }
+	void *rxCallbackData = &rxRuntimeState;
+
    if(huart->Instance == USART2)
    {
-			while(uartAvailable(_DEF_UART2)){
-					crsfDataReceive(uartRead(_DEF_UART2), rxRuntimeState.frameData);
-			}
+		while(uartAvailable(_DEF_UART2)){
+				crsfDataReceive(uartRead(_DEF_UART2), rxCallbackData);
+		}
    }
 }
 
