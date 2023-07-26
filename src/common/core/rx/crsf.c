@@ -387,6 +387,7 @@ void crsfDataReceive(uint16_t c, void *data)
                 case CRSF_FRAMETYPE_SUBSET_RC_CHANNELS_PACKED:
                     if (crsfFrame.frame.deviceAddress == CRSF_ADDRESS_FLIGHT_CONTROLLER) {
                         rxRuntimeState->lastRcFrameTimeUs = currentTimeUs;
+                        rxRuntimeState->FrameTime = rxRuntimeState->lastRcFrameTimeUs - crsfFrameStartAtUs;
                         crsfFrameDone = true;
                         memcpy(&crsfChannelDataFrame, &crsfFrame, sizeof(crsfFrame));
                     }

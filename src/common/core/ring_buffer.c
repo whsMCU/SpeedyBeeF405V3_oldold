@@ -19,7 +19,7 @@ bool QueueCreate(Queue_t *Q, uint8_t *Q_buf, uint32_t length)
 	Q->buffer = Q_buf;
 	Q->head = 0;
 	Q->tail = 0;
-	Q->size = MAX_SIZE;
+	Q->size = length;
 	Q->temp = 0;
 	Q->cnt = 0;
 
@@ -28,7 +28,7 @@ bool QueueCreate(Queue_t *Q, uint8_t *Q_buf, uint32_t length)
 
 uint8_t Q_full(Queue_t *Q)
 {
-	if((Q->head+1)%MAX_SIZE == Q->tail){
+	if((Q->head+1)%Q->size == Q->tail){
 	   return true;
 	} return false;
 }
@@ -45,7 +45,7 @@ bool Q_write(Queue_t *Q, uint8_t *p_data, uint32_t length){
 	for (int i=0; i<length; i++)
 	{
 		Q->buffer[Q->head] = p_data[i];
-		Q->head = (Q->head+1) % MAX_SIZE;
+		Q->head = (Q->head+1) % Q->size;
 	}
 	return true;
 }
@@ -57,7 +57,7 @@ bool Q_read(Queue_t *Q, uint8_t *p_data, uint32_t length){
 	for (int i=0; i<length; i++)
 	{
 		p_data[i] = Q->buffer[Q->tail];
-		Q->tail = (Q->tail+1) % MAX_SIZE;
+		Q->tail = (Q->tail+1) % Q->size;
 	}
 
 	return true;

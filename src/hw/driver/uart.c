@@ -14,7 +14,7 @@
 
 
 static bool is_open[UART_MAX_CH];
-#define MAX_SIZE_RX 255
+#define MAX_SIZE_RX 128
 
 static Queue_t ring_buffer[UART_MAX_CH];
 static uint8_t u1_rx_buf[MAX_SIZE];
@@ -588,14 +588,22 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
   //  {
   //  	Q_write(&ring_buffer[_DEF_UART1], &rx_data[_DEF_UART1], 1);
   //  }
+	static uint32_t pre_time = 0;
+
 	void *rxCallbackData = &rxRuntimeState;
 
+ 	rxRuntimeState.callbackTime = micros() - pre_time;
    if(huart->Instance == USART2)
    {
+  	rxRuntimeState.uartAvailable = uartAvailable(_DEF_UART2);
 		while(uartAvailable(_DEF_UART2)){
 				crsfDataReceive(uartRead(_DEF_UART2), rxCallbackData);
+				rxRuntimeState.rx_count++;
 		}
    }
+   pre_time = micros();
+	rxRuntimeState.rx_count = 0;
+
 }
 
 void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
