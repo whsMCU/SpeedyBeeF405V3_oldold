@@ -33,6 +33,7 @@
 #include "telemetry.h"
 
 #include "sensors/battery.h"
+#include "sensors/adcinternal.h"
 
 #include "imu.h"
 #include "tasks.h"
@@ -47,8 +48,6 @@
 #define RX_TASK_DECAY_SHIFT 6
 // Add a margin to the task duration estimation
 #define RX_TASK_MARGIN 1
-
-static uint8_t pidUpdateCounter;
 
 static void taskMain(uint32_t currentTimeUs)
 {

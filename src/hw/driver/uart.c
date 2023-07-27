@@ -14,7 +14,7 @@
 
 
 static bool is_open[UART_MAX_CH];
-#define MAX_SIZE_RX 128
+#define MAX_SIZE_RX 64
 
 static Queue_t ring_buffer[UART_MAX_CH];
 static uint8_t u1_rx_buf[MAX_SIZE];
@@ -87,8 +87,8 @@ bool uartOpen(uint8_t ch, uint32_t baud)
         {
           ret = false;
         }
-        ring_buffer[ch].head  = ring_buffer[ch].size - hdma_usart2_rx.Instance->NDTR;
-        ring_buffer[ch].tail = ring_buffer[ch].head;
+        //ring_buffer[ch].head  = ring_buffer[ch].size - hdma_usart2_rx.Instance->NDTR;
+        //ring_buffer[ch].tail = ring_buffer[ch].head;
     	}
       break;
 
@@ -590,19 +590,19 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
   //  }
 	static uint32_t pre_time = 0;
 
-	void *rxCallbackData = &rxRuntimeState;
-
- 	rxRuntimeState.callbackTime = micros() - pre_time;
    if(huart->Instance == USART2)
    {
-  	rxRuntimeState.uartAvailable = uartAvailable(_DEF_UART2);
-		while(uartAvailable(_DEF_UART2)){
+  		void *rxCallbackData = &rxRuntimeState;
+  	 	rxRuntimeState.callbackTime = micros() - pre_time;
+  	 	rxRuntimeState.uartAvailable = uartAvailable(_DEF_UART2);
+  	 	while(uartAvailable(_DEF_UART2)){
 				crsfDataReceive(uartRead(_DEF_UART2), rxCallbackData);
 				rxRuntimeState.rx_count++;
-		}
+  	 	}
+  	 	pre_time = micros();
+  	 	rxRuntimeState.rx_count = 0;
    }
-   pre_time = micros();
-	rxRuntimeState.rx_count = 0;
+
 
 }
 
