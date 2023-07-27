@@ -30,6 +30,8 @@
 
 #include "utils.h"
 
+#include "time.h"
+
 #include "adc.h"
 
 typedef struct movingAverageStateUint16_s {
@@ -81,7 +83,6 @@ void adcInternalProcess(timeUs_t currentTimeUs)
 //    if (adcInternalIsBusy()) {
 //        return;
 //    }
-    adcInternalConversionInProgress = false;
 
     uint16_t vrefintSample = adcInternalReadVrefint();
     uint16_t tempsensorSample = adcInternalReadTempsensor();
@@ -92,22 +93,21 @@ void adcInternalProcess(timeUs_t currentTimeUs)
     vrefMv = adcInternalCompensateVref(adcVrefintValue);
     coreTemperature = adcInternalComputeTemperature(adcTempsensorValue, vrefMv);
 
-    DEBUG_SET(DEBUG_ADC_INTERNAL, 0, coreTemperature);
-    DEBUG_SET(DEBUG_ADC_INTERNAL, 1, vrefintSample);
-    DEBUG_SET(DEBUG_ADC_INTERNAL, 2, tempsensorSample);
-    DEBUG_SET(DEBUG_ADC_INTERNAL, 3, vrefMv);
+//    DEBUG_SET(DEBUG_ADC_INTERNAL, 0, coreTemperature);
+//    DEBUG_SET(DEBUG_ADC_INTERNAL, 1, vrefintSample);
+//    DEBUG_SET(DEBUG_ADC_INTERNAL, 2, tempsensorSample);
+//    DEBUG_SET(DEBUG_ADC_INTERNAL, 3, vrefMv);
 
-    adcInternalConversionInProgress = true;
-    adcInternalStartConversion(); // Start next conversion
+    //adcInternalStartConversion(); // Start next conversion
 }
 
 void adcInternalInit(void)
 {
     // Call adcInternalProcess repeatedly to fill moving average array
     for (int i = 0 ; i < 9 ; i++) {
-        while (adcInternalIsBusy()) {
-            // empty
-        }
+//        while (adcInternalIsBusy()) {
+//            // empty
+//        }
         adcInternalProcess(0);
     }
 }

@@ -40,6 +40,7 @@ void apInit(void)
 	compassInit();
 
 	mixerInit(mixerConfig()->mixerMode);
+	adcInternalInit();
 	// Finally initialize the gyro filtering
 	gyroInitFilters();
 	pidInit(currentPidProfile);
@@ -47,6 +48,7 @@ void apInit(void)
 	rxInit();
 	gpsInit();
 	tasksInit();
+
 }
 
 void apMain(void)

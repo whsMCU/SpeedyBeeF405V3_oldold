@@ -36,44 +36,21 @@ adcOperatingConfig_t adcOperatingConfig[ADC_CHANNEL_COUNT];
 
 volatile uint16_t adcValues[ADC_CHANNEL_COUNT_Custem];
 
-// void adcInitDevice(ADC_TypeDef *adcdev, int channelCount)
-// {
-//     ADC_InitTypeDef ADC_InitStructure;
-
-//     ADC_StructInit(&ADC_InitStructure);
-
-//     ADC_InitStructure.ADC_ContinuousConvMode       = ENABLE;
-//     ADC_InitStructure.ADC_Resolution               = ADC_Resolution_12b;
-//     ADC_InitStructure.ADC_ExternalTrigConv         = ADC_ExternalTrigConv_T1_CC1;
-//     ADC_InitStructure.ADC_ExternalTrigConvEdge     = ADC_ExternalTrigConvEdge_None;
-//     ADC_InitStructure.ADC_DataAlign                = ADC_DataAlign_Right;
-//     ADC_InitStructure.ADC_NbrOfConversion          = channelCount;
-
-//     // Multiple injected channel seems to require scan conversion mode to be
-//     // enabled even if main (non-injected) channel count is 1.
-// #ifdef USE_ADC_INTERNAL
-//     ADC_InitStructure.ADC_ScanConvMode             = ENABLE;
-// #else
-//     ADC_InitStructure.ADC_ScanConvMode             = channelCount > 1 ? ENABLE : DISABLE; // 1=scan more that one channel in group
-// #endif
-//     ADC_Init(adcdev, &ADC_InitStructure);
-// }
-
 #ifdef USE_ADC_INTERNAL
-void adcInitInternalInjected(const adcConfig_t *config)
-{
-    ADC_TempSensorVrefintCmd(ENABLE);
-    ADC_InjectedDiscModeCmd(ADC1, DISABLE);
-    ADC_InjectedSequencerLengthConfig(ADC1, 2);
-    ADC_InjectedChannelConfig(ADC1, ADC_Channel_Vrefint, 1, ADC_SampleTime_480Cycles);
-    ADC_InjectedChannelConfig(ADC1, ADC_Channel_TempSensor, 2, ADC_SampleTime_480Cycles);
-
-    adcVREFINTCAL = config->vrefIntCalibration ? config->vrefIntCalibration : *(uint16_t *)VREFINT_CAL_ADDR;
-    adcTSCAL1 = config->tempSensorCalibration1 ? config->tempSensorCalibration1 : *(uint16_t *)TS_CAL1_ADDR;
-    adcTSCAL2 = config->tempSensorCalibration2 ? config->tempSensorCalibration2 : *(uint16_t *)TS_CAL2_ADDR;
-
-    adcTSSlopeK = (110 - 30) * 1000 / (adcTSCAL2 - adcTSCAL1);
-}
+//void adcInitInternalInjected(const adcConfig_t *config)
+//{
+//    ADC_TempSensorVrefintCmd(ENABLE);
+//    ADC_InjectedDiscModeCmd(ADC1, DISABLE);
+//    ADC_InjectedSequencerLengthConfig(ADC1, 2);
+//    ADC_InjectedChannelConfig(ADC1, ADC_Channel_Vrefint, 1, ADC_SampleTime_480Cycles);
+//    ADC_InjectedChannelConfig(ADC1, ADC_Channel_TempSensor, 2, ADC_SampleTime_480Cycles);
+//
+//    adcVREFINTCAL = config->vrefIntCalibration ? config->vrefIntCalibration : *(uint16_t *)VREFINT_CAL_ADDR;
+//    adcTSCAL1 = config->tempSensorCalibration1 ? config->tempSensorCalibration1 : *(uint16_t *)TS_CAL1_ADDR;
+//    adcTSCAL2 = config->tempSensorCalibration2 ? config->tempSensorCalibration2 : *(uint16_t *)TS_CAL2_ADDR;
+//
+//    adcTSSlopeK = (110 - 30) * 1000 / (adcTSCAL2 - adcTSCAL1);
+//}
 
 // Note on sampling time for temperature sensor and vrefint:
 // Both sources have minimum sample time of 10us.
@@ -83,7 +60,7 @@ void adcInitInternalInjected(const adcConfig_t *config)
 //
 // 480cycles@15.0MHz = 32us
 
-static bool adcInternalConversionInProgress = false;
+//static bool adcInternalConversionInProgress = false;
 
 //bool adcInternalIsBusy(void)
 //{
@@ -184,6 +161,12 @@ bool adcInit(void)
   }
 
   HAL_ADC_Start_DMA(&hadc1, (uint32_t*)&adcValues[0], 5);
+
+  adcVREFINTCAL = *(uint16_t *)VREFINT_CAL_ADDR;
+  adcTSCAL1 = *(uint16_t *)TEMPSENSOR_CAL1_ADDR;
+  adcTSCAL2 = *(uint16_t *)TEMPSENSOR_CAL2_ADDR;
+
+  adcTSSlopeK = (110 - 30) * 1000 / (adcTSCAL2 - adcTSCAL1);
 
 //     ADC_SoftwareStartConv(adc.ADCx);
     return ret;
