@@ -69,8 +69,8 @@ bool adcInit(void);
 uint16_t adcGetChannel(uint8_t channel);
 
 #ifdef USE_ADC_INTERNAL
-bool adcInternalIsBusy(void);
-void adcInternalStartConversion(void);
+//bool adcInternalIsBusy(void);
+//void adcInternalStartConversion(void);
 uint16_t adcInternalReadVrefint(void);
 uint16_t adcInternalReadTempsensor(void);
 uint16_t adcInternalCompensateVref(uint16_t vrefAdcValue);

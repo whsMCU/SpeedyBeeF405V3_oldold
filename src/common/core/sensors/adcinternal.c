@@ -22,14 +22,15 @@
 #include <stdint.h>
 
 //#include "platform.h"
+#include "hw_def.h"
 
 #if defined(USE_ADC_INTERNAL)
 
-#include "build/debug.h"
+//#include "build/debug.h"
 
-#include "common/utils.h"
+#include "utils.h"
 
-#include "drivers/adc.h"
+#include "adc.h"
 
 typedef struct movingAverageStateUint16_s {
     uint32_t sum;
@@ -77,9 +78,10 @@ void adcInternalProcess(timeUs_t currentTimeUs)
 {
     UNUSED(currentTimeUs);
 
-    if (adcInternalIsBusy()) {
-        return;
-    }
+//    if (adcInternalIsBusy()) {
+//        return;
+//    }
+    adcInternalConversionInProgress = false;
 
     uint16_t vrefintSample = adcInternalReadVrefint();
     uint16_t tempsensorSample = adcInternalReadTempsensor();
@@ -95,6 +97,7 @@ void adcInternalProcess(timeUs_t currentTimeUs)
     DEBUG_SET(DEBUG_ADC_INTERNAL, 2, tempsensorSample);
     DEBUG_SET(DEBUG_ADC_INTERNAL, 3, vrefMv);
 
+    adcInternalConversionInProgress = true;
     adcInternalStartConversion(); // Start next conversion
 }
 

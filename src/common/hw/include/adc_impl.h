@@ -22,47 +22,6 @@
 
 #include "adc.h"
 
-// typedef struct adcTagMap_s {
-//     ioTag_t tag;
-// #if !defined(STM32F1) // F1 pins have uniform connection to ADC instances
-//     uint8_t devices;
-// #endif
-//     uint32_t channel;
-// #if defined(STM32H7) || defined(STM32G4)
-//     uint8_t channelOrdinal;
-// #endif
-// } adcTagMap_t;
-
-// // Encoding for adcTagMap_t.devices
-
-// #define ADC_DEVICES_1   (1 << ADCDEV_1)
-// #define ADC_DEVICES_2   (1 << ADCDEV_2)
-// #define ADC_DEVICES_3   (1 << ADCDEV_3)
-// #define ADC_DEVICES_4   (1 << ADCDEV_4)
-// #define ADC_DEVICES_5   (1 << ADCDEV_5)
-// #define ADC_DEVICES_12  ((1 << ADCDEV_1)|(1 << ADCDEV_2))
-// #define ADC_DEVICES_34  ((1 << ADCDEV_3)|(1 << ADCDEV_4))
-// #define ADC_DEVICES_123 ((1 << ADCDEV_1)|(1 << ADCDEV_2)|(1 << ADCDEV_3))
-// #define ADC_DEVICES_345 ((1 << ADCDEV_3)|(1 << ADCDEV_4)|(1 << ADCDEV_5))
-
-// typedef struct adcDevice_s {
-//     ADC_TypeDef* ADCx;
-//     rccPeriphTag_t rccADC;
-// #if !defined(USE_DMA_SPEC)
-//     dmaResource_t* dmaResource;
-// #if defined(STM32F4) || defined(STM32F7) || defined(STM32H7) || defined(STM32G4)
-//     uint32_t channel;
-// #endif
-// #endif // !defined(USE_DMA_SPEC)
-// #if defined(STM32F7) || defined(STM32H7) || defined(STM32G4)
-//     ADC_HandleTypeDef ADCHandle;
-//     DMA_HandleTypeDef DmaHandle;
-// #endif
-// #if defined(STM32H7) || defined(STM32G4)
-//     uint8_t irq;
-//     uint32_t channelBits;
-// #endif
-// } adcDevice_t;
 
 #ifdef USE_ADC_INTERNAL
 extern int32_t adcVREFINTCAL;      // ADC value (12-bit) of band gap with Vref = VREFINTCAL_VREF
@@ -71,10 +30,11 @@ extern int32_t adcTSCAL2;
 extern int32_t adcTSSlopeK;
 #endif
 
+#define ADC_CHANNEL_COUNT_Custem 5
 //extern const adcDevice_t adcHardware[];
 //extern const adcTagMap_t adcTagMap[ADC_TAG_MAP_COUNT];
 extern adcOperatingConfig_t adcOperatingConfig[ADC_CHANNEL_COUNT];
-extern volatile uint16_t adcValues[ADC_CHANNEL_COUNT];
+extern volatile uint16_t adcValues[ADC_CHANNEL_COUNT_Custem];
 
 //uint8_t adcChannelByTag(ioTag_t ioTag);
 //ADCDevice adcDeviceByInstance(ADC_TypeDef *instance);
