@@ -110,6 +110,19 @@ LoopFillZerofastram_bss:
   cmp  r2, r3
   bcc  FillZerofastram_bss
 
+/* Mark the heap and stack */
+  ldr	r2, =_heap_stack_begin
+  b	LoopMarkHeapStack
+
+MarkHeapStack:
+  movs	r3, 0xa5a5a5a5
+  str	r3, [r2], #4
+
+LoopMarkHeapStack:
+  ldr	r3, = _heap_stack_end
+  cmp	r2, r3
+  bcc	MarkHeapStack
+
 /*FPU settings*/
   ldr     r0, =0xE000ED88           /* Enable CP10,CP11 */
   ldr     r1,[r0]
