@@ -57,7 +57,7 @@ volatile uint16_t adcValues[ADC_CHANNEL_COUNT_Custem];
 // With prescaler = 8:
 // 168MHz : fAPB2 = 84MHz, fADC = 10.5MHz, tcycle = 0.090us, 10us = 105cycle < 144cycle
 // 240MHz : fAPB2 = 120MHz, fADC = 15.0MHz, tcycle = 0.067usk 10us = 150cycle < 480cycle
-//
+// 480cycles@10.5MHz = 45.7us
 // 480cycles@15.0MHz = 32us
 
 //static bool adcInternalConversionInProgress = false;

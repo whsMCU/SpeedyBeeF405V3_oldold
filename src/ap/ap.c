@@ -46,6 +46,7 @@ void apInit(void)
 	pidInit(currentPidProfile);
 	mixerInitProfile();
 	rxInit();
+    batteryInit(); // always needs doing, regardless of features.
 	gpsInit();
 	tasksInit();
 

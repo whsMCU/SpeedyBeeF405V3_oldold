@@ -348,9 +348,11 @@ void tasksInit(void)
     setTaskEnabled(TASK_LED, true);
     setTaskEnabled(TASK_DEBUG, true);
     rescheduleTask(TASK_SERIAL, TASK_PERIOD_HZ(100));
+    batteryConfigMutable()->voltageMeterSource = VOLTAGE_METER_ADC;
+    batteryConfigMutable()->currentMeterSource = CURRENT_METER_ADC;
 
 const bool useBatteryVoltage = batteryConfig()->voltageMeterSource != VOLTAGE_METER_NONE;
-    setTaskEnabled(TASK_BATTERY_VOLTAGE, true);
+    setTaskEnabled(TASK_BATTERY_VOLTAGE, useBatteryVoltage);
 
 #if defined(USE_BATTERY_VOLTAGE_SAG_COMPENSATION)
     // If vbat motor output compensation is used, use fast vbat samplingTime
@@ -360,7 +362,7 @@ const bool useBatteryVoltage = batteryConfig()->voltageMeterSource != VOLTAGE_ME
 #endif
 
     const bool useBatteryCurrent = batteryConfig()->currentMeterSource != CURRENT_METER_NONE;
-    setTaskEnabled(TASK_BATTERY_CURRENT, true);
+    setTaskEnabled(TASK_BATTERY_CURRENT, useBatteryCurrent);
     //const bool useBatteryAlerts = batteryConfig()->useVBatAlerts || batteryConfig()->useConsumptionAlerts || featureIsEnabled(FEATURE_OSD);
     //setTaskEnabled(TASK_BATTERY_ALERTS, (useBatteryVoltage || useBatteryCurrent) && useBatteryAlerts);
 
