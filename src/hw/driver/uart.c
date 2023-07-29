@@ -14,9 +14,10 @@
 
 
 static bool is_open[UART_MAX_CH];
-#define MAX_SIZE_RX 64
+#define MAX_SIZE_RX 128
+#define MAX_SIZE 256
 
-static Queue_t ring_buffer[UART_MAX_CH];
+static qbuffer_t ring_buffer[UART_MAX_CH];
 static uint8_t u1_rx_buf[MAX_SIZE];
 static uint8_t u2_rx_buf[MAX_SIZE_RX];
 static uint8_t u3_rx_buf[MAX_SIZE];
@@ -73,7 +74,9 @@ bool uartOpen(uint8_t ch, uint32_t baud)
     	huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
     	huart2.Init.OverSampling = UART_OVERSAMPLING_16;
 
-    	QueueCreate(&ring_buffer[ch], (uint8_t *)&u2_rx_buf[0], MAX_SIZE_RX);
+    	qbufferCreate(&ring_buffer[ch], (uint8_t *)&u2_rx_buf[0], MAX_SIZE_RX);
+
+    	HAL_UART_DeInit(&huart2);
 
     	if (HAL_UART_Init(&huart2) != HAL_OK)
     	{
@@ -87,8 +90,8 @@ bool uartOpen(uint8_t ch, uint32_t baud)
         {
           ret = false;
         }
-        //ring_buffer[ch].head  = ring_buffer[ch].size - hdma_usart2_rx.Instance->NDTR;
-        //ring_buffer[ch].tail = ring_buffer[ch].head;
+        ring_buffer[ch].in  = ring_buffer[ch].len - hdma_usart2_rx.Instance->NDTR;
+        ring_buffer[ch].out = ring_buffer[ch].in;
     	}
       break;
 
@@ -102,7 +105,7 @@ bool uartOpen(uint8_t ch, uint32_t baud)
     	huart3.Init.HwFlowCtl = UART_HWCONTROL_NONE;
     	huart3.Init.OverSampling = UART_OVERSAMPLING_16;
 
-    	QueueCreate(&ring_buffer[ch], (uint8_t *)&u3_rx_buf[0], MAX_SIZE);
+    	qbufferCreate(&ring_buffer[ch], (uint8_t *)&u3_rx_buf[0], MAX_SIZE);
 
     	if (HAL_UART_Init(&huart3) != HAL_OK)
     	{
@@ -116,8 +119,8 @@ bool uartOpen(uint8_t ch, uint32_t baud)
         {
           ret = false;
         }
-        ring_buffer[ch].head  = ring_buffer[ch].size - hdma_usart3_rx.Instance->NDTR;
-        ring_buffer[ch].tail = ring_buffer[ch].head;
+        ring_buffer[ch].in  = ring_buffer[ch].len - hdma_usart3_rx.Instance->NDTR;
+        ring_buffer[ch].out = ring_buffer[ch].in;
     	}
       break;
 
@@ -131,7 +134,7 @@ bool uartOpen(uint8_t ch, uint32_t baud)
     	huart4.Init.HwFlowCtl = UART_HWCONTROL_NONE;
     	huart4.Init.OverSampling = UART_OVERSAMPLING_16;
 
-    	QueueCreate(&ring_buffer[ch], (uint8_t *)&u4_rx_buf[0], MAX_SIZE);
+    	qbufferCreate(&ring_buffer[ch], (uint8_t *)&u4_rx_buf[0], MAX_SIZE);
 
     	if (HAL_UART_Init(&huart4) != HAL_OK)
     	{
@@ -145,8 +148,8 @@ bool uartOpen(uint8_t ch, uint32_t baud)
         {
           ret = false;
         }
-        ring_buffer[ch].head  = ring_buffer[ch].size - hdma_uart4_rx.Instance->NDTR;
-        ring_buffer[ch].tail = ring_buffer[ch].head;
+        ring_buffer[ch].in  = ring_buffer[ch].len - hdma_uart4_rx.Instance->NDTR;
+        ring_buffer[ch].out = ring_buffer[ch].in;
     	}
       break;
     case _DEF_UART5:
@@ -159,7 +162,7 @@ bool uartOpen(uint8_t ch, uint32_t baud)
     	huart5.Init.HwFlowCtl = UART_HWCONTROL_NONE;
     	huart5.Init.OverSampling = UART_OVERSAMPLING_16;
 
-    	QueueCreate(&ring_buffer[ch], (uint8_t *)&u5_rx_buf[0], MAX_SIZE);
+    	qbufferCreate(&ring_buffer[ch], (uint8_t *)&u5_rx_buf[0], MAX_SIZE);
 
     	if (HAL_UART_Init(&huart5) != HAL_OK)
     	{
@@ -173,8 +176,8 @@ bool uartOpen(uint8_t ch, uint32_t baud)
         {
           ret = false;
         }
-        ring_buffer[ch].head  = ring_buffer[ch].size - hdma_uart5_rx.Instance->NDTR;
-        ring_buffer[ch].tail = ring_buffer[ch].head;
+        ring_buffer[ch].in  = ring_buffer[ch].len - hdma_uart5_rx.Instance->NDTR;
+        ring_buffer[ch].out = ring_buffer[ch].in;
     	}
       break;
 
@@ -188,7 +191,7 @@ bool uartOpen(uint8_t ch, uint32_t baud)
     	huart6.Init.HwFlowCtl = UART_HWCONTROL_NONE;
     	huart6.Init.OverSampling = UART_OVERSAMPLING_16;
 
-    	QueueCreate(&ring_buffer[ch], (uint8_t *)&u6_rx_buf[0], MAX_SIZE);
+    	qbufferCreate(&ring_buffer[ch], (uint8_t *)&u6_rx_buf[0], MAX_SIZE);
 
     	if (HAL_UART_Init(&huart6) != HAL_OK)
     	{
@@ -202,8 +205,8 @@ bool uartOpen(uint8_t ch, uint32_t baud)
         {
           ret = false;
         }
-        ring_buffer[ch].head  = ring_buffer[ch].size - hdma_usart6_rx.Instance->NDTR;
-        ring_buffer[ch].tail = ring_buffer[ch].head;
+        ring_buffer[ch].in  = ring_buffer[ch].len - hdma_usart6_rx.Instance->NDTR;
+        ring_buffer[ch].out = ring_buffer[ch].in;
     	}
       break;
   }
@@ -223,27 +226,27 @@ uint32_t uartAvailable(uint8_t ch)
       break;
 
     case _DEF_UART2:
-    	ring_buffer[ch].head = (ring_buffer[ch].size - hdma_usart2_rx.Instance->NDTR);
-      ret = QueueAvailable(&ring_buffer[ch]);
+    	ring_buffer[ch].in = (ring_buffer[ch].len - hdma_usart2_rx.Instance->NDTR);
+      ret = qbufferAvailable(&ring_buffer[ch]);
       break;
     case _DEF_UART3:
-    	ring_buffer[ch].head = (ring_buffer[ch].size - hdma_usart3_rx.Instance->NDTR);
-      ret = QueueAvailable(&ring_buffer[ch]);
+    	ring_buffer[ch].in = (ring_buffer[ch].len - hdma_usart3_rx.Instance->NDTR);
+      ret = qbufferAvailable(&ring_buffer[ch]);
       break;
 
     case _DEF_UART4:
-    	ring_buffer[ch].head = (ring_buffer[ch].size - hdma_uart4_rx.Instance->NDTR);
-      ret = QueueAvailable(&ring_buffer[ch]);
+    	ring_buffer[ch].in = (ring_buffer[ch].len - hdma_uart4_rx.Instance->NDTR);
+      ret = qbufferAvailable(&ring_buffer[ch]);
       break;
 
     case _DEF_UART5:
-    	ring_buffer[ch].head = (ring_buffer[ch].size - hdma_uart5_rx.Instance->NDTR);
-      ret = QueueAvailable(&ring_buffer[ch]);
+    	ring_buffer[ch].in = (ring_buffer[ch].len - hdma_uart5_rx.Instance->NDTR);
+      ret = qbufferAvailable(&ring_buffer[ch]);
       break;
 
     case _DEF_UART6:
-    	ring_buffer[ch].head = (ring_buffer[ch].size - hdma_usart6_rx.Instance->NDTR);
-      ret = QueueAvailable(&ring_buffer[ch]);
+    	ring_buffer[ch].in = (ring_buffer[ch].len - hdma_usart6_rx.Instance->NDTR);
+      ret = qbufferAvailable(&ring_buffer[ch]);
       break;
   }
   return ret;
@@ -260,23 +263,23 @@ uint8_t uartRead(uint8_t ch)
       break;
 
     case _DEF_UART2:
-    	Q_read(&ring_buffer[ch], &ret, 1);
+    	qbufferRead(&ring_buffer[ch], &ret, 1);
       break;
 
     case _DEF_UART3:
-    	Q_read(&ring_buffer[ch], &ret, 1);
+    	qbufferRead(&ring_buffer[ch], &ret, 1);
       break;
 
     case _DEF_UART4:
-    	Q_read(&ring_buffer[ch], &ret, 1);
+    	qbufferRead(&ring_buffer[ch], &ret, 1);
       break;
 
     case _DEF_UART5:
-    	Q_read(&ring_buffer[ch], &ret, 1);
+    	qbufferRead(&ring_buffer[ch], &ret, 1);
       break;
 
     case _DEF_UART6:
-    	Q_read(&ring_buffer[ch], &ret, 1);
+    	qbufferRead(&ring_buffer[ch], &ret, 1);
       break;
   }
 
@@ -593,8 +596,8 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
    if(huart->Instance == USART2)
    {
   		void *rxCallbackData = &rxRuntimeState;
+
   	 	rxRuntimeState.callbackTime = micros() - pre_time;
-  	 	rxRuntimeState.uartAvailable = uartAvailable(_DEF_UART2);
   	 	while(uartAvailable(_DEF_UART2)){
 				crsfDataReceive(uartRead(_DEF_UART2), rxCallbackData);
 				rxRuntimeState.rx_count++;

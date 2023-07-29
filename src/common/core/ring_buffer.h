@@ -14,25 +14,26 @@ extern "C" {
 
 #include "def.h"
 
-#define MAX_SIZE 255
+typedef struct
+{
+	uint32_t in;
+	uint32_t out;
+	uint32_t len;
+	uint32_t size;
 
-typedef struct queue {
-  volatile uint8_t *buffer;
-  volatile uint8_t head;
-  volatile uint8_t tail;
-  volatile uint8_t size;
-  volatile uint8_t temp;
-  volatile int cnt;
-} Queue_t;
+	uint8_t *p_buf;
+} qbuffer_t;
 
-void     Init_Q(void);
-bool     QueueCreate(Queue_t *p_node, uint8_t *p_buf, uint32_t length);
-uint8_t  Q_full(Queue_t *Q);
-uint8_t  Q_empty(Queue_t *Q);
-bool     Q_write(Queue_t *p_node, uint8_t *p_data, uint32_t length);
-bool     Q_read(Queue_t *p_node, uint8_t *p_data, uint32_t length);
-uint32_t QueueAvailable(Queue_t *Q);
-void     QueueFlush(Queue_t *Q);
+
+void     qbufferInit(void);
+bool     qbufferCreate(qbuffer_t *p_node, uint8_t *p_buf, uint32_t length);
+bool     qbufferCreateBySize(qbuffer_t *p_node, uint8_t *p_buf, uint32_t size, uint32_t length);
+bool     qbufferWrite(qbuffer_t *p_node, uint8_t *p_data, uint32_t length);
+bool     qbufferRead(qbuffer_t *p_node, uint8_t *p_data, uint32_t length);
+uint8_t *qbufferPeekWrite(qbuffer_t *p_node);
+uint8_t *qbufferPeekRead(qbuffer_t *p_node);
+uint32_t qbufferAvailable(qbuffer_t *p_node);
+void     qbufferFlush(qbuffer_t *p_node);
 
 #ifdef __cplusplus
 }
