@@ -143,6 +143,7 @@ uint32_t millis(void)
 uint32_t micros(void)
 {
 	 register uint32_t ms, cycle_cnt;
+
 	    do {
 	        ms = msTicks;
 	        cycle_cnt = SysTick->VAL;

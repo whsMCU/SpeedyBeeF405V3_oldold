@@ -137,6 +137,10 @@ typedef enum {
     TASK_ADC_INTERNAL,
 #endif
 
+#ifdef USE_CRSF_V3
+    TASK_SPEED_NEGOTIATION,
+#endif
+
     /* Count of real tasks */
     TASK_COUNT,
 

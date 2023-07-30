@@ -338,6 +338,7 @@ static uint8_t crsfFrameCmdCRC(void)
     return crc;
 }
 
+uint32_t erroe_count;
 // Receive ISR callback, called back from serial port
 void crsfDataReceive(uint16_t c, void *data)
 {
@@ -452,6 +453,7 @@ void crsfDataReceive(uint16_t c, void *data)
                     break;
                 }
             } else {
+              	erroe_count++;
 #if defined(USE_CRSF_V3)
                 if (crsfFrameErrorCnt < CRSF_FRAME_ERROR_COUNT_THRESHOLD)
                     crsfFrameErrorCnt++;

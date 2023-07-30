@@ -323,6 +323,10 @@ task_attribute_t task_attributes[TASK_COUNT] = {
 #ifdef USE_ADC_INTERNAL
     [TASK_ADC_INTERNAL] = DEFINE_TASK("ADCINTERNAL", NULL, NULL, adcInternalProcess, TASK_PERIOD_HZ(1), TASK_PRIORITY_LOWEST),
 #endif
+
+#ifdef USE_CRSF_V3
+    [TASK_SPEED_NEGOTIATION] = DEFINE_TASK("SPEED_NEGOTIATION", NULL, NULL, speedNegotiationProcess, TASK_PERIOD_HZ(100), TASK_PRIORITY_LOW),
+#endif
 };
 
 task_t *getTask(unsigned taskId)

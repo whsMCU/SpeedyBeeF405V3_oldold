@@ -14,16 +14,10 @@
 
 
 static bool is_open[UART_MAX_CH];
-#define MAX_SIZE_RX 128
-#define MAX_SIZE 256
+#define MAX_SIZE 128
 
 static qbuffer_t ring_buffer[UART_MAX_CH];
-static uint8_t u1_rx_buf[MAX_SIZE];
-static uint8_t u2_rx_buf[MAX_SIZE_RX];
-static uint8_t u3_rx_buf[MAX_SIZE];
-static uint8_t u4_rx_buf[MAX_SIZE];
-static uint8_t u5_rx_buf[MAX_SIZE];
-static uint8_t u6_rx_buf[MAX_SIZE];
+static uint8_t rx_buf[UART_MAX_CH-1][MAX_SIZE];
 
 UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart2;
@@ -74,7 +68,7 @@ bool uartOpen(uint8_t ch, uint32_t baud)
     	huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
     	huart2.Init.OverSampling = UART_OVERSAMPLING_16;
 
-    	qbufferCreate(&ring_buffer[ch], (uint8_t *)&u2_rx_buf[0], MAX_SIZE_RX);
+    	qbufferCreate(&ring_buffer[ch], (uint8_t *)&rx_buf[ch-1][0], MAX_SIZE);
 
     	HAL_UART_DeInit(&huart2);
 
@@ -86,7 +80,7 @@ bool uartOpen(uint8_t ch, uint32_t baud)
     	{
     		ret = true;
         is_open[ch] = true;
-        if(HAL_UART_Receive_DMA(&huart2, (uint8_t *)&u2_rx_buf[0], MAX_SIZE_RX) != HAL_OK)
+        if(HAL_UART_Receive_DMA(&huart2, (uint8_t *)&rx_buf[ch-1][0], MAX_SIZE) != HAL_OK)
         {
           ret = false;
         }
@@ -105,7 +99,7 @@ bool uartOpen(uint8_t ch, uint32_t baud)
     	huart3.Init.HwFlowCtl = UART_HWCONTROL_NONE;
     	huart3.Init.OverSampling = UART_OVERSAMPLING_16;
 
-    	qbufferCreate(&ring_buffer[ch], (uint8_t *)&u3_rx_buf[0], MAX_SIZE);
+    	qbufferCreate(&ring_buffer[ch], (uint8_t *)&rx_buf[ch-1][0], MAX_SIZE);
 
     	if (HAL_UART_Init(&huart3) != HAL_OK)
     	{
@@ -115,7 +109,7 @@ bool uartOpen(uint8_t ch, uint32_t baud)
     	{
     		ret = true;
         is_open[ch] = true;
-        if(HAL_UART_Receive_DMA(&huart3, (uint8_t *)&u3_rx_buf[0], MAX_SIZE) != HAL_OK)
+        if(HAL_UART_Receive_DMA(&huart3, (uint8_t *)&rx_buf[ch-1][0], MAX_SIZE) != HAL_OK)
         {
           ret = false;
         }
@@ -134,7 +128,7 @@ bool uartOpen(uint8_t ch, uint32_t baud)
     	huart4.Init.HwFlowCtl = UART_HWCONTROL_NONE;
     	huart4.Init.OverSampling = UART_OVERSAMPLING_16;
 
-    	qbufferCreate(&ring_buffer[ch], (uint8_t *)&u4_rx_buf[0], MAX_SIZE);
+    	qbufferCreate(&ring_buffer[ch], (uint8_t *)&rx_buf[ch-1][0], MAX_SIZE);
 
     	if (HAL_UART_Init(&huart4) != HAL_OK)
     	{
@@ -144,7 +138,7 @@ bool uartOpen(uint8_t ch, uint32_t baud)
     	{
     		ret = true;
         is_open[ch] = true;
-        if(HAL_UART_Receive_DMA(&huart4, (uint8_t *)&u4_rx_buf[0], MAX_SIZE) != HAL_OK)
+        if(HAL_UART_Receive_DMA(&huart4, (uint8_t *)&rx_buf[ch-1][0], MAX_SIZE) != HAL_OK)
         {
           ret = false;
         }
@@ -162,7 +156,7 @@ bool uartOpen(uint8_t ch, uint32_t baud)
     	huart5.Init.HwFlowCtl = UART_HWCONTROL_NONE;
     	huart5.Init.OverSampling = UART_OVERSAMPLING_16;
 
-    	qbufferCreate(&ring_buffer[ch], (uint8_t *)&u5_rx_buf[0], MAX_SIZE);
+    	qbufferCreate(&ring_buffer[ch], (uint8_t *)&rx_buf[ch-1][0], MAX_SIZE);
 
     	if (HAL_UART_Init(&huart5) != HAL_OK)
     	{
@@ -172,7 +166,7 @@ bool uartOpen(uint8_t ch, uint32_t baud)
     	{
     		ret = true;
         is_open[ch] = true;
-        if(HAL_UART_Receive_DMA(&huart5, (uint8_t *)&u5_rx_buf[0], MAX_SIZE) != HAL_OK)
+        if(HAL_UART_Receive_DMA(&huart5, (uint8_t *)&rx_buf[ch-1][0], MAX_SIZE) != HAL_OK)
         {
           ret = false;
         }
@@ -191,7 +185,7 @@ bool uartOpen(uint8_t ch, uint32_t baud)
     	huart6.Init.HwFlowCtl = UART_HWCONTROL_NONE;
     	huart6.Init.OverSampling = UART_OVERSAMPLING_16;
 
-    	qbufferCreate(&ring_buffer[ch], (uint8_t *)&u6_rx_buf[0], MAX_SIZE);
+    	qbufferCreate(&ring_buffer[ch], (uint8_t *)&rx_buf[ch-1][0], MAX_SIZE);
 
     	if (HAL_UART_Init(&huart6) != HAL_OK)
     	{
@@ -201,7 +195,7 @@ bool uartOpen(uint8_t ch, uint32_t baud)
     	{
     		ret = true;
         is_open[ch] = true;
-        if(HAL_UART_Receive_DMA(&huart6, (uint8_t *)&u6_rx_buf[0], MAX_SIZE) != HAL_OK)
+        if(HAL_UART_Receive_DMA(&huart6, (uint8_t *)&rx_buf[ch-1][0], MAX_SIZE) != HAL_OK)
         {
           ret = false;
         }
@@ -592,17 +586,20 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
   //  	Q_write(&ring_buffer[_DEF_UART1], &rx_data[_DEF_UART1], 1);
   //  }
 	static uint32_t pre_time = 0;
+	static uint32_t pre_time1 = 0;
 
    if(huart->Instance == USART2)
    {
   		void *rxCallbackData = &rxRuntimeState;
 
   	 	rxRuntimeState.callbackTime = micros() - pre_time;
+  	 	pre_time1 = micros();
   	 	while(uartAvailable(_DEF_UART2)){
 				crsfDataReceive(uartRead(_DEF_UART2), rxCallbackData);
 				rxRuntimeState.rx_count++;
   	 	}
   	 	pre_time = micros();
+  	 	rxRuntimeState.callbackExeTime = micros() - pre_time1;
   	 	rxRuntimeState.rx_count = 0;
    }
 

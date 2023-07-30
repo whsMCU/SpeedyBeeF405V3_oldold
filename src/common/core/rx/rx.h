@@ -163,6 +163,7 @@ typedef struct rxRuntimeState_s {
     uint32_t            lastRcFrameTimeUs;
     uint32_t 						FrameTime;
     uint32_t            callbackTime;
+    uint32_t            callbackExeTime;
     uint32_t            rx_count;
 } rxRuntimeState_t;
 
