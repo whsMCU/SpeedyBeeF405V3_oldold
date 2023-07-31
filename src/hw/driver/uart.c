@@ -70,7 +70,7 @@ bool uartOpen(uint8_t ch, uint32_t baud)
 
     	qbufferCreate(&ring_buffer[ch], (uint8_t *)&rx_buf[ch-1][0], MAX_SIZE);
 
-    	HAL_UART_DeInit(&huart2);
+    	//HAL_UART_DeInit(&huart2);
 
     	if (HAL_UART_Init(&huart2) != HAL_OK)
     	{
@@ -84,7 +84,7 @@ bool uartOpen(uint8_t ch, uint32_t baud)
         {
           ret = false;
         }
-        ring_buffer[ch].in  = ring_buffer[ch].len - hdma_usart2_rx.Instance->NDTR;
+        ring_buffer[ch].in  = (ring_buffer[ch].len - hdma_usart2_rx.Instance->NDTR);
         ring_buffer[ch].out = ring_buffer[ch].in;
     	}
       break;
@@ -567,15 +567,16 @@ void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
 {
   if (huart->Instance == USART2)
   {
+  	//HAL_UART_Receive_DMA(&huart2, (uint8_t *)&rx_buf[1][0], MAX_SIZE);
   }
 
   if(huart->ErrorCode == HAL_UART_ERROR_FE) //current USART
   {
-    //HAL_UART_Receive_DMA(&huart2, (uint8_t*)&u2_rx_buf[0], 1);
+  	//HAL_UART_Receive_DMA(&huart2, (uint8_t *)&rx_buf[1][0], MAX_SIZE);
   }
   if(huart->ErrorCode == HAL_UART_ERROR_NE) //current USART
   {
-    //HAL_UART_Receive_DMA(&huart2, (uint8_t*)&u2_rx_buf[0], 1);
+  	//HAL_UART_Receive_DMA(&huart2, (uint8_t *)&rx_buf[1][0], MAX_SIZE);
   }
 }
 
@@ -593,14 +594,15 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
   		void *rxCallbackData = &rxRuntimeState;
 
   	 	rxRuntimeState.callbackTime = micros() - pre_time;
+  	 	rxRuntimeState.micros = micros();
   	 	pre_time1 = micros();
-  	 	while(uartAvailable(_DEF_UART2)){
+  	 	while(uartAvailable(_DEF_UART2) > 0){
 				crsfDataReceive(uartRead(_DEF_UART2), rxCallbackData);
 				rxRuntimeState.rx_count++;
   	 	}
   	 	pre_time = micros();
   	 	rxRuntimeState.callbackExeTime = micros() - pre_time1;
-  	 	rxRuntimeState.rx_count = 0;
+  	 	//rxRuntimeState.rx_count = 0;
    }
 
 

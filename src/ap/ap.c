@@ -17,6 +17,7 @@
 #include "config/config_eeprom.h"
 #include "pg/pg.h"
 #include "mixer.h"
+#include "adcinternal.h"
 
   
 void apInit(void)

@@ -30,7 +30,7 @@ ENTRY(Reset_Handler)
 
 /* Highest address of the user mode stack */
 _Hot_Reboot_Flags_Size = 16;
-_estack = ORIGIN(RAM) + LENGTH(RAM) - _Hot_Reboot_Flags_Size;	/* end of "RAM" Ram type memory */
+_estack = ORIGIN(CCMRAM) + LENGTH(CCMRAM) - _Hot_Reboot_Flags_Size;	/* end of "RAM" Ram type memory */
 
 /* Base address where the config is stored. */
 __config_start = ORIGIN(CONFIG);
@@ -227,7 +227,7 @@ SECTIONS
 
   /* User_heap_stack section, used to check that there is enough RAM left */
   /* User_heap_stack section, used to check that there is enough "RAM" Ram  type memory left */
-  _heap_stack_end = ORIGIN(STACKRAM) + LENGTH(STACKRAM) - _Hot_Reboot_Flags_Size;
+  _heap_stack_end = ORIGIN(CCMRAM) + LENGTH(CCMRAM) - _Hot_Reboot_Flags_Size;
   _heap_stack_begin = _heap_stack_end - _Min_Stack_Size  - _Min_Heap_Size;
   . = _heap_stack_begin;
   ._user_heap_stack :
