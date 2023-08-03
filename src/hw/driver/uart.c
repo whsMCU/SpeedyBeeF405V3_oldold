@@ -16,8 +16,8 @@
 static bool is_open[UART_MAX_CH];
 #define MAX_SIZE 128
 
-static qbuffer_t ring_buffer[UART_MAX_CH];
-static uint8_t rx_buf[UART_MAX_CH-1][MAX_SIZE];
+static volatile qbuffer_t ring_buffer[UART_MAX_CH];
+static volatile uint8_t rx_buf[UART_MAX_CH-1][MAX_SIZE];
 
 UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart2;

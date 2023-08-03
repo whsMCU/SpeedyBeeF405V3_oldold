@@ -181,7 +181,7 @@ static void activateConfig(void)
 
     pidInit(currentPidProfile);
 
-    //rcControlsInit();
+    rcControlsInit();
 
     //failsafeReset();
 #ifdef USE_ACC
@@ -189,7 +189,7 @@ static void activateConfig(void)
     accInitFilters();
 #endif
 
-    //imuConfigure(throttleCorrectionConfig()->throttle_correction_angle, throttleCorrectionConfig()->throttle_correction_value);
+    imuConfigure(throttleCorrectionConfig()->throttle_correction_angle, throttleCorrectionConfig()->throttle_correction_value);
 
 #if defined(USE_LED_STRIP_STATUS_MODE)
     reevaluateLedConfig();

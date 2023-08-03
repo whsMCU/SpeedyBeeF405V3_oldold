@@ -475,15 +475,15 @@ static void imuComputeQuaternionFromRPY(quaternionProducts *quatProd, int16_t in
 }
 #endif
 
-static void imuCalculateEstimatedAttitude(uint32_t currentTimeUs)
+static void imuCalculateEstimatedAttitude(timeUs_t currentTimeUs)
 {
-    static uint32_t previousIMUUpdateTime;
+    static timeUs_t previousIMUUpdateTime;
     bool useAcc = false;
     bool useMag = false;
     bool useCOG = false; // Whether or not correct yaw via imuMahonyAHRSupdate from our ground course
     float courseOverGround = 0; // To be used when useCOG is true.  Stored in Radians
 
-    const int32_t deltaT = currentTimeUs - previousIMUUpdateTime;
+    const timeDelta_t deltaT = currentTimeUs - previousIMUUpdateTime;
     previousIMUUpdateTime = currentTimeUs;
 
     if (compassIsHealthy()) {
@@ -561,7 +561,7 @@ static int calculateThrottleAngleCorrection(void)
     return lrintf(throttleAngleValue * sin_approx(angle / (900.0f * M_PIf / 2.0f)));
 }
 
-void imuUpdateAttitude(uint32_t currentTimeUs)
+void imuUpdateAttitude(timeUs_t currentTimeUs)
 {
     if (acc.isAccelUpdatedAtLeastOnce) {
         imuCalculateEstimatedAttitude(currentTimeUs);

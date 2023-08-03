@@ -535,7 +535,7 @@ bool gyroGetAccumulationAverage(float *accumulationAverage)
 {
     if (accumulatedMeasurementCount) {
         // If we have gyro data accumulated, calculate average rate that will yield the same rotation
-        const uint32_t accumulatedMeasurementTimeUs = accumulatedMeasurementCount * gyro.targetLooptime;
+        const timeUs_t accumulatedMeasurementTimeUs = accumulatedMeasurementCount * gyro.targetLooptime;
         for (int axis = 0; axis < XYZ_AXIS_COUNT; axis++) {
             accumulationAverage[axis] = accumulatedMeasurements[axis] / accumulatedMeasurementTimeUs;
             accumulatedMeasurements[axis] = 0.0f;
