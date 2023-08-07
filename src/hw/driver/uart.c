@@ -594,11 +594,11 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
   	 	rxRuntimeState.callbackTime = micros() - pre_time;
   	 	rxRuntimeState.micros = micros();
   	 	pre_time1 = micros();
-//  	 	rxRuntimeState.uartAvailable = uartAvailable(_DEF_UART2);
-//  	 	while(uartAvailable(_DEF_UART2) > 0){
-//				crsfDataReceive(uartRead(_DEF_UART2), (void*) &rxRuntimeState);
-//				rxRuntimeState.rx_count++;
-//  	 	}
+  	 	rxRuntimeState.uartAvailable = uartAvailable(_DEF_UART2);
+  	 	while(uartAvailable(_DEF_UART2) > 0){
+				crsfDataReceive(uartRead(_DEF_UART2), (void*) &rxRuntimeState);
+				rxRuntimeState.rx_count++;
+  	 	}
   	 	pre_time = micros();
   	 	rxRuntimeState.callbackExeTime = micros() - pre_time1;
   	 	//rxRuntimeState.rx_count = 0;
