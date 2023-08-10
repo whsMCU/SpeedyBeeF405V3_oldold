@@ -36,8 +36,8 @@ _estack = ORIGIN(CCMRAM) + LENGTH(CCMRAM) - _Hot_Reboot_Flags_Size;	/* end of "R
 __config_start = ORIGIN(CONFIG);
 __config_end = ORIGIN(CONFIG) + LENGTH(CONFIG);
 
-_Min_Heap_Size = 0x200;	/* required amount of heap  */
-_Min_Stack_Size = 0x400;	/* required amount of stack */
+_Min_Heap_Size = 0x0;	/* required amount of heap  */
+_Min_Stack_Size = 0x800;	/* required amount of stack */
 
 /* Memories definition */
 MEMORY
