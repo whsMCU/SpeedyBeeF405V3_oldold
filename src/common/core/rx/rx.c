@@ -725,7 +725,8 @@ bool calculateRxChannelsAndUpdateFailsafe(uint32_t currentTimeUs)
 #endif
 #ifdef USE_SERIALRX_CRSF
 //    while(uartAvailable(_DEF_UART2)){
-//        crsfDataReceive(uartRead(_DEF_UART2), rxRuntimeState.frameData);
+//        crsfDataReceive(uartRead(_DEF_UART2), (void*) &rxRuntimeState);
+//        rxRuntimeState.rx_count++;
 //    }
 #endif
 
