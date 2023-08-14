@@ -632,6 +632,7 @@ bool crsfRxInit(rxRuntimeState_t *rxRuntimeState)
     // }
 
     uint32_t crsfBaudrate = CRSF_BAUDRATE;
+    //crsfBaudrate = 115200;
     uartOpen(_DEF_UART2, crsfBaudrate);
 
 #if defined(USE_CRSF_V3)
