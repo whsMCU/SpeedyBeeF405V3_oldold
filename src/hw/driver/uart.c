@@ -588,14 +588,15 @@ void HAL_UART_RxHalfCpltCallback(UART_HandleTypeDef *huart)
 //   if(huart->Instance == USART2)
 //   {
 //  	 	rxRuntimeState.callbackTime = micros() - pre_time;
+//  	 	pre_time = micros();
 //  	 	rxRuntimeState.micros = micros();
 //  	 	pre_time1 = micros();
 //  	 	rxRuntimeState.uartAvailable = uartAvailable(_DEF_UART2);
-////  	 	while(uartAvailable(_DEF_UART2) > 0){
-////				crsfDataReceive(uartRead(_DEF_UART2), (void*) &rxRuntimeState);
-////				rxRuntimeState.rx_count++;
-////  	 	}
-//  	 	pre_time = micros();
+//  	 	while(uartAvailable(_DEF_UART2) > 0){
+//				crsfDataReceive(uartRead(_DEF_UART2), (void*) &rxRuntimeState);
+//				rxRuntimeState.rx_count++;
+//  	 	}
+//
 //  	 	rxRuntimeState.callbackExeTime = micros() - pre_time1;
 //  	 	//rxRuntimeState.rx_count = 0;
 //   }
@@ -625,8 +626,6 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
   	 	rxRuntimeState.callbackExeTime = micros() - pre_time1;
   	 	//rxRuntimeState.rx_count = 0;
    }
-
-
 }
 
 void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
