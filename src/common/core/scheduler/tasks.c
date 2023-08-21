@@ -32,6 +32,9 @@
 #include "led.h"
 #include "telemetry.h"
 
+#include "telemetry/telemetry.h"
+#include "telemetry/crsf.h"
+
 #include "sensors/battery.h"
 #include "sensors/adcinternal.h"
 
@@ -244,7 +247,7 @@ static void taskCalculateAltitude(uint32_t currentTimeUs)
 #ifdef USE_TELEMETRY
 static void taskTelemetry(uint32_t currentTimeUs)
 {
-    if (!cliMode && featureIsEnabled(FEATURE_TELEMETRY)) {
+    if (false) { //!cliMode && featureIsEnabled(FEATURE_TELEMETRY)
         subTaskTelemetryPollSensors(currentTimeUs);
 
         telemetryProcess(currentTimeUs);
@@ -415,7 +418,7 @@ const bool useBatteryVoltage = batteryConfig()->voltageMeterSource != VOLTAGE_ME
 #endif
 
 #ifdef USE_TELEMETRY
-    if (featureIsEnabled(FEATURE_TELEMETRY)) {
+    if (true) {//featureIsEnabled(FEATURE_TELEMETRY)
         setTaskEnabled(TASK_TELEMETRY, true);
         if (rxRuntimeState.serialrxProvider == SERIALRX_JETIEXBUS) {
             // Reschedule telemetry to 500hz for Jeti Exbus

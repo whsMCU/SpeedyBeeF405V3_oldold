@@ -1044,21 +1044,21 @@ void processRxModes(uint32_t currentTimeUs)
     // }
 
 #ifdef USE_TELEMETRY
-    if (featureIsEnabled(FEATURE_TELEMETRY)) {
-        bool enableSharedPortTelemetry = (!isModeActivationConditionPresent(BOXTELEMETRY) && ARMING_FLAG(ARMED)) || (isModeActivationConditionPresent(BOXTELEMETRY) && IS_RC_MODE_ACTIVE(BOXTELEMETRY));
-        if (enableSharedPortTelemetry && !sharedPortTelemetryEnabled) {
-            mspSerialReleaseSharedTelemetryPorts();
-            telemetryCheckState();
-
-            sharedPortTelemetryEnabled = true;
-        } else if (!enableSharedPortTelemetry && sharedPortTelemetryEnabled) {
-            // the telemetry state must be checked immediately so that shared serial ports are released.
-            telemetryCheckState();
-            mspSerialAllocatePorts();
-
-            sharedPortTelemetryEnabled = false;
-        }
-    }
+//    if (featureIsEnabled(FEATURE_TELEMETRY)) {
+//        bool enableSharedPortTelemetry = (!isModeActivationConditionPresent(BOXTELEMETRY) && ARMING_FLAG(ARMED)) || (isModeActivationConditionPresent(BOXTELEMETRY) && IS_RC_MODE_ACTIVE(BOXTELEMETRY));
+//        if (enableSharedPortTelemetry && !sharedPortTelemetryEnabled) {
+//            mspSerialReleaseSharedTelemetryPorts();
+//            telemetryCheckState();
+//
+//            sharedPortTelemetryEnabled = true;
+//        } else if (!enableSharedPortTelemetry && sharedPortTelemetryEnabled) {
+//            // the telemetry state must be checked immediately so that shared serial ports are released.
+//            telemetryCheckState();
+//            mspSerialAllocatePorts();
+//
+//            sharedPortTelemetryEnabled = false;
+//        }
+//    }
 #endif
 
 #ifdef USE_VTX_CONTROL

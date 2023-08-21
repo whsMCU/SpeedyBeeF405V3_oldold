@@ -181,7 +181,7 @@ bool sbusInit(rxRuntimeState_t *rxRuntimeState)
     // }
 
 #ifdef USE_TELEMETRY
-    bool portShared = telemetryCheckRxPortShared(portConfig, rxRuntimeState->serialrxProvider);
+    bool portShared = false;//telemetryCheckRxPortShared(portConfig, rxRuntimeState->serialrxProvider);
 #else
     bool portShared = false;
 #endif
@@ -201,7 +201,7 @@ bool sbusInit(rxRuntimeState_t *rxRuntimeState)
 
 #ifdef USE_TELEMETRY
     if (portShared) {
-        telemetrySharedPort = sBusPort;
+        //telemetrySharedPort = sBusPort;
     }
 #endif
 

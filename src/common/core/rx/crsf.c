@@ -31,7 +31,7 @@
 #include "maths.h"
 #include "utils.h"
 
-//#include "config.h"
+#include "config.h"
 #include "uart.h"
 
 #include "rx/rx.h"
@@ -39,8 +39,9 @@
 #include "pg.h"
 #include "def.h"
 #include "time.h"
+#include "rtc.h"
 
-//#include "telemetry/crsf.h"
+#include "telemetry/crsf.h"
 
 #define CRSF_TIME_NEEDED_PER_FRAME_US   1750 // a maximally sized 64byte payload will take ~1550us, round up to 1750.
 #define CRSF_TIME_BETWEEN_FRAMES_US     6667 // At fastest, frames are sent by the transmitter every 6.667 milliseconds, 150 Hz
@@ -661,16 +662,17 @@ bool crsfRxInit(rxRuntimeState_t *rxRuntimeState)
 }
 
 #if defined(USE_CRSF_V3)
-// void crsfRxUpdateBaudrate(uint32_t baudrate)
-// {
-//     serialSetBaudRate(serialPort, baudrate);
-//     persistentObjectWrite(PERSISTENT_OBJECT_SERIALRX_BAUD, baudrate);
-// }
+ void crsfRxUpdateBaudrate(uint32_t baudrate)
+ {
+     //serialSetBaudRate(serialPort, baudrate);
+     uartSetBaud(_DEF_UART2, baudrate);
+     rtcBackupRegWrite(PERSISTENT_OBJECT_SERIALRX_BAUD, baudrate);
+ }
 
-// bool crsfRxUseNegotiatedBaud(void)
-// {
-//     return rxConfig()->crsf_use_negotiated_baud;
-// }
+ bool crsfRxUseNegotiatedBaud(void)
+ {
+     return rxConfig()->crsf_use_negotiated_baud;
+ }
 #endif
 
 bool crsfRxIsActive(void)
