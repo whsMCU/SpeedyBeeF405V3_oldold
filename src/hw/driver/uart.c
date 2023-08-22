@@ -81,10 +81,12 @@ bool uartOpen(uint8_t ch, uint32_t baud)
     	{
     		ret = true;
         is_open[ch] = true;
-        if(HAL_UART_Receive_DMA(&huart2, (uint8_t *)&rx_buf2[0], MAX_SIZE) != HAL_OK)
-        {
-          ret = false;
-        }
+    	  HAL_UARTEx_ReceiveToIdle_DMA(&huart2, (uint8_t *)&rx_buf[0], MAX_SIZE);
+    	  __HAL_DMA_DISABLE_IT(&hdma_usart2_rx, DMA_IT_HT);
+//        if(HAL_UART_Receive_DMA(&huart2, (uint8_t *)&rx_buf2[0], MAX_SIZE) != HAL_OK)
+//        {
+//          ret = false;
+//        }
         ring_buffer[ch].in  = (ring_buffer[ch].len - hdma_usart2_rx.Instance->NDTR);
         ring_buffer[ch].out = ring_buffer[ch].in;
     	}
@@ -626,6 +628,31 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
   	 	rxRuntimeState.callbackExeTime = micros() - pre_time1;
   	 	//rxRuntimeState.rx_count = 0;
    }
+}
+
+void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
+{
+	static uint32_t pre_time = 0;
+	static uint32_t pre_time1 = 0;
+	uint8_t ret = 0;
+
+  if(huart->Instance == USART2)
+  {
+ 	 	rxRuntimeState.callbackTime = micros() - pre_time;
+ 	 	pre_time = micros();
+ 	 	rxRuntimeState.micros = micros();
+ 	 	pre_time1 = micros();
+ 	 	rxRuntimeState.uartAvailable = uartAvailable(_DEF_UART2);
+ 	 	while(uartAvailable(_DEF_UART2) > 0){
+				crsfDataReceive(uartRead(_DEF_UART2), (void*) &rxRuntimeState);
+				rxRuntimeState.rx_count++;
+ 	 	}
+ 	 	rxRuntimeState.callbackExeTime = micros() - pre_time1;
+ 	 	//rxRuntimeState.rx_count = 0;
+	  HAL_UARTEx_ReceiveToIdle_DMA(&huart2, (uint8_t *)&rx_buf2[0], MAX_SIZE);
+	  __HAL_DMA_DISABLE_IT(&hdma_usart2_rx, DMA_IT_HT);
+  }
+
 }
 
 void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
