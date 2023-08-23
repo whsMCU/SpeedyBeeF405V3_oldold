@@ -72,6 +72,7 @@
 //#define USE_DYN_IDLE
 //#define USE_GYRO_DLPF_EXPERIMENTAL
 #define USE_ADC_INTERNAL
+#define USE_RC_SMOOTHING_FILTER
 
 #ifdef USE_FAST_DATA
 #define FAST_DATA_ZERO_INIT         __attribute__ ((section(".fastram_bss"), aligned(4)))

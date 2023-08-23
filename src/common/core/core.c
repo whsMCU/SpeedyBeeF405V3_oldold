@@ -1074,9 +1074,9 @@ void processRxModes(uint32_t currentTimeUs)
 #endif // USE_ACRO_TRAINER
 
 #ifdef USE_RC_SMOOTHING_FILTER
-    if (ARMING_FLAG(ARMED) && !rcSmoothingInitializationComplete()) {
-        beeper(BEEPER_RC_SMOOTHING_INIT_FAIL);
-    }
+//    if (ARMING_FLAG(ARMED) && !rcSmoothingInitializationComplete()) {
+//        beeper(BEEPER_RC_SMOOTHING_INIT_FAIL);
+//    }
 #endif
 
     //pidSetAntiGravityState(IS_RC_MODE_ACTIVE(BOXANTIGRAVITY) || featureIsEnabled(FEATURE_ANTI_GRAVITY));

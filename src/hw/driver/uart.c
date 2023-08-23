@@ -87,8 +87,8 @@ bool uartOpen(uint8_t ch, uint32_t baud)
 //        {
 //          ret = false;
 //        }
-        ring_buffer[ch].in  = (ring_buffer[ch].len - hdma_usart2_rx.Instance->NDTR);
-        ring_buffer[ch].out = ring_buffer[ch].in;
+        //ring_buffer[ch].in  = (ring_buffer[ch].len - hdma_usart2_rx.Instance->NDTR);
+        //ring_buffer[ch].out = ring_buffer[ch].in;
     	}
       break;
 
@@ -223,7 +223,7 @@ uint32_t uartAvailable(uint8_t ch)
       break;
 
     case _DEF_UART2:
-    	ring_buffer[ch].in = (ring_buffer[ch].len - hdma_usart2_rx.Instance->NDTR);
+    	//ring_buffer[ch].in = (ring_buffer[ch].len - hdma_usart2_rx.Instance->NDTR);
       ret = qbufferAvailable(&ring_buffer[ch]);
       break;
     case _DEF_UART3:
