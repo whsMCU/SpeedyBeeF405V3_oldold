@@ -32,19 +32,20 @@ void hwInit(void)
     fatfsInit();
   }
 
-
-	// ledOn(ST1);
-  // ledOff(ST2);
-  // for (int i = 0; i < 10; i++){
-  //   ledToggle(ST1);
-  //   ledToggle(ST2);
-  //   HAL_Delay(25);
-  //   //BEEP_ON;
-  //   HAL_Delay(25);
-  //   //BEEP_OFF;
-  // }
-  // ledOff(ST1);
-  // ledOff(ST2);
+	ledOn(ST1);
+	for (int i = 0; i < 10; i++)
+	{
+		ledToggle(ST1);
+		#if defined(USE_BEEPER)
+			HAL_Delay(25);
+			BEEP_ON;
+			HAL_Delay(25);
+			BEEP_OFF;
+		#else
+			HAL_Delay(50);
+		#endif
+	}
+	ledOff(ST1);
 }
 
 

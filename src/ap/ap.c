@@ -42,6 +42,16 @@ void apInit(void)
 
 	mixerInit(mixerConfig()->mixerMode);
 	adcInternalInit();
+
+//    // Set the targetLooptime based on the detected gyro sampleRateHz and pid_process_denom
+//    gyroSetTargetLooptime(pidConfig()->pid_process_denom);
+//
+//    // Validate and correct the gyro config or PID loop time if needed
+//    validateAndFixGyroConfig();
+
+//    // Now reset the targetLooptime as it's possible for the validation to change the pid_process_denom
+//    gyroSetTargetLooptime(pidConfig()->pid_process_denom);
+
 	// Finally initialize the gyro filtering
 	gyroInitFilters();
 	pidInit(currentPidProfile);
@@ -49,7 +59,11 @@ void apInit(void)
 	rxInit();
     batteryInit(); // always needs doing, regardless of features.
 	gpsInit();
+	//gyroStartCalibration(false);
+	//baroStartCalibration();
 	tasksInit();
+
+
 
 }
 

@@ -722,7 +722,7 @@ void validateAndFixGyroConfig(void)
     if (systemConfig()->activeRateProfile >= CONTROL_RATE_PROFILE_COUNT) {
         systemConfigMutable()->activeRateProfile = 0;
     }
-    //loadControlRateProfile();
+    loadControlRateProfile();
 
     if (systemConfig()->pidProfileIndex >= PID_PROFILE_COUNT) {
         systemConfigMutable()->pidProfileIndex = 0;
