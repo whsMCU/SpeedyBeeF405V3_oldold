@@ -28,12 +28,17 @@
 #include "pg/pg_ids.h"
 #include "pg/rx.h"
 
+#include "common/maths.h"
+#include "common/utils.h"
+
 #include "config/config.h"
 #include "config/config_reset.h"
+#include "config/feature.h"
 
 #include "time.h"
 
-#include "rc_controls.h"
+#include "fc/rc_controls.h"
+#include "fc/rc_modes.h"
 #include "runtime_config.h"
 
 #include "rx/rx.h"
@@ -263,21 +268,21 @@ void rxInit(void)
 
     // Initialize ARM switch to OFF position when arming via switch is defined
     // TODO - move to rc_mode.c
-    // #define MAX_MODE_ACTIVATION_CONDITION_COUNT 20
-    // for (int i = 0; i < MAX_MODE_ACTIVATION_CONDITION_COUNT; i++) {
-    //     const modeActivationCondition_t *modeActivationCondition = modeActivationConditions(i);
-    //     if (modeActivationCondition->modeId == BOXARM && IS_RANGE_USABLE(&modeActivationCondition->range)) {
-    //         // ARM switch is defined, determine an OFF value
-    //         uint16_t value;
-    //         if (modeActivationCondition->range.startStep > 0) {
-    //             value = MODE_STEP_TO_CHANNEL_VALUE((modeActivationCondition->range.startStep - 1));
-    //         } else {
-    //             value = MODE_STEP_TO_CHANNEL_VALUE((modeActivationCondition->range.endStep + 1));
-    //         }
-    //         // Initialize ARM AUX channel to OFF value
-    //         rcData[modeActivationCondition->auxChannelIndex + NON_AUX_CHANNEL_COUNT] = value;
-    //     }
-    // }
+     #define MAX_MODE_ACTIVATION_CONDITION_COUNT 20
+     for (int i = 0; i < MAX_MODE_ACTIVATION_CONDITION_COUNT; i++) {
+         const modeActivationCondition_t *modeActivationCondition = modeActivationConditions(i);
+         if (modeActivationCondition->modeId == BOXARM && IS_RANGE_USABLE(&modeActivationCondition->range)) {
+             // ARM switch is defined, determine an OFF value
+             uint16_t value;
+             if (modeActivationCondition->range.startStep > 0) {
+                 value = MODE_STEP_TO_CHANNEL_VALUE((modeActivationCondition->range.startStep - 1));
+             } else {
+                 value = MODE_STEP_TO_CHANNEL_VALUE((modeActivationCondition->range.endStep + 1));
+             }
+             // Initialize ARM AUX channel to OFF value
+             rcData[modeActivationCondition->auxChannelIndex + NON_AUX_CHANNEL_COUNT] = value;
+         }
+     }
 
     switch (rxRuntimeState.rxProvider) {
     default:
@@ -325,11 +330,11 @@ void rxInit(void)
 #endif
     }
 
-//#if defined(USE_ADC)
-//    if (featureIsEnabled(FEATURE_RSSI_ADC)) {
-//        rssiSource = RSSI_SOURCE_ADC;
-//    } else
-//#endif
+#if defined(USE_ADC)
+    if (featureIsEnabled(FEATURE_RSSI_ADC)) {
+        rssiSource = RSSI_SOURCE_ADC;
+    } else
+#endif
      if (rxConfig()->rssi_channel > 0) {
          rssiSource = RSSI_SOURCE_RX_CHANNEL;
      }

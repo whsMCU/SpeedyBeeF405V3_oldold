@@ -32,13 +32,13 @@
 #include "pg/pg.h"
 #include "pg/pg_ids.h"
 
-//#include "drivers/time.h"
+#include "time.h"
 
 #include "runtime_config.h"
 
 //#include "flight/gps_rescue.h"
 #include "imu.h"
-//#include "flight/mixer.h"
+#include "flight/mixer.h"
 #include "pid.h"
 
 //#include "io/gps.h"
@@ -566,12 +566,12 @@ void imuUpdateAttitude(timeUs_t currentTimeUs)
     if (acc.isAccelUpdatedAtLeastOnce) {
         imuCalculateEstimatedAttitude(currentTimeUs);
 
-//        // Update the throttle correction for angle and supply it to the mixer
-//        int throttleAngleCorrection = 0;
-//        if (throttleAngleValue && (FLIGHT_MODE(ANGLE_MODE) || FLIGHT_MODE(HORIZON_MODE)) && ARMING_FLAG(ARMED)) {
-//            throttleAngleCorrection = calculateThrottleAngleCorrection();
-//        }
-//        mixerSetThrottleAngleCorrection(throttleAngleCorrection);
+        // Update the throttle correction for angle and supply it to the mixer
+        int throttleAngleCorrection = 0;
+        if (throttleAngleValue && (FLIGHT_MODE(ANGLE_MODE) || FLIGHT_MODE(HORIZON_MODE)) && ARMING_FLAG(ARMED)) {
+            throttleAngleCorrection = calculateThrottleAngleCorrection();
+        }
+        mixerSetThrottleAngleCorrection(throttleAngleCorrection);
 
     } else {
         acc.accADC[X] = 0;

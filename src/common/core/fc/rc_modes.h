@@ -150,3 +150,4 @@ bool isModeActivationConditionLinked(boxId_e modeId);
 void removeModeActivationCondition(boxId_e modeId);
 bool isModeActivationConditionConfigured(const modeActivationCondition_t *mac, const modeActivationCondition_t *emptyMac);
 void analyzeModeActivationConditions(void);
+void MSP_SET_MODE_RANGE(uint32_t i, uint8_t auxChannelIndex, uint8_t startStep, uint8_t endStep);

@@ -76,6 +76,7 @@
 #define USE_ADC_INTERNAL
 #define USE_RC_SMOOTHING_FILTER
 #define USE_PERSISTENT_STATS
+#define USE_FEEDFORWARD
 
 #ifdef USE_FAST_DATA
 #define FAST_DATA_ZERO_INIT         __attribute__ ((section(".fastram_bss"), aligned(4)))

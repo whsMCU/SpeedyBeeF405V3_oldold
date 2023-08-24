@@ -44,6 +44,8 @@
 
 #include "rc_modes.h"
 
+#include "msp_box.h"
+
 #define STICKY_MODE_BOOT_DELAY_US 5e6
 
 boxBitmask_t rcModeActivationMask; // one bit per mode defined in boxId_e
@@ -256,4 +258,27 @@ void analyzeModeActivationConditions(void)
 #ifdef USE_PINIOBOX
     pinioBoxTaskControl();
 #endif
+}
+
+void MSP_SET_MODE_RANGE(uint32_t i, uint8_t auxChannelIndex, uint8_t startStep, uint8_t endStep){
+
+	  //i = sbufReadU8(src);
+	  if (i < MAX_MODE_ACTIVATION_CONDITION_COUNT) {
+	      modeActivationCondition_t *mac = modeActivationConditionsMutable(i);
+	      //i = sbufReadU8(src);
+	      const box_t *box = findBoxByPermanentId(i);
+	      if (box) {
+	          mac->modeId = box->boxId;
+	          mac->auxChannelIndex = auxChannelIndex;
+	          mac->range.startStep = startStep;
+	          mac->range.endStep = endStep;
+//	          if (sbufBytesRemaining(src) != 0) {
+//	              mac->modeLogic = sbufReadU8(src);
+//
+//	              i = sbufReadU8(src);
+//	              mac->linkedTo = findBoxByPermanentId(i)->boxId;
+//	          }
+	          rcControlsInit();
+	      }
+	  }
 }

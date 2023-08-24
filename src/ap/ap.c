@@ -19,6 +19,7 @@
 #include "mixer.h"
 #include "adcinternal.h"
 #include "stats.h"
+#include "rc_modes.h"
 
   
 void apInit(void)
@@ -66,35 +67,14 @@ void apInit(void)
 		statsInit();
 	#endif
 	tasksInit();
-
-
-
+	//MSP_SET_MODE_RANGE(0, 0, 24, 48);
+	//MSP_SET_MODE_RANGE(1, 1, 24, 48);
 }
 
 void apMain(void)
 {
-
 	while(1)
 	{
 		scheduler();
 	}
-	// 	if (millis()-pre_time >= 1000)
-    // 	{
-    //  		pre_time = millis();
-    //   		ledToggle(_DEF_LED1);
-    // 	}
-	// 	if (micros()-pre_time1 >= 312)
-    // 	{
-    //  		pre_time1 = micros();
-	// 		imuUpdate();	//DT 170us
-	// 		baroUpdate(micros());
-    // 	}
-	// 	if (millis()-pre_time2 >= 50)
-    // 	{
-    //  		pre_time2 = millis();
-	// 		baroUpdate(micros());
-	// 		calculateEstimatedAltitude(micros());
-    // 	}
-	// 	cliMain();
-	// }
 }
