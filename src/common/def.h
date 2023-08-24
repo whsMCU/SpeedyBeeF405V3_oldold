@@ -55,6 +55,8 @@
 #define USE_GYRO_OVERFLOW_CHECK
 //#define USE_YAW_SPIN_RECOVERY
 #define USE_ACC
+#define USE_BARO
+#define USE_MAG
 #define USE_LAUNCH_CONTROL
 #define USE_DYN_LPF
 #define USE_D_MIN
@@ -73,6 +75,7 @@
 //#define USE_GYRO_DLPF_EXPERIMENTAL
 #define USE_ADC_INTERNAL
 #define USE_RC_SMOOTHING_FILTER
+#define USE_PERSISTENT_STATS
 
 #ifdef USE_FAST_DATA
 #define FAST_DATA_ZERO_INIT         __attribute__ ((section(".fastram_bss"), aligned(4)))

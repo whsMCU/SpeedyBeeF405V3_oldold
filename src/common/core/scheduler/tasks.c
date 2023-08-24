@@ -42,6 +42,7 @@
 #include "tasks.h"
 #include "rx/rx.h"
 #include "rc.h"
+#include "dispatch.h"
 #include "cli.h"
 #include "core.h"
 #include "pg.h"
@@ -299,7 +300,7 @@ task_attribute_t task_attributes[TASK_COUNT] = {
     [TASK_ATTITUDE] = DEFINE_TASK("ATTITUDE", NULL, NULL, imuUpdateAttitude, TASK_PERIOD_HZ(100), TASK_PRIORITY_MEDIUM),
 
     [TASK_RX] = DEFINE_TASK("RX", NULL, rxUpdateCheck, taskUpdateRxMain, TASK_PERIOD_HZ(33), TASK_PRIORITY_HIGH), // If event-based scheduling doesn't work, fallback to periodic scheduling
-//    [TASK_DISPATCH] = DEFINE_TASK("DISPATCH", NULL, NULL, dispatchProcess, TASK_PERIOD_HZ(1000), TASK_PRIORITY_HIGH),
+    [TASK_DISPATCH] = DEFINE_TASK("DISPATCH", NULL, NULL, dispatchProcess, TASK_PERIOD_HZ(1000), TASK_PRIORITY_HIGH),
     [TASK_LED] = DEFINE_TASK("LED", NULL, NULL, ledUpdate, TASK_PERIOD_HZ(100), TASK_PRIORITY_LOW),
     [TASK_DEBUG] = DEFINE_TASK("DEBUG", NULL, NULL, debugPrint, TASK_PERIOD_HZ(10), TASK_PRIORITY_LOW),
 
@@ -398,7 +399,7 @@ const bool useBatteryVoltage = batteryConfig()->voltageMeterSource != VOLTAGE_ME
 
     setTaskEnabled(TASK_RX, true);
 
-    //setTaskEnabled(TASK_DISPATCH, dispatchIsEnabled());
+    setTaskEnabled(TASK_DISPATCH, dispatchIsEnabled());
 
 #ifdef USE_BEEPER
     setTaskEnabled(TASK_BEEPER, true);

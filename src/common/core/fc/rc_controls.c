@@ -31,7 +31,7 @@
 #include "axis.h"
 #include "maths.h"
 
-//#include "config/feature.h"
+#include "config/feature.h"
 
 //#include "drivers/camera_control.h"
 
@@ -59,11 +59,12 @@
 
 #include "sensors/acceleration.h"
 #include "sensors/barometer.h"
-//#include "sensors/battery.h"
+#include "sensors/battery.h"
 #include "sensors/compass.h"
 #include "sensors/gyro.h"
 
 #include "rc_controls.h"
+#include "rc_modes.h"
 
 // true if arming is done via the sticks (as opposed to a switch)
 static bool isUsingSticksToArm = true;
@@ -110,15 +111,15 @@ bool areSticksInApModePosition(uint16_t ap_mode)
 
 throttleStatus_e calculateThrottleStatus(void)
 {
-//    if (featureIsEnabled(FEATURE_3D)) {
-//        if (IS_RC_MODE_ACTIVE(BOX3D) || flight3DConfig()->switched_mode3d) {
-//            if (rcData[THROTTLE] < rxConfig()->mincheck) {
-//                return THROTTLE_LOW;
-//            }
-//        } else if ((rcData[THROTTLE] > (rxConfig()->midrc - flight3DConfig()->deadband3d_throttle) && rcData[THROTTLE] < (rxConfig()->midrc + flight3DConfig()->deadband3d_throttle))) {
-//            return THROTTLE_LOW;
-//        }
-//    } else
+    if (featureIsEnabled(FEATURE_3D)) {
+        if (IS_RC_MODE_ACTIVE(BOX3D) || flight3DConfig()->switched_mode3d) {
+            if (rcData[THROTTLE] < rxConfig()->mincheck) {
+                return THROTTLE_LOW;
+            }
+        } else if ((rcData[THROTTLE] > (rxConfig()->midrc - flight3DConfig()->deadband3d_throttle) && rcData[THROTTLE] < (rxConfig()->midrc + flight3DConfig()->deadband3d_throttle))) {
+            return THROTTLE_LOW;
+        }
+    } else
 		if (rcData[THROTTLE] < rxConfig()->mincheck) {
         return THROTTLE_LOW;
     }
@@ -168,7 +169,7 @@ void processRcStickPositions()
 
     // perform actions
     if (!isUsingSticksToArm) {
-        if (false) { //IS_RC_MODE_ACTIVE(BOXARM)
+        if (IS_RC_MODE_ACTIVE(BOXARM)) {
             rcDisarmTicks = 0;
             // Arming via ARM BOX
             tryArm();
@@ -414,6 +415,6 @@ int32_t getRcStickDeflection(int32_t axis, uint16_t midrc) {
 
 void rcControlsInit(void)
 {
-//    analyzeModeActivationConditions();
-//    isUsingSticksToArm = !isModeActivationConditionPresent(BOXARM) && systemConfig()->enableStickArming;
+    analyzeModeActivationConditions();
+    isUsingSticksToArm = !isModeActivationConditionPresent(BOXARM) && systemConfig()->enableStickArming;
 }

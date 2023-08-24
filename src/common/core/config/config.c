@@ -48,6 +48,7 @@
 
 //#include "flight/failsafe.h"
 #include "sensors.h"
+#include "imu.h"
 //#include "flight/mixer.h"
 #include "pid.h"
 #include "pid_init.h"

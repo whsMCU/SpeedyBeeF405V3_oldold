@@ -18,6 +18,7 @@
 #include "pg/pg.h"
 #include "mixer.h"
 #include "adcinternal.h"
+#include "stats.h"
 
   
 void apInit(void)
@@ -43,14 +44,14 @@ void apInit(void)
 	mixerInit(mixerConfig()->mixerMode);
 	adcInternalInit();
 
-//    // Set the targetLooptime based on the detected gyro sampleRateHz and pid_process_denom
-//    gyroSetTargetLooptime(pidConfig()->pid_process_denom);
-//
-//    // Validate and correct the gyro config or PID loop time if needed
-//    validateAndFixGyroConfig();
+    // Set the targetLooptime based on the detected gyro sampleRateHz and pid_process_denom
+    gyroSetTargetLooptime(pidConfig()->pid_process_denom);
 
-//    // Now reset the targetLooptime as it's possible for the validation to change the pid_process_denom
-//    gyroSetTargetLooptime(pidConfig()->pid_process_denom);
+    // Validate and correct the gyro config or PID loop time if needed
+    validateAndFixGyroConfig();
+
+    // Now reset the targetLooptime as it's possible for the validation to change the pid_process_denom
+    gyroSetTargetLooptime(pidConfig()->pid_process_denom);
 
 	// Finally initialize the gyro filtering
 	gyroInitFilters();
@@ -61,6 +62,9 @@ void apInit(void)
 	gpsInit();
 	//gyroStartCalibration(false);
 	//baroStartCalibration();
+	#ifdef USE_PERSISTENT_STATS
+		statsInit();
+	#endif
 	tasksInit();
 
 

@@ -28,13 +28,13 @@
 #include "utils.h"
 
 #include "config/config.h"
-//#include "config/feature.h"
+#include "config/feature.h"
 
 #include "controlrate_profile.h"
 #include "core.h"
 #include "rc.h"
 #include "rc_controls.h"
-//#include "fc/rc_modes.h"
+#include "fc/rc_modes.h"
 #include "runtime_config.h"
 
 //#include "flight/failsafe.h"
@@ -47,7 +47,7 @@
 
 #include "rx/rx.h"
 
-//#include "sensors/battery.h"
+#include "sensors/battery.h"
 #include "sensors/gyro.h"
 
 #include "rc.h"
@@ -656,18 +656,18 @@ void updateRcCommands(void)
     }
 
     int32_t tmp;
-    // if (featureIsEnabled(FEATURE_3D)) {
-    //     tmp = constrain(rcData[THROTTLE], PWM_RANGE_MIN, PWM_RANGE_MAX);
-    //     tmp = (uint32_t)(tmp - PWM_RANGE_MIN);
-    // } else
+     if (featureIsEnabled(FEATURE_3D)) {
+         tmp = constrain(rcData[THROTTLE], PWM_RANGE_MIN, PWM_RANGE_MAX);
+         tmp = (uint32_t)(tmp - PWM_RANGE_MIN);
+     } else
     {
         tmp = constrain(rcData[THROTTLE], rxConfig()->mincheck, PWM_RANGE_MAX);
         tmp = (uint32_t)(tmp - rxConfig()->mincheck) * PWM_RANGE_MIN / (PWM_RANGE_MAX - rxConfig()->mincheck);
     }
 
-    // if (getLowVoltageCutoff()->enabled) {
-    //     tmp = tmp * getLowVoltageCutoff()->percentage / 100;
-    // }
+     if (getLowVoltageCutoff()->enabled) {
+         tmp = tmp * getLowVoltageCutoff()->percentage / 100;
+     }
 
     rcCommand[THROTTLE] = rcLookupThrottle(tmp);
 
@@ -689,23 +689,23 @@ void updateRcCommands(void)
     //         }
     //     }
     // }
-    // if (FLIGHT_MODE(HEADFREE_MODE)) {
-    //     static t_fp_vector_def  rcCommandBuff;
+     if (FLIGHT_MODE(HEADFREE_MODE)) {
+         static t_fp_vector_def  rcCommandBuff;
 
-    //     rcCommandBuff.X = rcCommand[ROLL];
-    //     rcCommandBuff.Y = rcCommand[PITCH];
-    //     if ((!FLIGHT_MODE(ANGLE_MODE) && (!FLIGHT_MODE(HORIZON_MODE)) && (!FLIGHT_MODE(GPS_RESCUE_MODE)))) {
-    //         rcCommandBuff.Z = rcCommand[YAW];
-    //     } else {
-    //         rcCommandBuff.Z = 0;
-    //     }
-    //     imuQuaternionHeadfreeTransformVectorEarthToBody(&rcCommandBuff);
-    //     rcCommand[ROLL] = rcCommandBuff.X;
-    //     rcCommand[PITCH] = rcCommandBuff.Y;
-    //     if ((!FLIGHT_MODE(ANGLE_MODE)&&(!FLIGHT_MODE(HORIZON_MODE)) && (!FLIGHT_MODE(GPS_RESCUE_MODE)))) {
-    //         rcCommand[YAW] = rcCommandBuff.Z;
-    //     }
-    // }
+         rcCommandBuff.X = rcCommand[ROLL];
+         rcCommandBuff.Y = rcCommand[PITCH];
+         if ((!FLIGHT_MODE(ANGLE_MODE) && (!FLIGHT_MODE(HORIZON_MODE)) && (!FLIGHT_MODE(GPS_RESCUE_MODE)))) {
+             rcCommandBuff.Z = rcCommand[YAW];
+         } else {
+             rcCommandBuff.Z = 0;
+         }
+         imuQuaternionHeadfreeTransformVectorEarthToBody(&rcCommandBuff);
+         rcCommand[ROLL] = rcCommandBuff.X;
+         rcCommand[PITCH] = rcCommandBuff.Y;
+         if ((!FLIGHT_MODE(ANGLE_MODE)&&(!FLIGHT_MODE(HORIZON_MODE)) && (!FLIGHT_MODE(GPS_RESCUE_MODE)))) {
+             rcCommand[YAW] = rcCommandBuff.Z;
+         }
+     }
 }
 
 void resetYawAxis(void)
