@@ -67,8 +67,9 @@ void apInit(void)
 		statsInit();
 	#endif
 	tasksInit();
-	//MSP_SET_MODE_RANGE(0, 0, 24, 48);
-	//MSP_SET_MODE_RANGE(1, 1, 24, 48);
+	MSP_SET_MODE_RANGE(0, 0, 0, 1700, 2100);
+	MSP_SET_MODE_RANGE(1, 1, 2, 900, 2100);
+
 }
 
 void apMain(void)
