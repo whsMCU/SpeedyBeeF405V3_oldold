@@ -206,7 +206,7 @@ void processRcStickPositions()
             }
         }
         return;
-    } else if (rcSticks == THR_LO + YAW_HI + PIT_CE + ROL_CE) { // disable stick arming if STICK COMMAND DISABLE SW is active //&& !IS_RC_MODE_ACTIVE(BOXSTICKCOMMANDDISABLE)
+    } else if (rcSticks == THR_LO + YAW_HI + PIT_CE + ROL_CE && !IS_RC_MODE_ACTIVE(BOXSTICKCOMMANDDISABLE)) { // disable stick arming if STICK COMMAND DISABLE SW is active
         if (rcDelayMs >= ARM_DELAY_MS && !doNotRepeat) {
             doNotRepeat = true;
             if (!ARMING_FLAG(ARMED)) {

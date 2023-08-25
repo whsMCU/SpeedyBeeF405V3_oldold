@@ -31,7 +31,7 @@
 #include "maths.h"
 
 #include "config/config.h"
-//#include "config/feature.h"
+#include "config/feature.h"
 
 //#include "drivers/dshot.h"
 //#include "drivers/io.h"
@@ -42,7 +42,7 @@
 #include "core.h"
 #include "rc.h"
 #include "rc_controls.h"
-//#include "fc/rc_modes.h"
+#include "fc/rc_modes.h"
 #include "runtime_config.h"
 
 //#include "flight/failsafe.h"
@@ -57,7 +57,7 @@
 
 #include "rx/rx.h"
 
-//#include "sensors/battery.h"
+#include "sensors/battery.h"
 #include "sensors/gyro.h"
 
 #include "mixer.h"
@@ -120,7 +120,7 @@ static void calculateThrottleAndCurrentMotorEndpoints(timeUs_t currentTimeUs)
             rcThrottlePrevious = rxConfig()->midrc; // When disarmed set to mid_rc. It always results in positive direction after arming.
         }
 
-        if (false) {//IS_RC_MODE_ACTIVE(BOX3D) || flight3DConfig()->switched_mode3d
+        if (IS_RC_MODE_ACTIVE(BOX3D) || flight3DConfig()->switched_mode3d) {
             // The min_check range is halved because the output throttle is scaled to 500us.
             // So by using half of min_check we maintain the same low-throttle deadband
             // stick travel as normal non-3D mode.

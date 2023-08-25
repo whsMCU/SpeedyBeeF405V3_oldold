@@ -24,24 +24,24 @@
 
 //#include "build/debug.h"
 
-#include "axis.h"
-#include "utils.h"
+#include "common/axis.h"
+#include "common/utils.h"
 
 #include "config/config.h"
 #include "config/feature.h"
 
-#include "controlrate_profile.h"
-#include "core.h"
-#include "rc.h"
-#include "rc_controls.h"
+#include "fc/controlrate_profile.h"
+#include "fc/core.h"
+#include "fc/rc.h"
+#include "fc/rc_controls.h"
 #include "fc/rc_modes.h"
-#include "runtime_config.h"
+#include "fc/runtime_config.h"
 
 //#include "flight/failsafe.h"
-#include "imu.h"
-//#include "flight/feedforward.h"
+#include "flight/imu.h"
+#include "flight/feedforward.h"
 //#include "flight/gps_rescue.h"
-#include "pid_init.h"
+#include "flight/pid_init.h"
 
 #include "pg/rx.h"
 
@@ -615,7 +615,7 @@ void processRcCommand(void)
             //DEBUG_SET(DEBUG_ANGLERATE, axis, angleRate);
         }
         // adjust raw setpoint steps to camera angle (mixing Roll and Yaw)
-        if (false) {//rxConfig()->fpvCamAngleDegrees && IS_RC_MODE_ACTIVE(BOXFPVANGLEMIX) && !FLIGHT_MODE(HEADFREE_MODE)
+        if (rxConfig()->fpvCamAngleDegrees && IS_RC_MODE_ACTIVE(BOXFPVANGLEMIX) && !FLIGHT_MODE(HEADFREE_MODE)) {
             scaleRawSetpointToFpvCamAngle();
         }
     }
@@ -671,24 +671,24 @@ void updateRcCommands(void)
 
     rcCommand[THROTTLE] = rcLookupThrottle(tmp);
 
-    // if (featureIsEnabled(FEATURE_3D) && !failsafeIsActive()) {
-    //     if (!flight3DConfig()->switched_mode3d) {
-    //         if (IS_RC_MODE_ACTIVE(BOX3D)) {
-    //             fix12_t throttleScaler = qConstruct(rcCommand[THROTTLE] - 1000, 1000);
-    //             rcCommand[THROTTLE] = rxConfig()->midrc + qMultiply(throttleScaler, PWM_RANGE_MAX - rxConfig()->midrc);
-    //         }
-    //     } else {
-    //         if (IS_RC_MODE_ACTIVE(BOX3D)) {
-    //             reverseMotors = true;
-    //             fix12_t throttleScaler = qConstruct(rcCommand[THROTTLE] - 1000, 1000);
-    //             rcCommand[THROTTLE] = rxConfig()->midrc + qMultiply(throttleScaler, PWM_RANGE_MIN - rxConfig()->midrc);
-    //         } else {
-    //             reverseMotors = false;
-    //             fix12_t throttleScaler = qConstruct(rcCommand[THROTTLE] - 1000, 1000);
-    //             rcCommand[THROTTLE] = rxConfig()->midrc + qMultiply(throttleScaler, PWM_RANGE_MAX - rxConfig()->midrc);
-    //         }
-    //     }
-    // }
+     if (featureIsEnabled(FEATURE_3D) && true) {//!failsafeIsActive()
+         if (!flight3DConfig()->switched_mode3d) {
+             if (IS_RC_MODE_ACTIVE(BOX3D)) {
+                 fix12_t throttleScaler = qConstruct(rcCommand[THROTTLE] - 1000, 1000);
+                 rcCommand[THROTTLE] = rxConfig()->midrc + qMultiply(throttleScaler, PWM_RANGE_MAX - rxConfig()->midrc);
+             }
+         } else {
+             if (IS_RC_MODE_ACTIVE(BOX3D)) {
+                 reverseMotors = true;
+                 fix12_t throttleScaler = qConstruct(rcCommand[THROTTLE] - 1000, 1000);
+                 rcCommand[THROTTLE] = rxConfig()->midrc + qMultiply(throttleScaler, PWM_RANGE_MIN - rxConfig()->midrc);
+             } else {
+                 reverseMotors = false;
+                 fix12_t throttleScaler = qConstruct(rcCommand[THROTTLE] - 1000, 1000);
+                 rcCommand[THROTTLE] = rxConfig()->midrc + qMultiply(throttleScaler, PWM_RANGE_MAX - rxConfig()->midrc);
+             }
+         }
+     }
      if (FLIGHT_MODE(HEADFREE_MODE)) {
          static t_fp_vector_def  rcCommandBuff;
 

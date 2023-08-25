@@ -553,7 +553,7 @@ static uint16_t calculateChannelMovingAverage(uint8_t chan, uint16_t sample)
 static uint16_t getRxfailValue(uint8_t channel)
 {
     const rxFailsafeChannelConfig_t *channelFailsafeConfig = rxFailsafeChannelConfigs(channel);
-    const bool failsafeAuxSwitch = false;//IS_RC_MODE_ACTIVE(BOXFAILSAFE);
+    const bool failsafeAuxSwitch = IS_RC_MODE_ACTIVE(BOXFAILSAFE);
 
     switch (channelFailsafeConfig->mode) {
     case RX_FAILSAFE_MODE_AUTO:
@@ -563,11 +563,11 @@ static uint16_t getRxfailValue(uint8_t channel)
         case YAW:
             return rxConfig()->midrc;
         case THROTTLE:
-            // if (featureIsEnabled(FEATURE_3D) && !IS_RC_MODE_ACTIVE(BOX3D) && !flight3DConfig()->switched_mode3d) {
-            //     return rxConfig()->midrc;
-            // } else {
-                return rxConfig()->rx_min_usec;
-            //}
+          if (featureIsEnabled(FEATURE_3D) && !IS_RC_MODE_ACTIVE(BOX3D) && !flight3DConfig()->switched_mode3d) {
+              return rxConfig()->midrc;
+          } else {
+              return rxConfig()->rx_min_usec;
+          }
         }
 
     FALLTHROUGH;
@@ -627,7 +627,7 @@ static void readRxChannelsApplyRanges(void)
 void detectAndApplySignalLossBehaviour(void)
 {
     const uint32_t currentTimeMs = millis();
-    const bool failsafeAuxSwitch = false; //IS_RC_MODE_ACTIVE(BOXFAILSAFE);
+    const bool failsafeAuxSwitch = IS_RC_MODE_ACTIVE(BOXFAILSAFE);
     rxFlightChannelsValid = rxSignalReceived && !failsafeAuxSwitch;
     //  set rxFlightChannelsValid false when a packet is bad or we use a failsafe switch
 
@@ -727,12 +727,6 @@ bool calculateRxChannelsAndUpdateFailsafe(uint32_t currentTimeUs)
     while(uartAvailable(_DEF_UART2)){
         sbusDataReceive(uartRead(_DEF_UART2), rxRuntimeState.frameData);
     }
-#endif
-#ifdef USE_SERIALRX_CRSF
-//    while(uartAvailable(_DEF_UART2)){
-//        crsfDataReceive(uartRead(_DEF_UART2), (void*) &rxRuntimeState);
-//        rxRuntimeState.rx_count++;
-//    }
 #endif
 
     readRxChannelsApplyRanges();            // returns rcRaw

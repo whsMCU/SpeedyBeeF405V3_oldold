@@ -53,10 +53,10 @@
 
 #include "controlrate_profile.h"
 #include "rc.h"
-//#include "fc/rc_adjustments.h"
+#include "fc/rc_adjustments.h"
 #include "rc_controls.h"
 #include "runtime_config.h"
-// #include "fc/stats.h"
+#include "fc/stats.h"
 
 // #include "flight/failsafe.h"
 // #include "flight/gps_rescue.h"
@@ -97,7 +97,7 @@
 
 #include "sensors/acceleration.h"
 #include "sensors/barometer.h"
-//#include "sensors/battery.h"
+#include "sensors/battery.h"
 //#include "sensors/boardalignment.h"
 #include "sensors/compass.h"
 #include "sensors.h"
@@ -643,7 +643,7 @@ void tryArm(void)
 
 static void updateMagHold(void)
 {
-    if (fabsf(rcCommand[YAW]) < 15) { //&& FLIGHT_MODE(MAG_MODE)
+    if (fabsf(rcCommand[YAW]) < 15 && FLIGHT_MODE(MAG_MODE)) {
         int16_t dif = DECIDEGREES_TO_DEGREES(attitude.values.yaw) - magHold;
         if (dif <= -180)
             dif += 360;
@@ -709,20 +709,20 @@ int8_t calculateThrottlePercent(void)
     uint8_t ret = 0;
     int channelData = constrain(rcData[THROTTLE], PWM_RANGE_MIN, PWM_RANGE_MAX);
 
-    if (false//featureIsEnabled(FEATURE_3D)
-        && false//!IS_RC_MODE_ACTIVE(BOX3D)
-        && false) {//!flight3DConfig()->switched_mode3d
+    if (featureIsEnabled(FEATURE_3D)
+        && !IS_RC_MODE_ACTIVE(BOX3D)
+        && !flight3DConfig()->switched_mode3d) {
 
-        if (channelData > (rxConfig()->midrc + 0)) {//flight3DConfig()->deadband3d_throttle
+        if (channelData > (rxConfig()->midrc + flight3DConfig()->deadband3d_throttle)) {
             ret = ((channelData - rxConfig()->midrc - 0) * 100) / (PWM_RANGE_MAX - rxConfig()->midrc - 0);
         } else if (channelData < (rxConfig()->midrc - 0)) {
             ret = -((rxConfig()->midrc - 0 - channelData) * 100) / (rxConfig()->midrc - 0 - PWM_RANGE_MIN);
         }
     } else {
         ret = constrain(((channelData - rxConfig()->mincheck) * 100) / (PWM_RANGE_MAX - rxConfig()->mincheck), 0, 100);
-        if (false//featureIsEnabled(FEATURE_3D)
-        && false//IS_RC_MODE_ACTIVE(BOX3D)
-        && false) {//flight3DConfig()->switched_mode3d
+        if (featureIsEnabled(FEATURE_3D)
+            && IS_RC_MODE_ACTIVE(BOX3D)
+            && flight3DConfig()->switched_mode3d) {
 
             ret = -ret;  // 3D on a switch is active
         }
@@ -999,12 +999,12 @@ void processRxModes(uint32_t currentTimeUs)
 
      if (FLIGHT_MODE(ANGLE_MODE) || FLIGHT_MODE(HORIZON_MODE)) {
          //LED1_ON;
-         ledOn(ST1);
+         //ledOn(ST1);
          // increase frequency of attitude task to reduce drift when in angle or horizon mode
          rescheduleTask(TASK_ATTITUDE, TASK_PERIOD_HZ(500));
      } else {
          //LED1_OFF;
-         ledOff(ST1);
+         //ledOff(ST1);
          rescheduleTask(TASK_ATTITUDE, TASK_PERIOD_HZ(100));
      }
 
