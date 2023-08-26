@@ -26,7 +26,7 @@
 //#include "build/debug.h"
 
 #include "config/config.h"
-//#include "config/feature.h"
+#include "config/feature.h"
 
 //#include "drivers/dshot.h"
 
@@ -38,7 +38,7 @@
 
 #include "rx/rx.h"
 
-//#include "sensors/battery.h"
+#include "sensors/battery.h"
 
 #include "mixer_init.h"
 

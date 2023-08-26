@@ -165,7 +165,6 @@ typedef struct rxRuntimeState_s {
     uint32_t            callbackTime;
     uint32_t            callbackExeTime;
     uint32_t            rx_count;
-    uint32_t            micros;
     uint32_t            uartAvailable;
 } rxRuntimeState_t;
 
