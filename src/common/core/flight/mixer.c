@@ -602,7 +602,7 @@ void mixTable(timeUs_t currentTimeUs)
         applyMixerAdjustment(motorMix, motorMixMin, motorMixMax, airmodeEnabled);
     }
 
-    if (//featureIsEnabled(FEATURE_MOTOR_STOP) &&
+    if (featureIsEnabled(FEATURE_MOTOR_STOP) &&
         ARMING_FLAG(ARMED)
         && !mixerRuntime.feature3dEnabled
         && !airmodeEnabled
