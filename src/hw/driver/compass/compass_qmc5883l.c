@@ -22,7 +22,11 @@
 #include <stdint.h>
 
 #include <math.h>
-#include "maths.h"
+#include "common/axis.h"
+#include "common/maths.h"
+#include "common/utils.h"
+
+#include "driver/sensor.h"
 
 #include "compass.h"
 #include "compass_qmc5883l.h"

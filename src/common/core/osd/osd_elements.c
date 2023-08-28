@@ -114,7 +114,7 @@
 //#include "blackbox/blackbox.h"
 //#include "blackbox/blackbox_io.h"
 
-//#include "build/build_config.h"
+#include "build/build_config.h"
 //#include "build/debug.h"
 
 #include "common/axis.h"
@@ -141,7 +141,7 @@
 #include "fc/runtime_config.h"
 
 //#include "flight/gps_rescue.h"
-//#include "flight/position.h"
+#include "flight/position.h"
 #include "flight/imu.h"
 #include "flight/mixer.h"
 #include "flight/pid.h"

@@ -145,12 +145,17 @@ static bool baroReady = false;
 
 void Baro_Init(void)
 {
-    dps310Detect(&baro.dev);
-    baroStartCalibration();
 
-    #ifdef _USE_HW_CLI
-    cliAdd("dps310", cliDps310);
-    #endif
+	baroSensor_e baroHardware = BARO_DPS310;
+
+  dps310Detect(&baro.dev);
+  sensorsSet(SENSOR_BARO);
+  baroHardware = BARO_DPS310;
+  baroStartCalibration();
+
+  #ifdef _USE_HW_CLI
+		cliAdd("dps310", cliDps310);
+  #endif
 }
 
 bool baroIsCalibrationComplete(void)
@@ -370,56 +375,6 @@ void performBaroCalibrationCycle(void)
         savedGroundPressure = baroGroundPressure;
     }
 }
-
-//static bool altitudeOffsetSetBaro = false;
-//static bool altitudeOffsetSetGPS = false;
-
-//void calculateEstimatedAltitude(uint32_t currentTimeUs)
-//{
-//    static uint32_t previousTimeUs = 0;
-//    //static int32_t baroAltOffset = 0;
-//    //static int32_t gpsAltOffset = 0;
-//
-//    const uint32_t dTime = currentTimeUs - previousTimeUs;
-//    if (dTime < BARO_UPDATE_FREQUENCY_40HZ) {
-//        schedulerIgnoreTaskExecTime();
-//        return;
-//    }
-//    previousTimeUs = currentTimeUs;
-//
-//    int32_t baroAlt = 0;
-//    //int32_t gpsAlt = 0;
-//    //uint8_t gpsNumSat = 0;
-//
-//    //float gpsTrust = 0.3; //conservative default
-//    bool haveBaroAlt = false;
-//    //bool haveGpsAlt = false;
-//
-//    if (!baroIsCalibrationComplete()) {
-//        performBaroCalibrationCycle();
-//    } else {
-//        baroAlt = baroCalculateAltitude();
-//        haveBaroAlt = true;
-//    }
-//
-//
-//    // if (ARMING_FLAG(ARMED) && !altitudeOffsetSetBaro) {
-//    //     baroAltOffset = baroAlt;
-//    //     altitudeOffsetSetBaro = true;
-//    // } else if (!ARMING_FLAG(ARMED) && altitudeOffsetSetBaro) {
-//    //     altitudeOffsetSetBaro = false;
-//    // }
-//
-//    // baroAlt -= baroAltOffset;
-//
-//    estimatedAltitudeCm = baroAlt;
-//    baro.BaroAlt = baroAlt;
-//
-//    //cliPrintf("BARO : %u cm \n\r", baroAlt);
-//    //DEBUG_SET(DEBUG_ALTITUDE, 0, (int32_t)(100 * gpsTrust));
-//    //DEBUG_SET(DEBUG_ALTITUDE, 1, baroAlt);
-//    //DEBUG_SET(DEBUG_ALTITUDE, 2, gpsAlt);
-//}
 
 #ifdef _USE_HW_CLI
 void cliDps310(cli_args_t *args)

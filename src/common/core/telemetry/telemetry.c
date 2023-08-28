@@ -120,7 +120,7 @@ void telemetryInit(void)
     initIbusTelemetry();
 #endif
 #if defined(USE_MSP_OVER_TELEMETRY)
-    initSharedMsp();
+    //initSharedMsp();
 #endif
 
     telemetryCheckState();

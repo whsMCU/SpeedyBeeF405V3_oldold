@@ -34,10 +34,10 @@
 
 //#include "cms/cms.h"
 
-#include "axis.h"
-#include "filter.h"
-#include "maths.h"
-#include "utils.h"
+#include "common/axis.h"
+#include "common/filter.h"
+#include "common/maths.h"
+#include "common/utils.h"
 
 #include "config/config.h"
 #include "config/feature.h"
@@ -51,11 +51,11 @@
 #include "time.h"
 //#include "drivers/transponder_ir.h"
 
-#include "controlrate_profile.h"
-#include "rc.h"
+#include "fc/controlrate_profile.h"
+#include "fc/rc.h"
 #include "fc/rc_adjustments.h"
-#include "rc_controls.h"
-#include "runtime_config.h"
+#include "fc/rc_controls.h"
+#include "fc/runtime_config.h"
 #include "fc/stats.h"
 
 // #include "flight/failsafe.h"
@@ -65,10 +65,10 @@
 #include "dyn_notch_filter.h"
 #endif
 
-#include "imu.h"
-#include "mixer.h"
-#include "pid.h"
-// #include "flight/position.h"
+#include "flight/imu.h"
+#include "flight/mixer.h"
+#include "flight/pid.h"
+#include "flight/position.h"
 // #include "flight/rpm_filter.h"
 // #include "flight/servos.h"
 
@@ -84,7 +84,7 @@
 
 // #include "msp/msp_serial.h"
 
-// #include "osd/osd.h"
+#include "osd/osd.h"
 
 // #include "pg/motor.h"
  #include "pg/pg.h"

@@ -22,37 +22,81 @@
 #include <stdlib.h>
 #include <stdint.h>
 
+//#include "platform.h"
+
+//#include "build/debug.h"
+
+//#include "cli/cli.h"
+
+//#include "cms/cms.h"
+
+//#include "common/color.h"
 #include "common/utils.h"
+
 #include "config/feature.h"
 
-#include "scheduler.h"
+#include "driver/accgyro/accgyro.h"
+//#include "drivers/camera_control.h"
+#include "driver/compass/compass.h"
+#include "driver/sensor.h"
+//#include "drivers/serial.h"
+//#include "drivers/serial_usb_vcp.h"
+//#include "drivers/stack_check.h"
+//#include "drivers/transponder_ir.h"
+//#include "drivers/usb_io.h"
+//#include "drivers/vtx_common.h"
 
-#include "barometer.h"
-#include "sensors.h"
-#include "acceleration.h"
-#include "compass.h"
-#include "driver/gps/gps.h"
-#include "led.h"
-#include "telemetry.h"
+#include "config/config.h"
+#include "fc/core.h"
+#include "fc/rc.h"
+#include "fc/dispatch.h"
+#include "fc/rc_controls.h"
+#include "fc/runtime_config.h"
+
+#include "flight/position.h"
+#include "flight/imu.h"
+#include "flight/mixer.h"
+#include "flight/pid.h"
+
+//#include "io/asyncfatfs/asyncfatfs.h"
+//#include "io/beeper.h"
+//#include "io/dashboard.h"
+//#include "io/gps.h"
+//#include "io/ledstrip.h"
+//#include "io/piniobox.h"
+//#include "io/serial.h"
+//#include "io/transponder_ir.h"
+//#include "io/vtx_tramp.h" // Will be gone
+//#include "io/rcdevice_cam.h"
+//#include "io/usb_cdc_hid.h"
+//#include "io/vtx.h"
+
+//#include "msp/msp.h"
+//#include "msp/msp_serial.h"
 
 #include "osd/osd.h"
-#include "rx/rx.h"
+
 #include "pg/rx.h"
+//#include "pg/motor.h"
+
+#include "rx/rx.h"
+
+#include "scheduler/scheduler.h"
+
+#include "sensors/acceleration.h"
+#include "sensors/adcinternal.h"
+#include "sensors/barometer.h"
+#include "sensors/battery.h"
+#include "sensors/compass.h"
+//#include "sensors/esc_sensor.h"
+#include "sensors/gyro.h"
+#include "sensors/sensors.h"
+//#include "sensors/rangefinder.h"
+
+#include "telemetry.h"
 
 #include "telemetry/telemetry.h"
 #include "telemetry/crsf.h"
-
-#include "sensors/battery.h"
-#include "sensors/adcinternal.h"
-
-#include "imu.h"
-#include "tasks.h"
-#include "rx/rx.h"
-#include "rc.h"
-#include "dispatch.h"
-#include "cli.h"
-#include "core.h"
-#include "pg.h"
 
 // taskUpdateRxMain() has occasional peaks in execution time so normal moving average duration estimation doesn't work
 // Decay the estimated max task duration by 1/(1 << RX_TASK_DECAY_SHIFT) on every invocation

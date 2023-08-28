@@ -24,28 +24,16 @@
 #include "hw_def.h"
 #include "axis.h"
 #include "maths.h"
-#include "sensors.h"
+#include "sensors/sensors.h"
+#include "driver/sensor.h"
 #include "accgyro.h"
 #include "pg/pg.h"
-#include "time.h"
+#include "common/time.h"
 
 typedef bool (*sensorInterruptFuncPtr)(void);
 struct magDev_s;
 typedef bool (*sensorMagInitFuncPtr)(struct magDev_s *magdev);
 typedef bool (*sensorMagReadFuncPtr)(struct magDev_s *magdev, int16_t *data);
-
-typedef struct magDev_s {
-    sensorMagInitFuncPtr init;                              // initialize function
-    sensorMagReadFuncPtr read;                              // read 3 axis data function
-    // extiCallbackRec_t exti;
-    uint8_t ch;
-    uint8_t address;
-    // sensor_align_e magAlignment;
-    fp_rotationMatrix_t rotationMatrix;
-    //ioTag_t magIntExtiTag;
-    int16_t magGain[3];
-} magDev_t;
-
 
 // Type of magnetometer used/detected
 typedef enum {

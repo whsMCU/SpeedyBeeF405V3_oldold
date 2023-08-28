@@ -20,6 +20,8 @@
 
 #include "barometer_dps310.h"
 #include "i2c.h"
+#include "build/build_config.h"
+#include "common/utils.h"
 
 #ifdef USE_BARO_DPS310
 

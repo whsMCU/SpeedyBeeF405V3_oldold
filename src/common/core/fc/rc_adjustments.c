@@ -656,7 +656,7 @@ static uint8_t applySelectAdjustment(adjustmentFunction_e adjustmentFunction, ui
     }
 
     if (beeps) {
-        beeperConfirmationBeeps(beeps);
+        //beeperConfirmationBeeps(beeps);
     }
 
     return position;

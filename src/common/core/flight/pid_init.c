@@ -25,23 +25,23 @@
 
 //#include "platform.h"
 
-//#include "build/build_config.h"
+#include "build/build_config.h"
 //#include "build/debug.h"
 
 #include "axis.h"
-//#include "common/filter.h"
+#include "common/filter.h"
 
 //#include "drivers/dshot_command.h"
 
-//#include "fc/rc_controls.h"
-//#include "fc/runtime_config.h"
+#include "fc/rc_controls.h"
+#include "fc/runtime_config.h"
 
-//#include "flight/feedforward.h"
-#include "pid.h"
+#include "flight/feedforward.h"
+#include "flight/pid.h"
 //#include "flight/rpm_filter.h"
 
-#include "gyro.h"
-#include "sensors.h"
+#include "sensors/gyro.h"
+#include "sensors/sensors.h"
 
 #include "pid_init.h"
 

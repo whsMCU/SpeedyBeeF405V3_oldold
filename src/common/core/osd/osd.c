@@ -73,7 +73,7 @@
 //#include "flight/failsafe.h"
 #include "flight/imu.h"
 #include "flight/mixer.h"
-//#include "flight/position.h"
+#include "flight/position.h"
 
 //#include "io/asyncfatfs/asyncfatfs.h"
 //#include "io/beeper.h"
