@@ -62,9 +62,9 @@
 //#include "io/serial.h"
 //#include "io/vtx.h"
 
-//#include "msp/msp_box.h"
+#include "msp/msp_box.h"
 
-//#include "osd/osd.h"
+#include "osd/osd.h"
 
 #include "pg/adc.h"
 //#include "pg/beeper.h"

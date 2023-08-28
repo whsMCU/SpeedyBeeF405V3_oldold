@@ -22,6 +22,9 @@
 #include <stdlib.h>
 #include <stdint.h>
 
+#include "common/utils.h"
+#include "config/feature.h"
+
 #include "scheduler.h"
 
 #include "barometer.h"
@@ -31,6 +34,10 @@
 #include "driver/gps/gps.h"
 #include "led.h"
 #include "telemetry.h"
+
+#include "osd/osd.h"
+#include "rx/rx.h"
+#include "pg/rx.h"
 
 #include "telemetry/telemetry.h"
 #include "telemetry/crsf.h"
@@ -315,6 +322,10 @@ task_attribute_t task_attributes[TASK_COUNT] = {
     [TASK_BARO] = DEFINE_TASK("BARO", NULL, NULL, taskUpdateBaro, TASK_PERIOD_HZ(20), TASK_PRIORITY_LOW),
 
     [TASK_ALTITUDE] = DEFINE_TASK("ALTITUDE", NULL, NULL, taskCalculateAltitude, TASK_PERIOD_HZ(40), TASK_PRIORITY_LOW),
+
+#ifdef USE_OSD
+    [TASK_OSD] = DEFINE_TASK("OSD", NULL, osdUpdateCheck, osdUpdate, TASK_PERIOD_HZ(OSD_FRAMERATE_DEFAULT_HZ), TASK_PRIORITY_LOW),
+#endif
 
 #ifdef USE_TELEMETRY
     [TASK_TELEMETRY] = DEFINE_TASK("TELEMETRY", NULL, NULL, taskTelemetry, TASK_PERIOD_HZ(250), TASK_PRIORITY_LOW),

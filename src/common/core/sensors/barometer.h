@@ -22,34 +22,39 @@
 
 #include "def.h"
 #include "hw_def.h"
+#include "common/time.h"
+#include "pg/pg.h"
+#include "driver/barometer/barometer.h"
+
+typedef enum {
+    BARO_DEFAULT = 0,
+    BARO_NONE = 1,
+    BARO_BMP085 = 2,
+    BARO_MS5611 = 3,
+    BARO_BMP280 = 4,
+    BARO_LPS = 5,
+    BARO_QMP6988 = 6,
+    BARO_BMP388 = 7,
+    BARO_DPS310 = 8,
+} baroSensor_e;
 
 #define BARO_SAMPLE_COUNT_MAX   48
 
-#define CONVERT_PARAMETER_TO_FLOAT(param) (0.001f * param)
-#define CONVERT_PARAMETER_TO_PERCENT(param) (0.01f * param)
+typedef struct barometerConfig_s {
+    uint8_t baro_busType;
+//    uint8_t baro_spi_device;
+//    ioTag_t baro_spi_csn;                   // Also used as XCLR (positive logic) for BMP085
+    uint8_t baro_i2c_device;
+    uint8_t baro_i2c_address;
+    uint8_t baro_hardware;                  // Barometer hardware to use
+    uint8_t baro_sample_count;              // size of baro filter array
+    uint16_t baro_noise_lpf;                // additional LPF to reduce baro noise
+    uint16_t baro_cf_vel;                   // apply Complimentary Filter to keep the calculated velocity based on baro velocity (i.e. near real velocity)
+//    ioTag_t baro_eoc_tag;
+//    ioTag_t baro_xclr_tag;
+} barometerConfig_t;
 
-typedef struct baroDev_s baroDev_t;
-typedef struct baro_s baro_t;
-
-typedef void (*baroOpFuncPtr)(struct baroDev_s *baro);                       // baro start operation
-typedef bool (*baroGetFuncPtr)(struct baroDev_s *baro);                       // baro read/get operation
-typedef void (*baroCalculateFuncPtr)(int32_t *pressure, int32_t *temperature); // baro calculation (filled params are pressure and temperature)
-
-// the 'u' in these variable names means 'uncompensated', 't' is temperature, 'p' pressure.
-typedef struct baroDev_s {
-    uint8_t ch;
-    uint8_t address;
-    bool combined_read;
-    uint16_t ut_delay;
-    uint16_t up_delay;
-    baroOpFuncPtr start_ut;
-    baroGetFuncPtr read_ut;
-    baroGetFuncPtr get_ut;
-    baroOpFuncPtr start_up;
-    baroGetFuncPtr read_up;
-    baroGetFuncPtr get_up;
-    baroCalculateFuncPtr calculate;
-} baroDev_t;
+PG_DECLARE(barometerConfig_t, barometerConfig);
 
 typedef struct baro_s {
     baroDev_t dev;
@@ -64,8 +69,8 @@ void Baro_Init(void);
 bool baroIsCalibrationComplete(void);
 void baroStartCalibration(void);
 void baroSetGroundLevel(void);
-uint32_t baroUpdate(uint32_t currentTimeUs);
+uint32_t baroUpdate(timeUs_t currentTimeUs);
 bool isBaroReady(void);
 int32_t baroCalculateAltitude(void);
 void performBaroCalibrationCycle(void);
-void calculateEstimatedAltitude(uint32_t currentTimeUs);
+//void calculateEstimatedAltitude(uint32_t currentTimeUs);

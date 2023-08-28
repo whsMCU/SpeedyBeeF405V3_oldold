@@ -29,7 +29,7 @@
 
 #include "def.h"
 
-//#include "common/unit.h"
+#include "common/unit.h"
 
 //#include "io/serial.h"
 
@@ -39,11 +39,6 @@
 
 //#include "telemetry/ibus_shared.h"
 
-typedef enum {
-    UNIT_IMPERIAL = 0,
-    UNIT_METRIC,
-    UNIT_BRITISH
-} unit_e;
 
 typedef enum {
     FRSKY_FORMAT_DMS = 0,

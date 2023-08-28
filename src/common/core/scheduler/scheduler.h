@@ -134,6 +134,9 @@ typedef enum {
 #ifdef USE_STACK_CHECK
     TASK_STACK_CHECK,
 #endif
+#ifdef USE_OSD
+    TASK_OSD,
+#endif
 #ifdef USE_ADC_INTERNAL
     TASK_ADC_INTERNAL,
 #endif

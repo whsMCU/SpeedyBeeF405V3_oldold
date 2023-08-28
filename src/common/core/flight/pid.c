@@ -25,7 +25,7 @@
 
 //#include "platform.h"
 
-//#include "build/build_config.h"
+#include "build/build_config.h"
 //#include "build/debug.h"
 
 #include "axis.h"
@@ -47,9 +47,9 @@
 
 // #include "flight/gps_rescue.h"
 #include "imu.h"
-// #include "flight/mixer.h"
+#include "flight/mixer.h"
 // #include "flight/rpm_filter.h"
-// #include "flight/feedforward.h"
+#include "flight/feedforward.h"
 
 #include "gps.h"
 
@@ -57,7 +57,7 @@
 #include "pg/pg_ids.h"
 
 #include "sensors/acceleration.h"
-// #include "sensors/battery.h"
+#include "sensors/battery.h"
 #include "gyro.h"
 
 #include "pid.h"
