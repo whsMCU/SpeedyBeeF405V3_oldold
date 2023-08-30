@@ -73,7 +73,7 @@ static uint32_t taskGuardDeltaUpCycles;
 FAST_DATA_ZERO_INIT uint16_t averageSystemLoadPercent = 0;
 
 static FAST_DATA_ZERO_INIT int taskQueuePos = 0;
-FAST_DATA_ZERO_INIT int taskQueueSize = 0;
+static FAST_DATA_ZERO_INIT int taskQueueSize = 0;
 
 static FAST_DATA_ZERO_INIT bool gyroEnabled;
 
@@ -96,7 +96,7 @@ static uint32_t lastFailsafeCheckMs = 0;
 
 // No need for a linked list for the queue, since items are only inserted at startup
 
-task_t* FAST_DATA_ZERO_INIT taskQueueArray[TASK_COUNT + 1]; // extra item for NULL pointer at end of queue
+static FAST_DATA_ZERO_INIT task_t* taskQueueArray[TASK_COUNT + 1]; // extra item for NULL pointer at end of queue
 
 void queueClear(void)
 {

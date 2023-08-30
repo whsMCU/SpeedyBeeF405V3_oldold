@@ -150,17 +150,17 @@ static FAST_DATA_ZERO_INIT uint8_t pidUpdateCounter;
 
 static bool flipOverAfterCrashActive = false;
 
-static uint32_t disarmAt;     // Time of automatic disarm when "Don't spin the motors when armed" is enabled and auto_disarm_delay is nonzero
+static timeUs_t disarmAt;     // Time of automatic disarm when "Don't spin the motors when armed" is enabled and auto_disarm_delay is nonzero
 
 static int lastArmingDisabledReason = 0;
-static uint32_t lastDisarmTimeUs;
+static timeUs_t lastDisarmTimeUs;
 static int tryingToArm = ARMING_DELAYED_DISARMED;
 
 #ifdef USE_RUNAWAY_TAKEOFF
-static uint32_t runawayTakeoffDeactivateUs = 0;
-static uint32_t runawayTakeoffAccumulatedUs = 0;
+static timeUs_t runawayTakeoffDeactivateUs = 0;
+static timeUs_t runawayTakeoffAccumulatedUs = 0;
 static bool runawayTakeoffCheckDisabled = false;
-static uint32_t runawayTakeoffTriggerUs = 0;
+static timeUs_t runawayTakeoffTriggerUs = 0;
 static bool runawayTakeoffTemporarilyDisabled = false;
 #endif
 

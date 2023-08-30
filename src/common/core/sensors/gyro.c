@@ -66,14 +66,14 @@ FAST_DATA_ZERO_INIT gyro_t gyro;
 
 static FAST_DATA_ZERO_INIT bool overflowDetected;
 #ifdef USE_GYRO_OVERFLOW_CHECK
-static FAST_DATA_ZERO_INIT uint32_t overflowTimeUs;
+static FAST_DATA_ZERO_INIT timeUs_t overflowTimeUs;
 #endif
 
 #ifdef USE_YAW_SPIN_RECOVERY
 static FAST_DATA_ZERO_INIT bool yawSpinRecoveryEnabled;
 static FAST_DATA_ZERO_INIT int yawSpinRecoveryThreshold;
 static FAST_DATA_ZERO_INIT bool yawSpinDetected;
-static FAST_DATA_ZERO_INIT uint32_t yawSpinTimeUs;
+static FAST_DATA_ZERO_INIT timeUs_t yawSpinTimeUs;
 #endif
 
 static FAST_DATA_ZERO_INIT float accumulatedMeasurements[XYZ_AXIS_COUNT];
