@@ -6,7 +6,7 @@
 #include "acceleration.h"
 #include "gyro.h"
 
-typedef struct gyroDev_s gyroDev_t;
+//typedef struct gyroDev_s gyroDev_t;
 
 bool bmi270_Init(void);
 bool bmi270Detect(uint8_t ch);

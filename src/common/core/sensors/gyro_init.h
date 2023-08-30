@@ -20,11 +20,11 @@
 
 #pragma once
 
-#include "gyro.h"
-
 #include "def.h"
 #include "hw_def.h"
 #include "sensors.h"
+#include "driver/accgyro/accgyro.h"
+#include "sensors/gyro.h"
 
 void gyroSetTargetLooptime(uint8_t pidDenom);
 void gyroPreInit(void);

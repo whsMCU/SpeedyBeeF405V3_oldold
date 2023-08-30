@@ -22,18 +22,13 @@
 
 #include "def.h"
 #include "hw_def.h"
-#include "axis.h"
-#include "maths.h"
+#include "common/axis.h"
+#include "common/maths.h"
 #include "sensors/sensors.h"
 #include "driver/sensor.h"
 #include "accgyro.h"
 #include "pg/pg.h"
 #include "common/time.h"
-
-typedef bool (*sensorInterruptFuncPtr)(void);
-struct magDev_s;
-typedef bool (*sensorMagInitFuncPtr)(struct magDev_s *magdev);
-typedef bool (*sensorMagReadFuncPtr)(struct magDev_s *magdev, int16_t *data);
 
 // Type of magnetometer used/detected
 typedef enum {

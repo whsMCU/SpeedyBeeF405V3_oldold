@@ -1222,7 +1222,7 @@ static void subTaskRcCommand(uint32_t currentTimeUs)
     // sticks, do not process yaw input from the rx.  We do this so the
     // motors do not spin up while we are trying to arm or disarm.
     // Allow yaw control for tricopters if the user wants the servo to move even when unarmed.
-     if (rcData[THROTTLE] <= rxConfig()->mincheck) { //isUsingSticksForArming() &&
+     if (isUsingSticksForArming() && rcData[THROTTLE] <= rxConfig()->mincheck) {
          resetYawAxis();
      }
 

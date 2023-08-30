@@ -53,7 +53,7 @@
 
 
 #define USE_GYRO_OVERFLOW_CHECK
-//#define USE_YAW_SPIN_RECOVERY
+#define USE_YAW_SPIN_RECOVERY
 #define USE_ACC
 #define USE_BARO
 #define USE_MAG
@@ -79,6 +79,7 @@
 #define USE_FEEDFORWARD
 #define USE_OSD
 #define USE_BOARD_INFO
+#define USE_ITERM_RELAX
 
 #ifdef USE_FAST_DATA
 #define FAST_DATA_ZERO_INIT         __attribute__ ((section(".fastram_bss"), aligned(4)))

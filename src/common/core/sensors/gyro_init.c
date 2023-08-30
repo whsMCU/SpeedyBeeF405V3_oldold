@@ -24,26 +24,25 @@
 #include <math.h>
 #include <stdlib.h>
 
-#include "axis.h"
-#include "maths.h"
-#include "filter.h"
+#include "common/axis.h"
+#include "common/maths.h"
+#include "common/filter.h"
 
 #include "config/config.h"
 
-#include "runtime_config.h"
+#include "fc/runtime_config.h"
 
 #include "driver/accgyro/bmi270.h"
 
 #include "driver/accgyro/gyro_sync.h"
 
-//#include "fc/runtime_config.h"
 
 #ifdef USE_DYN_NOTCH_FILTER
-#include "dyn_notch_filter.h"
+#include "flight/dyn_notch_filter.h"
 #endif
 
-#include "gyro.h"
-#include "sensors.h"
+#include "sensors/gyro.h"
+#include "sensors/sensors.h"
 
 #ifdef USE_MULTI_GYRO
 #define ACTIVE_GYRO ((gyro.gyroToUse == GYRO_CONFIG_USE_GYRO_2) ? &gyro.gyroSensor2 : &gyro.gyroSensor1)

@@ -27,7 +27,7 @@
 
 #pragma once
 
-#include "accgyro.h"
+#include "driver/accgyro/accgyro.h"
 
 bool gyroSyncCheckUpdate(gyroDev_t *gyro);
 uint16_t gyroSetSampleRate(gyroDev_t *gyro);

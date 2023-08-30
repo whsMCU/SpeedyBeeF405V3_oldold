@@ -22,9 +22,8 @@
 
 #include "def.h"
 #include "hw_def.h"
-#include "acceleration.h"
-#include "config_reset.h"
-#include "accgyro.h"
+
+#include "sensors/acceleration.h"
 
 
 typedef struct accelerationRuntime_s {

@@ -333,7 +333,7 @@ static void checkForOverflow(uint32_t currentTimeUs)
 #endif // USE_GYRO_OVERFLOW_CHECK
 
 #ifdef USE_YAW_SPIN_RECOVERY
-static FAST_CODE_NOINLINE void handleYawSpin(timeUs_t currentTimeUs)
+static void handleYawSpin(timeUs_t currentTimeUs)
 {
     const float yawSpinResetRate = yawSpinRecoveryThreshold - 100.0f;
     if (fabsf(gyro.gyroADCf[Z]) < yawSpinResetRate) {

@@ -20,17 +20,22 @@
 
 #pragma once
 
-#include "axis.h"
-#include "filter.h"
-#include "utils.h"
+#include "common/axis.h"
+#include "common/filter.h"
+#include "common/time.h"
+#include "common/utils.h"
+
+#include "driver/accgyro/accgyro.h"
+#include "driver/sensor.h"
 
 #ifdef USE_DYN_NOTCH_FILTER
-#include "dyn_notch_filter.h"
+#include "flight/dyn_notch_filter.h"
 #endif
-#include "sensors.h"
-#include "pid.h"
+
+#include "flight/pid.h"
+
 #include "pg/pg.h"
-#include "accgyro.h"
+
 
 
 #define LPF_MAX_HZ 1000 // so little filtering above 1000hz that if the user wants less delay, they must disable the filter
@@ -67,72 +72,6 @@ typedef struct gyroCalibration_s {
     stdev_t var[XYZ_AXIS_COUNT];
     int32_t cyclesRemaining;
 } gyroCalibration_t;
-
-typedef enum {
-    GYRO_RATE_1_kHz,
-    GYRO_RATE_1100_Hz,
-    GYRO_RATE_3200_Hz,
-    GYRO_RATE_6400_Hz,
-    GYRO_RATE_6664_Hz,
-    GYRO_RATE_8_kHz,
-    GYRO_RATE_9_kHz,
-    GYRO_RATE_32_kHz,
-} gyroRateKHz_e;
-
-typedef enum {
-    GYRO_EXTI_INIT = 0,
-    GYRO_EXTI_INT_DMA,
-    GYRO_EXTI_INT,
-    GYRO_EXTI_NO_INT
-} gyroModeSPI_e;
-
-struct gyroDev_s;
-typedef void (*sensorGyroInitFuncPtr)(struct gyroDev_s *gyro);
-typedef bool (*sensorGyroReadFuncPtr)(struct gyroDev_s *gyro);
-typedef bool (*sensorGyroReadDataFuncPtr)(struct gyroDev_s *gyro, int16_t *data);
-
-typedef struct gyroDev_s {
-    uint8_t  gyro_bus_ch;
-    sensorGyroInitFuncPtr initFn;                             // initialize function
-    sensorGyroReadFuncPtr readFn;                             // read 3 axis data function
-    sensorGyroReadDataFuncPtr temperatureFn;                  // read temperature if available
-    //extiCallbackRec_t exti;
-    //extDevice_t dev;
-    uint8_t *txBuf, *rxBuf;
-    float scale;                                             // scalefactor
-    float gyroZero[XYZ_AXIS_COUNT];
-    float gyroADC[XYZ_AXIS_COUNT];                           // gyro data after calibration and alignment
-    int32_t gyroADCRawPrevious[XYZ_AXIS_COUNT];
-    int16_t gyroADCRaw[XYZ_AXIS_COUNT];                      // raw data from sensor
-    int16_t temperature;
-    //mpuDetectionResult_t mpuDetectionResult;
-    //sensor_align_e gyroAlign;
-    gyroRateKHz_e gyroRateKHz;
-    gyroModeSPI_e gyroModeSPI;
-
-    uint32_t detectedEXTI;
-    uint32_t gyroLastEXTI;
-    uint32_t gyroSyncEXTI;
-    int32_t gyroShortPeriod;
-    int32_t gyroDmaMaxDuration;
-    uint32_t exit_callback_dt;
-    uint32_t rx_callback_dt;
-    //busSegment_t segments[2];
-
-    volatile bool dataReady;
-    bool gyro_high_fsr;
-    uint8_t hardware_lpf;
-    uint8_t hardware_32khz_lpf;
-    //uint8_t mpuDividerDrops;
-    //ioTag_t mpuIntExtiTag;
-    uint8_t gyroHasOverflowProtection;
-    gyroHardware_e gyroHardware;
-    fp_rotationMatrix_t rotationMatrix;
-    uint16_t gyroSampleRateHz;
-    uint16_t accSampleRateHz;
-    uint8_t accDataReg;
-    uint8_t gyroDataReg;
-} gyroDev_t;
 
 typedef struct gyroSensor_s {
     gyroDev_t gyroDev;
@@ -263,7 +202,7 @@ typedef struct gyroConfig_s {
 PG_DECLARE(gyroConfig_t, gyroConfig);
 
 void gyroUpdate(void);
-void gyroFiltering(uint32_t currentTimeUs);
+void gyroFiltering(timeUs_t currentTimeUs);
 bool gyroGetAccumulationAverage(float *accumulation);
 void gyroStartCalibration(bool isFirstArmingCalibration);
 bool isFirstArmingGyroCalibrationRunning(void);

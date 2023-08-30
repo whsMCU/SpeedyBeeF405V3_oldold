@@ -9,12 +9,6 @@
 #define SRC_COMMON_CORE_SENSOR_H_
 
 
-#include "def.h"
-#include "axis.h"
-#include "maths.h"
-#include "filter.h"
-#include "gyro.h"
-
 typedef enum {
     GYRO_OVERFLOW_NONE = 0x00,
     GYRO_OVERFLOW_X = 0x01,
@@ -34,6 +28,18 @@ typedef enum {
 extern uint8_t requestedSensors[SENSOR_INDEX_COUNT];
 extern uint8_t detectedSensors[SENSOR_INDEX_COUNT];
 
+typedef struct int16_flightDynamicsTrims_s {
+    int16_t roll;
+    int16_t pitch;
+    int16_t yaw;
+    int16_t calibrationCompleted;
+} flightDynamicsTrims_def_t;
+
+typedef union flightDynamicsTrims_u {
+    int16_t raw[4];
+    flightDynamicsTrims_def_t values;
+} flightDynamicsTrims_t;
+
 typedef enum {
     SENSOR_GYRO = 1 << 0, // always present
     SENSOR_ACC = 1 << 1,
@@ -46,7 +52,6 @@ typedef enum {
 } sensors_e;
 
 bool Sensor_Init(void);
-void DEBUG_print(void);
 
 
 
