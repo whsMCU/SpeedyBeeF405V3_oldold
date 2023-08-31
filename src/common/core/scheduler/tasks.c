@@ -61,7 +61,7 @@
 //#include "io/asyncfatfs/asyncfatfs.h"
 //#include "io/beeper.h"
 //#include "io/dashboard.h"
-//#include "io/gps.h"
+#include "gps.h"
 //#include "io/ledstrip.h"
 //#include "io/piniobox.h"
 //#include "io/serial.h"

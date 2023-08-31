@@ -20,8 +20,7 @@
 
 #pragma once
 
-#include "def.h"
-#include "hw_def.h"
+#include "hw.h"
 #include "sensors.h"
 #include "driver/accgyro/accgyro.h"
 #include "sensors/gyro.h"

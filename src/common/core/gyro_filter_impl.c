@@ -20,6 +20,8 @@
 
 #include "axis.h"
 #include "sensors.h"
+#include "gyro.h"
+#include "common/filter.h"
 
 static void GYRO_FILTER_FUNCTION_NAME(void)
 {

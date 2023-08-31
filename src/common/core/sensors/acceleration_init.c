@@ -24,22 +24,28 @@
 #include <math.h>
 
 
-#include "axis.h"
-#include "filter.h"
-#include "utils.h"
+#include "common/axis.h"
+#include "common/filter.h"
+#include "common/utils.h"
+
+#include "config/config_reset.h"
+#include "config/feature.h"
 
 #include "driver/accgyro/bmi270.h"
 
 
 #include "config/config.h"
+#include "fc/runtime_config.h"
+
 #include "pg/pg.h"
 #include "pg/pg_ids.h"
 
 
 
-#include "gyro.h"
-#include "gyro_init.h"
-#include "sensors.h"
+//#include "sensors/boardalignment.h"
+#include "sensors/gyro.h"
+#include "sensors/gyro_init.h"
+#include "sensors/sensors.h"
 
 #include "acceleration_init.h"
 

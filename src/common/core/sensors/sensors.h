@@ -8,6 +8,8 @@
 #ifndef SRC_COMMON_CORE_SENSOR_H_
 #define SRC_COMMON_CORE_SENSOR_H_
 
+#include "hw.h"
+
 
 typedef enum {
     GYRO_OVERFLOW_NONE = 0x00,

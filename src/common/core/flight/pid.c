@@ -733,9 +733,9 @@ STATIC_UNIT_TESTED void applyItermRelax(const int axis, const float iterm,
             }
 
             if (axis == FD_ROLL) {
-                DEBUG_SET(DEBUG_ITERM_RELAX, 0, lrintf(setpointHpf));
-                DEBUG_SET(DEBUG_ITERM_RELAX, 1, lrintf(itermRelaxFactor * 100.0f));
-                DEBUG_SET(DEBUG_ITERM_RELAX, 2, lrintf(*itermErrorRate));
+                //DEBUG_SET(DEBUG_ITERM_RELAX, 0, lrintf(setpointHpf));
+                //DEBUG_SET(DEBUG_ITERM_RELAX, 1, lrintf(itermRelaxFactor * 100.0f));
+                //DEBUG_SET(DEBUG_ITERM_RELAX, 2, lrintf(*itermErrorRate));
             }
         }
 

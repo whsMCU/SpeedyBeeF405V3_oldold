@@ -652,10 +652,10 @@ void initYawSpinRecovery(int maxYawRate)
     bool enabledFlag;
     int threshold;
 
-    switch (p_gyro_pg->yaw_spin_recovery) {
+    switch (gyroConfig()->yaw_spin_recovery) {
     case YAW_SPIN_RECOVERY_ON:
         enabledFlag = true;
-        threshold = p_gyro_pg->yaw_spin_threshold;
+        threshold = gyroConfig()->yaw_spin_threshold;
         break;
     case YAW_SPIN_RECOVERY_AUTO:
         enabledFlag = true;

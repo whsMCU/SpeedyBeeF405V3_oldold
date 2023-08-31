@@ -5,7 +5,6 @@
  *      Author: WANG
  */
 
-#include "sensors.h"
 #include "driver/accgyro/bmi270.h"
 #include "cli.h"
 #include "led.h"
@@ -15,6 +14,7 @@
 #include "scheduler.h"
 #include "time.h"
 #include "accgyro/accgyro.h"
+#include "sensors/sensors.h"
 
 
 static bool is_init = false;
